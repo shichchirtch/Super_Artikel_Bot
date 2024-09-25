@@ -37,7 +37,7 @@ zweite_button = InlineKeyboardButton(text='Stunde 2', callback_data='2')
 dritte_button = InlineKeyboardButton(text='Stunde 3', callback_data='3')
 
 
-ws_kb = InlineKeyboardMarkup(inline_keyboard=[[erste_button], [zweite_button]])
+ws_kb = InlineKeyboardMarkup(inline_keyboard=[[erste_button], [zweite_button], [dritte_button]])
 
 
 ja_button = InlineKeyboardButton(text='✅', callback_data='ja')

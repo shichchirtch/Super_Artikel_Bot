@@ -44,7 +44,7 @@ async def set_lan_process(callback: CallbackQuery, state: FSMContext):
 @cb_router.callback_query(STUNDE_FILTER())
 async def stunde_worschatz_process(callback: CallbackQuery, state: FSMContext):
     print('stunde_worschatz_process works')
-    stunde_collection = {'1':erste_stunde}
+    stunde_collection = {'1':erste_stunde, '2':zweite_stunde, '3':dritte_stunde}
     user_id = callback.from_user.id
     dict_lan = await state.get_data()
     lan = dict_lan['lan']
