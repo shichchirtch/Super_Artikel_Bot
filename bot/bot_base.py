@@ -6,3 +6,5 @@ user_dict = {
 
 # Инициализируем "базу данных"
 users_db = {}
+
+bot_server_base = {}

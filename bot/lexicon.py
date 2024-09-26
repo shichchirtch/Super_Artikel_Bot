@@ -15,8 +15,8 @@ admin_eintritt =('сколько юзеров запустило бота   /sko
                  '🤗')
 
 settings_text= ('For grammatical rules click   ➡   /grammatik\n\n'
-                'For vocabulary for the lesson click   ➡   /wortschantz\n\n'
-                'To add a new word in my own vocabulary click   ➡   /meine_woerter\n\n'
+                'For vocabulary for the lesson click   ➡   /wortschatz\n\n'
+                'To add a new word in my own vocabulary click   ➡   /add_wort\n\n'
                 'To select a language, click  ➡   /set_lan\n\n'
                 'To start words study, click   ➡   /lernen\n\n'
                 'To see your own notes and vocabulary, click   ➡  /zeigen\n\n\n'

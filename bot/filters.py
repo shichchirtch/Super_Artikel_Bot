@@ -84,16 +84,16 @@ class SPAM_FILTER(BaseFilter):
 class EXCLUDE_COMMAND(BaseFilter):
     async def __call__(self, message: Message):
         if message.text:
-            if message.text in ('/grammatik', '/wortschantz', '/meine_woerter',
+            if message.text in ('/grammatik', '/wortschatz', '/add_wort',
                                 '/set_lan', '/lernen', '/zeigen', '/help', '/settings'):
                 return False
             elif message.text.startswith('/grammatik') or message.text.endswith('/grammatik'):
                 return False
 
-            elif message.text.startswith('/wortschantz') or message.text.endswith('/wortschantz'):
+            elif message.text.startswith('/wortschatz') or message.text.endswith('/wortschatz'):
                 return False
 
-            elif message.text.startswith('/meine_woerter') or message.text.endswith('/meine_woerter'):
+            elif message.text.startswith('/add_wort') or message.text.endswith('/add_wort'):
                 return False
 
             elif message.text.startswith('/help') or message.text.endswith('/help'):

@@ -4,11 +4,11 @@ from filters import *
 from aiogram.filters import StateFilter
 from contextlib import suppress
 from aiogram.types import CallbackQuery
-from bot_base import users_db
+from bot_base import users_db, bot_server_base
 from aiogram.exceptions import TelegramBadRequest
 from lexicon import *
 from aiogram.fsm.context import FSMContext
-from bot_instance import FSM_ST
+from bot_instance import FSM_ST, dp, bot_storage_key
 from keyboards import *
 from random import choice
 from external_functions import translates, create_note_collection_keyboard
@@ -87,7 +87,7 @@ async def ja_nein_process(callback: CallbackQuery, state: FSMContext):
         if temp_data:
             with suppress(TelegramBadRequest):
                 await temp_data.delete()
-            users_db[user_id]['bot_ans'] = '' #
+            users_db[user_id]['bot_ans'] = ''
             otvet = await translates(erfolgreich_fugen, lan)
             uber_noch = await translates(noch, lan)
             print('JA IF  works')
@@ -208,14 +208,16 @@ async def weis_nicht_process(callback: CallbackQuery, state: FSMContext):
 @cb_router.callback_query(StateFilter(FSM_ST.after_start), PRIVAT_WORTSCHATZ_FILTER())
 async def show_private_wortschatz(callback: CallbackQuery, state: FSMContext):
     print('show_private works')
+    user_id = callback.from_user.id
     dict_user = await state.get_data()
-    using_dict = dict_user['wortschatz']
     lan = dict_user['lan']
     temp_data = users_db[callback.from_user.id]['bot_ans']
     if temp_data:
         with suppress(TelegramBadRequest):
             await temp_data.delete()
             users_db[callback.from_user.id]['bot_ans'] = ''
+    bot_dict = await dp.storage.get_data(key=bot_storage_key)
+    using_dict = bot_dict[str(user_id)]
     if using_dict:
         s = ''
         for k, v in using_dict.items():
@@ -233,8 +235,9 @@ async def show_private_wortschatz(callback: CallbackQuery, state: FSMContext):
 @cb_router.callback_query(StateFilter(FSM_ST.after_start), SHOW_NOTE_FILTER())
 async def show_note_list_wortschatz(callback: CallbackQuery, state: FSMContext):
     print('show_note_list works')
+    user_id = callback.from_user.id
     dict_user = await state.get_data()
-    using_dict = dict_user['note']
+    using_dict = bot_server_base[user_id]
     lan = dict_user['lan']
     if using_dict:
         s = await translates(meine_note, lan)
@@ -257,6 +260,7 @@ async def show_note_list_wortschatz(callback: CallbackQuery, state: FSMContext):
 
 @cb_router.callback_query(StateFilter(FSM_ST.after_start), ADD_NEW_NOTE_FILTER())
 async def add_new_note(callback: CallbackQuery, state: FSMContext):
+    """Хэндлер выводит сообщение с просьбой написать название личной заметки"""
     print('add_new_note works')
     dict_user = await state.get_data()
     lan = dict_user['lan']
@@ -293,8 +297,8 @@ async def spam_approve(callback: CallbackQuery, state: FSMContext):
 @cb_router.callback_query(StateFilter(FSM_ST.after_start))
 async def show_note(callback: CallbackQuery, state: FSMContext):
     print('show_note works')
-    dict_user = await state.get_data()
-    note_dict = dict_user['note']
+    user_id = callback.from_user.id
+    note_dict = bot_server_base[user_id]
     note_key = callback.data   # получаю ключ - названием заметки
     needed_note = note_dict[note_key]  # получаю ЭК Note
     foto_note = needed_note.foto   # Получаю фото
