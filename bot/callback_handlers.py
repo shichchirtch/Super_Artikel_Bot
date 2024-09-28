@@ -16,7 +16,7 @@ from external_functions import translates, create_note_collection_keyboard, mess
 from stunde import *
 from postgres_functions import add_in_spam_list, insert_lan, return_zametki, return_lan
 
-lernen_dict = {'one':erste_stunde, 'two':zweite_stunde, 'three':dritte_stunde, vierte_stunde:'four', funfte_stunde:'five'}
+lernen_dict = {'one':erste_stunde, 'two':zweite_stunde, 'three':dritte_stunde, 'four':vierte_stunde, 'five':funfte_stunde, 'six':sex_stunde}
 
 
 cb_router = Router()
@@ -40,9 +40,9 @@ async def set_lan_process(callback: CallbackQuery, state: FSMContext):
 
 
 @cb_router.callback_query(STUNDE_FILTER())
-async def stunde_worschatz_process(callback: CallbackQuery, state: FSMContext):
+async def stunde_worschatz_process(callback: CallbackQuery):
     print('stunde_worschatz_process works')
-    stunde_collection = {'1':erste_stunde, '2':zweite_stunde, '3':dritte_stunde}
+    stunde_collection = {'1':erste_stunde, '2':zweite_stunde, '3':dritte_stunde, '4':vierte_stunde, '5':funfte_stunde , '6':sex_stunde}
     user_id = callback.from_user.id
     lan = await return_lan(callback.from_user.id)
     current_stunde = stunde_collection[callback.data]
