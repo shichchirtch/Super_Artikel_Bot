@@ -1,5 +1,6 @@
 from aiogram import Router, F,  html
 import asyncio
+import pickle
 from bs4 import BeautifulSoup as bs
 from aiogram.types import Message, ReplyKeyboardRemove
 from aiogram.filters import CommandStart, Command, StateFilter
@@ -15,9 +16,7 @@ from bot_instance import FSM_ST, bot_storage_key, dp
 from bot_base import users_db, user_dict, bot_server_base
 from copy import deepcopy
 from string import ascii_letters
-from external_functions import translates, translates_in_english
-from contextlib import suppress
-from aiogram.exceptions import TelegramBadRequest
+from external_functions import translates, translates_in_english, message_trasher
 from note_class import User_Note
 
 ch_router = Router()
@@ -38,10 +37,9 @@ async def process_start_command(message: Message, state: FSMContext):
         await insert_new_user_in_admin_table(user_id)
         await state.set_state(FSM_ST.after_start)
         await state.set_data(
-                              {'lan': '',   # Язык по дефолту ничего
-                              'pur':'',   # personal ubersetzung темповое значение своего перевода
-                              'current_stunde':'',  # Для изучекния словарного запаса урока
-                              'spam':''  #  Согласен или нет получать уведомления от бота
+                              {'pur': '',   # personal ubersetzung темповое значение своего перевода
+                              'current_stunde': '',  # Для изучекния словарного запаса урока
+                              'spam': ''  #  Согласен или нет получать уведомления от бота
                                })
         await message.answer(text=f'{html.bold(html.quote(user_name))}, '
                                   f'{start}',
@@ -58,8 +56,17 @@ async def process_start_command(message: Message, state: FSMContext):
         await add_in_list(user_id)  # Кто стартанул бота - добавляю в список админа
         bot_server_base[user_id]={}  # Создаю словарь юзера
     else:
+        await state.set_state(FSM_ST.after_start)
+        await state.set_data(
+            {'pur': '',  # personal ubersetzung темповое значение своего перевода
+             'current_stunde': '',  # Для изучекния словарного запаса урока
+             'spam': ''  # Согласен или нет получать уведомления от бота
+             })
+        users_db[message.from_user.id] = deepcopy(user_dict)
+        lan = await return_lan(user_id)
+        restart_msg = await translates(bot_was_restarted, lan)
+        await message.answer(restart_msg)
         await message.delete()
-
 
 
 @ch_router.message(PRE_START())
@@ -85,8 +92,7 @@ async def reselect_lan(message: Message):
 @ch_router.message(StateFilter(FSM_ST.after_start), IS_LETTER())
 async def artikle_geber(message: Message, state: FSMContext):
     user_id = message.from_user.id
-    us_dict = await state.get_data()
-    lan = us_dict['lan']
+    lan = await return_lan(user_id)
     suchend_word = message.text
     print(suchend_word.capitalize())
     zapros = f'{site_url}{suchend_word}'
@@ -293,8 +299,7 @@ async def artikle_geber(message: Message, state: FSMContext):
 
 @ch_router.message(Command('help'))
 async def process_help_command(message: Message, state:FSMContext):
-    us_dict = await state.get_data()
-    lan = us_dict['lan']
+    lan = await return_lan(message.from_user.id)
     att = await message.answer(await translates(help_text, lan))
     await asyncio.sleep(20)
     await message.delete()
@@ -329,8 +334,10 @@ async def process_show_command(message: Message):
 
 @ch_router.message(Command('settings'))
 async def process_settings_command(message: Message, state:FSMContext):
-    us_dict = await state.get_data()
-    lan = us_dict['lan']
+    user_id = message.from_user.id
+    # us_dict = await state.get_data()
+    # lan = us_dict['lan']
+    lan = await return_lan(user_id)
     att = await message.answer(await translates(settings_text, lan))
     await asyncio.sleep(20)
     await att.delete()
@@ -346,14 +353,10 @@ async def process_grammatik_command(message: Message):
 @ch_router.message(Command('wortschatz'), StateFilter(FSM_ST.after_start))
 async def process_worschatz_command(message: Message, state:FSMContext):
     """Хэндлер  показывает инлайн клаву с доступными уроками словарный запас"""
-    us_dict = await state.get_data()
     user_id = message.from_user.id
-    lan = us_dict['lan']
+    lan = await return_lan(user_id)
     temp_data = users_db[user_id]['bot_ans']
-    if temp_data:
-        with suppress(TelegramBadRequest):
-            await temp_data.delete()
-            users_db[user_id]['bot_ans'] = ''
+    await message_trasher(user_id, temp_data)
     att = await message.answer(text=await translates(worschatz_text, lan), reply_markup=ws_kb)
     users_db[user_id]['bot_ans'] = att
     await asyncio.sleep(20)
@@ -364,14 +367,10 @@ async def process_worschatz_command(message: Message, state:FSMContext):
 async def process_add_wort_command(message: Message, state:FSMContext):
     """Отправляет сообщение с предложением отправить ему слово на немецком языке"""
     user_id = message.from_user.id
-    us_dict = await state.get_data()
-    lan = us_dict['lan']
+    lan = await return_lan(user_id)
     await state.set_state(FSM_ST.add_wort)
     temp_data = users_db[user_id]['bot_ans']
-    if temp_data:
-        with suppress(TelegramBadRequest):
-            await temp_data.delete()
-            users_db[user_id]['bot_ans'] = ''
+    await message_trasher(user_id, temp_data)
     att = await message.answer(f'<b>{await translates(deine_wort, lan)}</b>')
     users_db[message.from_user.id]['bot_ans'] = att
     await asyncio.sleep(3)
@@ -379,22 +378,16 @@ async def process_add_wort_command(message: Message, state:FSMContext):
 
 @ch_router.message(StateFilter(FSM_ST.add_wort),F.text, WORD_ACCEPT())
 async def process_add_wort(message: Message, state:FSMContext):
-    us_dict = await state.get_data()
-    lan = us_dict['lan']
+    """Хэндлер добавляет новое слово с переводом в хранилище бота, что очень круто !"""
+    lan = await return_lan(message.from_user.id)
     user_id = message.from_user.id
-    undersatz_in_eng = await translates_in_english(message.text)
-    heimat_lan = await translates(undersatz_in_eng, lan)
+    ubersatz_in_eng = await translates_in_english(message.text)
+    heimat_lan = await translates(ubersatz_in_eng, lan)
     temp_data = users_db[user_id]['bot_ans']
-    if temp_data:
-        with suppress(TelegramBadRequest):
-            await temp_data.delete()
-            users_db[user_id]['bot_ans'] = ''
+    await message_trasher(user_id, temp_data)
 
     temp_data = users_db[user_id]['user_msg']
-    if temp_data:
-        with suppress(TelegramBadRequest):
-            await temp_data.delete()
-            users_db[user_id]['user_msg'] = ''
+    await message_trasher(user_id, temp_data)
     att = await message.answer(f'{message.text} =  {heimat_lan} ❓',
                                reply_markup=ja_nein_kb)
     users_db[user_id]['bot_ans'] = att
@@ -413,7 +406,7 @@ async def process_add_wort(message: Message, state:FSMContext):
 async def process_add_personal_ubersetzen_command(message: Message, state:FSMContext):
     print('pesonal uber works\n\n')
     us_dict = await state.get_data()
-    lan = us_dict['lan']
+    lan = await return_lan(message.from_user.id)
     user_id = message.from_user.id
     isk_slovo = us_dict['pur']
 
@@ -426,10 +419,7 @@ async def process_add_personal_ubersetzen_command(message: Message, state:FSMCon
     await state.update_data(pur='')
     await state.set_state(FSM_ST.add_wort)
     temp_data = users_db[user_id]['bot_ans']
-    if temp_data:
-        with suppress(TelegramBadRequest):
-            await temp_data.delete()
-            users_db[user_id]['bot_ans'] = ''
+    await message_trasher(user_id, temp_data)
     otvet = await translates(erfolgreich_fugen, lan)
     uber_noch = await translates(noch, lan)
     att = await message.answer(f'{otvet}\n\n{uber_noch}', reply_markup=ja_nein_kb)
@@ -438,15 +428,11 @@ async def process_add_personal_ubersetzen_command(message: Message, state:FSMCon
 
 @ch_router.message(Command('lernen'), StateFilter(FSM_ST.after_start))
 async def process_lernen_command(message: Message, state:FSMContext):
-    us_dict = await state.get_data()
-    lan = us_dict['lan']
+    lan = await return_lan(message.from_user.id)
     user_id = message.from_user.id
     await state.set_state(FSM_ST.lernen)
     temp_data = users_db[user_id]['bot_ans']
-    if temp_data:
-        with suppress(TelegramBadRequest):
-            await temp_data.delete()
-            users_db[user_id]['bot_ans'] = ''
+    await message_trasher(user_id, temp_data)
     att = await message.answer(text=await translates(lernen_msg, lan),
                          reply_markup=lernen_kb)
     users_db[user_id]['bot_ans'] = att
@@ -455,24 +441,20 @@ async def process_lernen_command(message: Message, state:FSMContext):
 
 @ch_router.message(Command('exit'), ~StateFilter(FSM_ST.after_start))
 async def process_exit_command(message: Message, state:FSMContext):
-    us_dict = await state.get_data()
-    lan = us_dict['lan']
+    lan = await return_lan(message.from_user.id)
     user_id = message.from_user.id
     await state.set_state(FSM_ST.after_start)
     await state.update_data(pur='', current_stunde='')  # reset user data
     temp_data = users_db[user_id]['bot_ans']
-    if temp_data:
-        with suppress(TelegramBadRequest):
-            await temp_data.delete()
-            users_db[user_id]['bot_ans'] = ''
+    await message_trasher(user_id, temp_data)
     att = await message.answer(text=await translates(exit_msg, lan))
     users_db[user_id]['bot_ans'] = att
     await message.delete()
 
+
 @ch_router.message(Command('review'), StateFilter(FSM_ST.after_start))
 async def process_review_command(message: Message, state:FSMContext):
-    us_dict = await state.get_data()
-    lan = us_dict['lan']
+    lan = await return_lan(message.from_user.id)
     text = await translates(review_text, lan)
     fin_text = f'{text} \n\n\n @Smart_Imperium_bot'
     att = await message.answer(text=fin_text)
@@ -480,40 +462,34 @@ async def process_review_command(message: Message, state:FSMContext):
     await att.delete()
     await message.delete()
 
+
 @ch_router.message(Command('zeigen'), StateFilter(FSM_ST.after_start))
 async def process_notiz_command(message: Message, state:FSMContext):
     """Хэндлер отправлят сообщение с инлайн клавой - где можно посмотреть свои заметки и слова"""
-    us_dict = await state.get_data()
-    lan = us_dict['lan']
+    # us_dict = await state.get_data()
+    # lan = us_dict['lan']
+    lan = await return_lan(message.from_user.id)
     us_text = await translates(zeigen_start, lan)
     att = await message.answer(us_text, reply_markup=zeigen_kb)
     temp_data = users_db[message.from_user.id]['bot_ans']
-    if temp_data:
-        with suppress(TelegramBadRequest):
-            await temp_data.delete()
-            users_db[message.from_user.id]['bot_ans'] = ''
+    await message_trasher(message.from_user.id, temp_data)
     users_db[message.from_user.id]['bot_ans'] = att
     await asyncio.sleep(3)
     await message.delete()
 
 
-
 @ch_router.message(StateFilter(FSM_ST.add_note_1), F.text, EXCLUDE_COMMAND())
 async def add_notiz_1(message: Message, state:FSMContext):
-    """Хэндлер выводит просбу добавить саму заметку"""
+    """Хэндлер выводит просьбу добавить саму заметку"""
     print('add_notiz_1 works')
-    us_dict = await state.get_data()
-    lan = us_dict['lan']
+    lan = await return_lan(message.from_user.id)
     await state.update_data(pur=message.text)
     otvet = await translates(your_name_is, lan)
     otvet_2 = await translates(step_2, lan)
     stroka = f"{otvet} {message.text}\n\n{otvet_2}"
     att = await message.answer(stroka)
     temp_data = users_db[message.from_user.id]['bot_ans']
-    if temp_data:
-        with suppress(TelegramBadRequest):
-            await temp_data.delete()
-            users_db[message.from_user.id]['bot_ans'] = ''
+    await message_trasher(message.from_user.id, temp_data)
     users_db[message.from_user.id]['bot_ans'] = att
     await state.set_state(FSM_ST.add_note_2)
     await message.delete()
@@ -524,13 +500,10 @@ async def add_notiz_2(message: Message, state:FSMContext):
     print('add_notiz_2 works')
     us_dict = await state.get_data()
     user_id = message.from_user.id
-    lan = us_dict['lan']
+    lan = await return_lan(message.from_user.id)
     note_name = us_dict['pur']
     temp_data = users_db[message.from_user.id]['bot_ans']
-    if temp_data:
-        with suppress(TelegramBadRequest):
-            await temp_data.delete()
-            users_db[message.from_user.id]['bot_ans'] = ''
+    await message_trasher(user_id, temp_data)
 
     if message.text:
         new_note = User_Note(name=note_name, foto='', descripion=message.text)
@@ -539,7 +512,20 @@ async def add_notiz_2(message: Message, state:FSMContext):
         foto_id = message.photo[-1].file_id
         capcha = message.caption
         new_note = User_Note(name=note_name, foto=foto_id, descripion=capcha)
-    bot_server_base[user_id][note_name] = new_note
+    # bot_server_base[user_id][note_name] = new_note
+
+    us_zam = await return_zametki(user_id)
+    if not us_zam:
+        zam_dict = {note_name:new_note}  # Создаю словарь - название заметки : текст заметки
+        serialized_data = pickle.dumps(zam_dict)  # Сериализую объект
+        await insert_serialised_note(user_id, serialized_data)  # Вставляю его в Postgress
+
+    else:
+        zam_dict = pickle.loads(us_zam)
+        zam_dict[note_name]=[new_note]
+        serialized_data = pickle.dumps(zam_dict)  # Сериализую объект
+        await insert_serialised_note(user_id, serialized_data)  # Вставляю его в Postgress
+
 
     stroka = await translates(successfully_add, lan)
     att = await message.answer(stroka)
@@ -552,15 +538,10 @@ async def add_notiz_2(message: Message, state:FSMContext):
 @ch_router.message(StateFilter(FSM_ST.add_note_2))
 async def something_goes_wrong(message: Message, state: FSMContext):
     print('something_goes_wrong')
-    user_id = message.from_user.id
-    us_dict = await state.get_data()
-    lan = us_dict['lan']
+    lan = await return_lan(message.from_user.id)
     await state.update_data(pur='')
     temp_data = users_db[message.from_user.id]['bot_ans']
-    if temp_data:
-        with suppress(TelegramBadRequest):
-            await temp_data.delete()
-            users_db[message.from_user.id]['bot_ans'] = ''
+    await message_trasher(message.from_user.id, temp_data)
     await state.set_state(FSM_ST.after_start)
     stroka = await translates(wrong_add_new_note, lan)
     att = await message.answer(stroka)
@@ -572,7 +553,9 @@ async def something_goes_wrong(message: Message, state: FSMContext):
 @ch_router.message(Command('admin'), IS_ADMIN())
 async def admin_enter(message: Message):
     print('admin_enter works')
-    await message.answer(admin_eintritt)
+    att = await message.answer(admin_eintritt)
+    await asyncio.sleep(5)
+    await att.delete()
 
 
 @ch_router.message(Command('skolko'), IS_ADMIN())
@@ -590,11 +573,29 @@ async def send_message(message: Message, state: FSMContext):
     us_list = await return_spam_users()
     us_list.remove(6685637602)
     for chat_id in us_list:
-        await message.send_copy(chat_id=chat_id)
+        lan = await return_lan(chat_id)  # Запрашиваю язык из постгреса
+        spam = await translates(message.text, lan)
+        await message.bot.send_message(chat_id=chat_id, text=spam)
         await asyncio.sleep(0.2)
 
     await state.set_state(FSM_ST.after_start)
     await message.answer('Mailing abgeschlossen')
+
+@ch_router.message(IS_ADMIN(), Command('dump'))
+async def dump_db(message: Message, state:FSMContext):
+    bot_dict = await dp.storage.get_data(key=bot_storage_key)  # Получаю словарь бота
+    with open('save_db.pkl', 'wb') as file:
+        pickle.dump(bot_dict, file)
+    await message.answer('База данных успешно записана !')
+    await state.set_state(FSM_ST.after_start)
+
+@ch_router.message(IS_ADMIN(), Command('load'))
+async def load_db(message: Message, state:FSMContext):
+    with open('save_db.pkl', 'rb') as file:
+        recover_base = pickle.load(file)
+        await dp.storage.set_data(key=bot_storage_key, data=recover_base)  # Обновляю словарь бота
+    await message.answer('База данных успешно загружена !')
+    await state.set_state(FSM_ST.after_start)
 
 
 @ch_router.message()

@@ -29,6 +29,14 @@ async def check_user_in_table(user_tg_id:int):
         data = query.one_or_none()
         return data
 
+async def insert_lan(user_id:int, lan:str):
+    async with session_marker() as session:
+        query = await session.execute(select(User).filter(User.tg_us_id == user_id))
+        needed_data = query.scalar()
+        needed_data.lan = lan
+        await session.commit()
+
+
 async def insert_neue_wort_in_der(user_id:int, neue_wort):
     async with session_marker() as session:
         query = await session.execute(select(User).filter(User.tg_us_id == user_id))
@@ -76,6 +84,20 @@ async def insert_neue_wort_in_adj(user_id:int, neue_wort):
         needed_data.adj = updated_str
         await session.commit()
 
+async def insert_serialised_note(user_id:int, zametka):
+    async with session_marker() as session:
+        print('insert_serialised_note\n\n')
+        query = await session.execute(select(User).filter(User.tg_us_id == user_id))
+        needed_data = query.scalar()
+        needed_data.zametki = zametka
+        await session.commit()
+
+async def return_lan(user_id:int):
+    async with session_marker() as session:
+        query = await session.execute(select(User).filter(User.tg_us_id == user_id))
+        needed_data = query.scalar()
+        return needed_data.lan
+
 async def return_der_string(user_id:int):
     async with session_marker() as session:
         query = await session.execute(select(User).filter(User.tg_us_id == user_id))
@@ -106,6 +128,12 @@ async def return_adj_string(user_id:int):
         query = await session.execute(select(User).filter(User.tg_us_id == user_id))
         needed_data = query.scalar()
         return needed_data.adj
+
+async def return_zametki(user_id:int):
+    async with session_marker() as session:
+        query = await session.execute(select(User).filter(User.tg_us_id == user_id))
+        needed_data = query.scalar()
+        return needed_data.zametki
 
 
 async def add_in_list(user_tg_id: int):

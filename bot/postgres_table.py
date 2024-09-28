@@ -1,5 +1,5 @@
 import fake_useragent
-from sqlalchemy import Integer, BigInteger, String, ARRAY
+from sqlalchemy import Integer, BigInteger, String, ARRAY, LargeBinary
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from config import settings
@@ -19,11 +19,13 @@ class User(Base):
     index: Mapped[int] = mapped_column(Integer, autoincrement=True, primary_key=True)
     tg_us_id: Mapped[int] = mapped_column(BigInteger) # tg user id
     user_name: Mapped[str] = mapped_column(String(200), nullable=False)
+    lan: Mapped[str] = mapped_column(String, default='', nullable=True)
     der: Mapped[str] = mapped_column(String, default='<b>DER</b>\n', nullable=True)
     die: Mapped[str] = mapped_column(String, default='<b>DIE</b>\n', nullable=True)
     das: Mapped[str] = mapped_column(String, default='<b>DAS</b>\n', nullable=True)
     verb: Mapped[str] = mapped_column(String, default='<b>VERB</b>\n', nullable=True)
     adj: Mapped[str] = mapped_column(String, default='<b>ADJ</b>\n', nullable=True)
+    zametki = mapped_column(LargeBinary, default=None, nullable=True)
 
 class Admin(Base):
 
@@ -40,8 +42,6 @@ async def init_models():
 
 
 user = fake_useragent.UserAgent().random
-
-# site_url = 'https://der-artikel.de/'
 
 site_url = 'https://www.woerter.ru/?w='
 

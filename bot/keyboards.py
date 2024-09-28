@@ -35,9 +35,23 @@ gram_kb = InlineKeyboardMarkup(inline_keyboard=[[pril_button], [verb_button]])
 erste_button = InlineKeyboardButton(text='Stunde 1', callback_data='1')
 zweite_button = InlineKeyboardButton(text='Stunde 2', callback_data='2')
 dritte_button = InlineKeyboardButton(text='Stunde 3', callback_data='3')
+vierte_button = InlineKeyboardButton(text='Stunde 4', callback_data='4')
+funfte_button = InlineKeyboardButton(text='Stunde 5', callback_data='5')
+sex_button = InlineKeyboardButton(text='Stunde 6', callback_data='6')
+siben_button = InlineKeyboardButton(text='Stunde 7', callback_data='7')
+eight_button = InlineKeyboardButton(text='Stunde 8', callback_data='8')
+neun_button = InlineKeyboardButton(text='Stunde 9', callback_data='9')
+zehn_button = InlineKeyboardButton(text='Stunde 10', callback_data='10')
+elf_button = InlineKeyboardButton(text='Stunde 11', callback_data='11')
+zwelfe_button = InlineKeyboardButton(text='Stunde 12', callback_data='12')
+f13_button = InlineKeyboardButton(text='Stunde 13', callback_data='13')
+f14_button = InlineKeyboardButton(text='Stunde 14', callback_data='14')
+f15_button = InlineKeyboardButton(text='Stunde 15', callback_data='15')
+f16_button = InlineKeyboardButton(text='Stunde 16', callback_data='16')
 
 
-ws_kb = InlineKeyboardMarkup(inline_keyboard=[[erste_button], [zweite_button], [dritte_button]])
+ws_kb = InlineKeyboardMarkup(inline_keyboard=[[erste_button], [zweite_button], [dritte_button],
+                                              [vierte_button], [funfte_button], [sex_button]])
 
 
 ja_button = InlineKeyboardButton(text='✅', callback_data='ja')
@@ -49,11 +63,27 @@ ja_nein_kb = InlineKeyboardMarkup(inline_keyboard=[[nein_button, ja_button]])
 one_button = InlineKeyboardButton(text='Stunde 1', callback_data='one')
 two_button = InlineKeyboardButton(text='Stunde 2', callback_data='two')
 three_button = InlineKeyboardButton(text='Stunde 3', callback_data='three')
+four_button = InlineKeyboardButton(text='Stunde 4', callback_data='four')
+five_button = InlineKeyboardButton(text='Stunde 5', callback_data='five')
+six_button = InlineKeyboardButton(text='Stunde 6', callback_data='six')
+sevan_button = InlineKeyboardButton(text='Stunde 7', callback_data='sevan')
+acht_button = InlineKeyboardButton(text='Stunde 8', callback_data='eight')
+nine_button = InlineKeyboardButton(text='Stunde 9', callback_data='nine')
+ten_button = InlineKeyboardButton(text='Stunde 10', callback_data='ten')
+elevan_button = InlineKeyboardButton(text='Stunde 11', callback_data='elevan')
+twelve_button = InlineKeyboardButton(text='Stunde 12', callback_data='twelve')
+t13_button = InlineKeyboardButton(text='Stunde 13', callback_data='t13')
+t14_button = InlineKeyboardButton(text='Stunde 14', callback_data='t14')
+t15_button = InlineKeyboardButton(text='Stunde 15', callback_data='t15')
+t16_button = InlineKeyboardButton(text='Stunde 16', callback_data='t16')
+
 selber_button = InlineKeyboardButton(text='Mein Wortschatz', callback_data='Wortschatz')
 
 
-lernen_kb = InlineKeyboardMarkup(inline_keyboard=[[one_button], [two_button],
-                                                  [three_button],[selber_button]])
+lernen_kb = (
+    InlineKeyboardMarkup(
+        inline_keyboard=
+        [[one_button], [two_button], [three_button],[four_button],[five_button],[sex_button],[selber_button]]))
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 

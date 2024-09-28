@@ -1,7 +1,9 @@
 import translators
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message, CallbackQuery
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-
+from contextlib import suppress
+from aiogram.exceptions import TelegramBadRequest
+from bot_base import users_db
 
 def create_note_collection_keyboard(*args) -> InlineKeyboardMarkup:
     # Создаем объект клавиатуры
@@ -30,3 +32,12 @@ async def translates_in_english(slovo:str)->str:
     except Exception:
         res = "I do not know this Word((("
     return res
+
+
+async def message_trasher(user_id:int, msg:Message|None|CallbackQuery):
+    if msg:
+        with suppress(TelegramBadRequest):
+            await msg.delete()
+            users_db[user_id]['bot_ans'] = ''
+    else:
+        pass

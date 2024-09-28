@@ -12,6 +12,8 @@ help_text = ('⭐️  This bot can define the article\n\n'
 
 admin_eintritt =('сколько юзеров запустило бота   /skolko\n\n'
                  'отправить им сообщуху   /send_msg\n\n'
+                 'Cохранить бдюху     /dump\n\n'
+                 'Загрузить БЭДюху    /load\n\n'
                  '🤗')
 
 settings_text= ('For grammatical rules click   ➡   /grammatik\n\n'
@@ -71,6 +73,8 @@ wrong_add_new_note = 'Failed to add new note'
 spam_offer = 'Do you agree to receive notifications about bot updates ?'
 
 danke = 'Thank you for subscribing to our newsletter !'
+
+bot_was_restarted  = 'The bot has been restarted on the server'
 
 
 

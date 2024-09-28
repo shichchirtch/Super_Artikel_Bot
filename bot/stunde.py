@@ -46,9 +46,38 @@ dritte_stunde = {'der Anspruch':'claim', 'der Dauerauftrag – äge':'standing o
 
 
 
+vierte_stunde = {'die Bedeutung,  -en':'meaning', 'der Eindruck, -ü-e':'impression', 'die Ernährung (Sg.)':'nutrition', 'der Ernährungsberater':'nutritionist', 'die Essgewohnheit, -en':'eating habit',
+'das Essverhalten, -en':'eating behaviour', 'das Feedback, -s':'Feedback', 'das Fertiggericht, -e':'ready meal', 'das Festessen':'banquet', 'das Fett, -e':'fat',
+'die Gewohnheit, -en':'habit', 'das Gewürz, -e':'spice', 'die Hälfte, -n':'half', 'die Lieblingsspeise, -n':'favorite food', 'die Mahlzeit, -en':'meal',
+'die Nuss, -üsse':'nut', 'die Pasta (Sg.)':'pasta', 'der Snack, -s':'snack', 'der Teilnehmer':' participant', 'das Verhalten (Sg.)':'behavior',
+'der Zuhörer':'listener', 'der Zusammenhang, -ä-e':'context', 'abnehmen':'lose weight', 'ändern':'change', 'fallen':'fall',
+'teilnehmen (an + D)':'participate', 'verbessern':'improve', 'verbrauchen':'consume', 'zubereiten':'prepare', 'zustimmen':'agree',
+'allergisch':'allergic', 'berufstätig':'employed', 'deutlich':'clearly', 'spannend':'exciting', 'langweilig':'boring',
+'schuld':'fault', 'gesund':'healthy', 'deshalb':'for this reason', 'noch':'still', 'selber':'himself',
+'trotzdem':'despite it'}
 
+funfte_stunde={ 'die Art, -en':'type', 'das Gegenteil, -e':'opposite', 'die Gelegenheit, -en':'opportunity', 'die Herausforderung, -en':'challenge',
+'die Laune':'mood', 'das Missverständnis, -se':'misunderstanding', 'die Panick (Sg.)':'panic', 'der Respekt (Sg.)':'respekt', 'die Sorge, -n':'the worries',
+'die Voraussetzung, -en':'prerequisite', 'das Vorstellungsgespräch, -e':' job interview', 'der Witz, -e':'joke', 'amüsieren':'amuse', 'anstrengen':'strain',
+'anwenden':'apply', 'behalten':'keep', 'bemerken':'notice', 'beschließen':'decide', 'gründen':'found',
+'herunterladen':'download', 'kritisieren':'criticize', 'leisten':'afford', 'retten':'save', 'verzeihen':'pardon',
+'allmählich':'gradually', 'ängstlich':'fearful', 'augenblicklich':'immediately', 'ernsthaft':'seriously', 'gleichzeitig':'simultaneously',
+'mehrsprachig':'multilingual', 'merkwürdig':'unusual', 'optimistischen':'optimistic', 'sauer':'sour', 'schriftlich':'written',
+'mündlich':'verbally', 'stolz':'proud', 'tolerant':'tolerant', 'üblich':'usual', 'zufällich':'randomly',
+'dabei':'included', 'übrigens':'by the way', 'höchstens':'at most'
+}
 
+sex_stunde ={
+'der Altenpfleger':'geriatric nurse', 'das Altersheim':'retirement home','der Arzthelfer':'medical assistant','die Arztpraxis, - praxen':"doctor's office", 'die Baustelle, -n':'construction site',
+'die Einnahme, -n':'intake', 'die Entbindungsstation, -en':'maternity ward','die Entzündung, -en':'inflammation','der Impfpass':'vaccination certificate', 'die Impfung, -en':'vaccination',
+'die Leiter, -n':'ladder', 'der Magen, ä -':'stomach','die Narkoze, -n':'anesthesia','der Notfall, ä-e':'emergency', 'der Patient, -en':'patient',
+'der Rollstuhl, ü-e':'wheelchair', 'der Schichtdienst (Sg.)':'shift work','das Schlafmittel':'sleeping pill','der Schmerz, -en':'pain', 'die Schulter, -n':'shoulder',
+'die Spitze, -n':'tip', 'die Wunde, -n':'wound','der Zweck, -e':'purpose','begleiten':'accompany', 'betreuen':'look after',
+'bluten':'bleed', 'sich etwas brechen':'break something','geschehen':'happen','massieren':'massage', 'röntgen':'X-ray',
+'stürzen':'fall', 'sich verletzen (an + D)':'injure','versorgen':'take care of','wehtun':'wehtun', 'ansprechbar':'responsive',
+'schwach':'weak', 'stark':'strong','speziell':'special','tief':'deep', 'ab und zu':'now and then',
 
+}
 
 
 

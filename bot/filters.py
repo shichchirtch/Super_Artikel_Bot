@@ -1,12 +1,14 @@
 from aiogram.types import Message, CallbackQuery
 from aiogram.filters import BaseFilter
 from postgres_functions import check_user_in_table
+from bot_base import users_db
 
 
 class PRE_START(BaseFilter):
     async def __call__(self, message: Message):
-        data = await check_user_in_table(message.from_user.id)
-        if data:
+        # data = await check_user_in_table(message.from_user.id)
+        # if data:
+        if message.from_user.id in users_db:
             return False
         return True
 
@@ -46,7 +48,8 @@ class JA_NEIN_FILTER(BaseFilter):
 
 class LERNEN_FILTER(BaseFilter):
     async def __call__(self, cb: CallbackQuery):
-        if cb.data in ('one', 'two' , 'three', 'Wortschatz'):
+        if cb.data in ('one', 'two' , 'three', 'four', 'five', 'six', 'sevan', 'eight', 'nine',
+                       'ten', 'elevan', 'twelve', 't13', 't14', 't15','t16','Wortschatz'):
             return True
         return False
 
