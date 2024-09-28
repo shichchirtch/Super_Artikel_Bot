@@ -1,21 +1,22 @@
 import asyncio
+import pickle
 from aiogram import Router
 from filters import *
 from aiogram.filters import StateFilter
 from contextlib import suppress
 from aiogram.types import CallbackQuery
-from bot_base import users_db, bot_server_base
+from bot_base import users_db
 from aiogram.exceptions import TelegramBadRequest
 from lexicon import *
 from aiogram.fsm.context import FSMContext
 from bot_instance import FSM_ST, dp, bot_storage_key
 from keyboards import *
 from random import choice
-from external_functions import translates, create_note_collection_keyboard
+from external_functions import translates, create_note_collection_keyboard, message_trasher
 from stunde import *
-from postgres_functions import add_in_spam_list
+from postgres_functions import add_in_spam_list, insert_lan, return_zametki, return_lan
 
-lernen_dict = {'one':erste_stunde, 'two':zweite_stunde, 'three':dritte_stunde, }
+lernen_dict = {'one':erste_stunde, 'two':zweite_stunde, 'three':dritte_stunde, vierte_stunde:'four', funfte_stunde:'five'}
 
 
 cb_router = Router()
@@ -25,14 +26,11 @@ async def set_lan_process(callback: CallbackQuery, state: FSMContext):
     print('set_lan_process works')
     user_id = callback.from_user.id
     lan = callback.data
-    us_dict = await state.get_data()
-    firts_mal = us_dict['lan']
-    await state.update_data(lan=callback.data)
+    firts_mal = await return_lan(callback.from_user.id)
+    await state.update_data(lan=lan)  #  Добавляю язык в Redis
+    await insert_lan(user_id, lan)  #  Добавляю язык в Postgres
     temp_data = users_db[user_id]['bot_ans']
-    if temp_data:
-        with suppress(TelegramBadRequest):
-            await temp_data.delete()
-            users_db[user_id]['bot_ans'] = ''
+    await message_trasher(user_id, temp_data)
     await callback.message.answer(f'{await translates(slovo=lan_trans, lan=lan)}  <b>{lan}</b>')
     if not firts_mal:
         att = await callback.message.answer(text=f'{await translates(slovo=spam_offer, lan=lan)}',
@@ -46,14 +44,10 @@ async def stunde_worschatz_process(callback: CallbackQuery, state: FSMContext):
     print('stunde_worschatz_process works')
     stunde_collection = {'1':erste_stunde, '2':zweite_stunde, '3':dritte_stunde}
     user_id = callback.from_user.id
-    dict_lan = await state.get_data()
-    lan = dict_lan['lan']
+    lan = await return_lan(callback.from_user.id)
     current_stunde = stunde_collection[callback.data]
     temp_data = users_db[user_id]['bot_ans']
-    if temp_data:
-        with suppress(TelegramBadRequest):
-            await temp_data.delete()
-            users_db[user_id]['bot_ans'] = ''
+    await message_trasher(user_id, temp_data)
     att = await callback.message.answer(await translates(watren_uber, lan))
     users_db[user_id]['bot_ans'] = att
     form_str = ''
@@ -67,10 +61,7 @@ async def stunde_worschatz_process(callback: CallbackQuery, state: FSMContext):
 
     await callback.message.answer(form_str)
     temp_data = users_db[user_id]['bot_ans']
-    if temp_data:
-        with suppress(TelegramBadRequest):
-            await temp_data.delete()
-            users_db[user_id]['bot_ans'] = ''
+    await message_trasher(user_id, temp_data)
     await callback.answer()
 
 
@@ -78,8 +69,7 @@ async def stunde_worschatz_process(callback: CallbackQuery, state: FSMContext):
 async def ja_nein_process(callback: CallbackQuery, state: FSMContext):
     print('ja_nein_process works')
     user_id = callback.from_user.id
-    dict_lan = await state.get_data()
-    lan = dict_lan['lan']
+    lan = await return_lan(user_id)
     temp_data = users_db[user_id]['bot_ans']
 
     if callback.data == 'ja':
@@ -111,10 +101,7 @@ async def ja_nein_process(callback: CallbackQuery, state: FSMContext):
             await state.set_state(FSM_ST.after_start)
             print('NO else works')
             temp_data = users_db[user_id]['bot_ans']
-            if temp_data:
-                with suppress(TelegramBadRequest):
-                    await temp_data.delete()
-                    users_db[user_id]['bot_ans'] = ''
+            await message_trasher(user_id, temp_data)
 
             temp_data = users_db[user_id]['user_msg']
             if temp_data:
@@ -131,13 +118,9 @@ async def lernen_process(callback: CallbackQuery, state: FSMContext):
     print('lernen_process works')
     user_id = callback.from_user.id
     using_dict = lernen_dict[callback.data]
-    dict_user = await state.get_data()
-    lan = dict_user['lan']
+    lan = await return_lan(callback.from_user.id)
     temp_data = users_db[user_id]['bot_ans']
-    if temp_data:
-        with suppress(TelegramBadRequest):
-            await temp_data.delete()
-            users_db[user_id]['bot_ans'] = ''
+    await message_trasher(user_id, temp_data)
 
     #  Начинаю выдвать пары ключ-занчение
     begin_tuple = choice(sorted(using_dict.items()))
@@ -155,7 +138,7 @@ async def lernen_process(callback: CallbackQuery, state: FSMContext):
 async def weis_nicht_process(callback: CallbackQuery, state: FSMContext):
     print('weis_nciht works')
     dict_user = await state.get_data()
-    lan = dict_user['lan']
+    lan = await return_lan(callback.from_user.id)
     using_dict = dict_user['current_stunde']
     previous_word = dict_user['pur']
     print('139  previous wort = ', previous_word)
@@ -209,13 +192,9 @@ async def weis_nicht_process(callback: CallbackQuery, state: FSMContext):
 async def show_private_wortschatz(callback: CallbackQuery, state: FSMContext):
     print('show_private works')
     user_id = callback.from_user.id
-    dict_user = await state.get_data()
-    lan = dict_user['lan']
+    lan = await return_lan(callback.from_user.id)
     temp_data = users_db[callback.from_user.id]['bot_ans']
-    if temp_data:
-        with suppress(TelegramBadRequest):
-            await temp_data.delete()
-            users_db[callback.from_user.id]['bot_ans'] = ''
+    await message_trasher(user_id, temp_data)
     bot_dict = await dp.storage.get_data(key=bot_storage_key)
     using_dict = bot_dict[str(user_id)]
     if using_dict:
@@ -236,41 +215,38 @@ async def show_private_wortschatz(callback: CallbackQuery, state: FSMContext):
 async def show_note_list_wortschatz(callback: CallbackQuery, state: FSMContext):
     print('show_note_list works')
     user_id = callback.from_user.id
-    dict_user = await state.get_data()
-    using_dict = bot_server_base[user_id]
-    lan = dict_user['lan']
-    if using_dict:
+
+    # using_dict = bot_server_base[user_id]  # Здесь сохранение заметок происходит в оперативной памяти
+
+    lan = await return_lan(user_id)
+    serialised_note_dict = await return_zametki(user_id)
+    note_dict = pickle.loads(serialised_note_dict)  # строковый объект превращаю в питоновский
+    if note_dict:
         s = await translates(meine_note, lan)
         att = await callback.message.answer(s,
-                                            reply_markup=create_note_collection_keyboard(*using_dict.keys()))
+                                            reply_markup=create_note_collection_keyboard(*note_dict.keys()))
     else:
         s = await translates(keine_note, lan)
         att = await callback.message.answer(s)
 
     temp_data = users_db[callback.from_user.id]['bot_ans']
-    if temp_data:
-        with suppress(TelegramBadRequest):
-            await temp_data.delete()
-            users_db[callback.from_user.id]['bot_ans'] = ''
+    await message_trasher(user_id, temp_data)
 
     users_db[callback.from_user.id]['bot_ans'] = att
     await callback.answer()
-
 
 
 @cb_router.callback_query(StateFilter(FSM_ST.after_start), ADD_NEW_NOTE_FILTER())
 async def add_new_note(callback: CallbackQuery, state: FSMContext):
     """Хэндлер выводит сообщение с просьбой написать название личной заметки"""
     print('add_new_note works')
-    dict_user = await state.get_data()
-    lan = dict_user['lan']
+    # dict_user = await state.get_data()
+    # lan = dict_user['lan']
+    lan = await return_lan(callback.from_user.id)
     s = await translates(add_note, lan)
     att = await callback.message.answer(s)
     temp_data = users_db[callback.from_user.id]['bot_ans']
-    if temp_data:
-        with suppress(TelegramBadRequest):
-            await temp_data.delete()
-            users_db[callback.from_user.id]['bot_ans'] = ''
+    await message_trasher(callback.from_user.id, temp_data)
     users_db[callback.from_user.id]['bot_ans'] = att
     await state.set_state(FSM_ST.add_note_1)
     await callback.answer()
@@ -279,18 +255,14 @@ async def add_new_note(callback: CallbackQuery, state: FSMContext):
 @cb_router.callback_query(StateFilter(FSM_ST.after_start), SPAM_FILTER())
 async def spam_approve(callback: CallbackQuery, state: FSMContext):
     print('spam_approve works')
-    dict_user = await state.get_data()
-    lan = dict_user['lan']
+    lan = await return_lan(callback.from_user.id)
     if callback.data == 'spam':
         await state.update_data(spam='yes')
         await add_in_spam_list(callback.from_user.id)
         stroka = await translates(danke, lan)
         await callback.message.answer(stroka)
     temp_data = users_db[callback.from_user.id]['bot_ans']
-    if temp_data:
-        with suppress(TelegramBadRequest):
-            await temp_data.delete()
-            users_db[callback.from_user.id]['bot_ans'] = ''
+    await message_trasher(callback.from_user.id, temp_data)
     await callback.answer()
 
 
@@ -298,7 +270,8 @@ async def spam_approve(callback: CallbackQuery, state: FSMContext):
 async def show_note(callback: CallbackQuery, state: FSMContext):
     print('show_note works')
     user_id = callback.from_user.id
-    note_dict = bot_server_base[user_id]
+    serialised_note_dict = await return_zametki(user_id)
+    note_dict = pickle.loads(serialised_note_dict)
     note_key = callback.data   # получаю ключ - названием заметки
     needed_note = note_dict[note_key]  # получаю ЭК Note
     foto_note = needed_note.foto   # Получаю фото
@@ -311,9 +284,6 @@ async def show_note(callback: CallbackQuery, state: FSMContext):
         await callback.message.answer(text=description,
             reply_markup=None)
     temp_data = users_db[callback.from_user.id]['bot_ans']
-    if temp_data:
-        with suppress(TelegramBadRequest):
-            await temp_data.delete()
-            users_db[callback.from_user.id]['bot_ans'] = ''
+    await message_trasher(user_id, temp_data)
     await callback.answer()
 
