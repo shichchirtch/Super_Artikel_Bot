@@ -1,7 +1,19 @@
 from aiogram.types import Message, CallbackQuery
 from aiogram.filters import BaseFilter
 from bot_base import users_db
+import re
 
+emoji_pattern = re.compile("["
+                           u"\U0001F600-\U0001F64F"  # emoticons
+                           u"\U0001F300-\U0001F5FF"  # symbols & pictographs
+                           u"\U0001F680-\U0001F6FF"  # transport & map symbols
+                           u"\U0001F700-\U0001F77F"  # alchemical symbols
+                           u"\U0001F780-\U0001F7FF"  # Geometric Shapes Extended
+                           u"\U0001F800-\U0001F8FF"  # Supplemental Arrows-C
+                           u"\U0001F900-\U0001F9FF"  # Supplemental Symbols and Pictographs
+                           u"\U0001FA00-\U0001FA6F"  # Chess Symbols
+                           u"\U0001FA70-\U0001FAFF"  # Symbols and Pictographs Extended-A
+                           "]+", flags=re.UNICODE)
 
 class PRE_START(BaseFilter):
     async def __call__(self, message: Message):
@@ -26,7 +38,14 @@ class LAN_FILTER(BaseFilter):
 
 class STUNDE_FILTER(BaseFilter):
     async def __call__(self, cb: CallbackQuery):
-        if cb.data in '1234567890':
+        if cb.data in ('1','2','3','4','5','6','7','8','9','10','11', '12', '13', '14', '15', '16',
+                       '1a','2a','3a','4a','5a','6a','7a','8a','9a','10a','11a', '12a', '13a', '14a', '15a', '16a'):
+            return True
+        return False
+
+class IT_FILTER(BaseFilter):
+    async def __call__(self, cb: CallbackQuery):
+        if cb.data in ('IT_A1', 'IT_A2', 'IT_B1'):
             return True
         return False
 
@@ -113,17 +132,45 @@ class EXCLUDE_COMMAND(BaseFilter):
 
 
 
+class EXCLUDE_COMMAND_MIT_EXIT(BaseFilter):
+    async def __call__(self, message: Message):
+        if message.text:
+            if message.text in ('/grammatik', '/wortschatz', '/add_wort',
+                                '/set_lan', '/lernen', '/zeigen', '/help', '/settings', '/exit'):
+                return False
+            elif message.text.startswith('/grammatik') or message.text.endswith('/grammatik'):
+                return False
+
+            elif message.text.startswith('/exit') or message.text.endswith('/exit'):
+                return False
+
+            elif message.text.startswith('/wortschatz') or message.text.endswith('/wortschatz'):
+                return False
+
+            elif message.text.startswith('/add_wort') or message.text.endswith('/add_wort'):
+                return False
+
+            elif message.text.startswith('/help') or message.text.endswith('/help'):
+                return False
+            elif message.text.startswith('/set_lan') or message.text.endswith('/set_lan'):
+                return False
+            elif message.text.startswith('/lernen') or message.text.endswith('/lernen'):
+                return False
+            elif message.text.startswith('/zeigen') or message.text.endswith('/zeigen'):
+                return False
+            elif message.text.startswith('/settings') or message.text.endswith('/settings'):
+                return False
+            else:
+                return True
+        else:
+            return True
 
 
-
-
-
-
-
-
-
-
-
+class STOP_EMODJI(BaseFilter):
+    async def __call__(self, message: Message):
+        if emoji_pattern.search(message.text):
+            return False
+        return True
 
 
 

@@ -22,13 +22,16 @@ settings_text= ('For grammatical rules click   ➡   /grammatik\n\n'
                 'To select a language, click  ➡   /set_lan\n\n'
                 'To start words study, click   ➡   /lernen\n\n'
                 'To see your own notes and vocabulary, click   ➡  /zeigen\n\n\n'
-                'To sent review, click  /review')
+                'To practice correct spelling of words, click  ➡   /schreiben\n\n\n\n'
+                'To sent review, click  /review\n\n\n🔹')
 # (/grammatik, /wortschantz, /meine_woerter, /set_lan, /lernen, /zeigen)
 grammatik_text = 'Choose a topic that interests you'
 
 lan_trans  =  'For translation was chosen language '
 
 i_do_not_know = 'I do not know this word'
+
+it_auswahlen = 'What Itntensivtrainer do you need ?'
 
 worschatz_text = 'For what lesson do you need vocabulary?'
 
@@ -45,6 +48,8 @@ noch = 'Do you want to add another word ?'
 weiter_arbeiten = 'You have exited the word adding mode.\n\nContinue working'
 
 lernen_msg = 'Words from which lesson would you like to learn ?'
+
+aus_welche_buch = 'From which Intensivetrainer would you like words learn ?'
 
 exit_msg = 'You exited from users regime'
 
@@ -77,7 +82,7 @@ danke = 'Thank you for subscribing to our newsletter !'
 bot_was_restarted  = 'The bot has been restarted on the server'
 
 
-
+gleiche_words = ('super', 'plus', 'minus', 'video', 'audio')
 
 
 

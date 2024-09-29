@@ -16,6 +16,7 @@ class FSM_ST(StatesGroup):
     personal_uber = State()
     add_note_1 = State()
     add_note_2 = State()
+    schreiben = State()
 
 
 

@@ -79,18 +79,43 @@ sex_stunde ={
 
 }
 
+################################################ A-1 #######################################################
 
 
+A1_erste_stunde = {'der Abend, -e':'evening', 'die Adresse, - n':'address', 'die Anmeldung, -en':'registration', 'das Beispiel, e':'example', 'der Familienname':'family name',
+'die Frage, -n':'questions', 'das Land, -änder':'country', 'der Morgen':'morning', 'der Name':'name',
+'der Ort,- e':'place', 'Österreich':'Austria', 'der Satz, ä-e':'sentence', 'die Schweiz':'Switzerland',
+'die Stadt, ä-e':'city', 'die Straße, -n':'street', 'der Tag, -e':'day', 'der Wohnort, -e':'place of residence',
+'das Wort, örter':'word', 'die Zahl, -en':'number', 'antworten':'answer', 'buchstabieren':'spell',
+'fragen':'ask', 'heißen':'be called', 'hören':'listen', 'kommen':'come',
+'lesen':'read', 'schreiben':'write', 'sein':'to be', 'sprechen':'speak',
+'wohnen':'reside', 'aus':'from', 'bitte':'please', 'danke':'thanks',
+'Entschuldigung':'Excuse me', 'hier':'here', 'ja':'yes', 'jetzt':'now',
+'und':'and', 'wer':'who', 'wie':'how', 'wo':'where',
+'woher':'from where'}
+
+A1_zweite_stunde={ '':'', '':'', '':'',
+'':'', '':'', '':'', '':'',
+'':'', '':'', '':'', '':'',
+}
+
+A1 = 'AgACAgIAAxkBAAO_ZvmfAXTYeO9B6r7DTk370e6kInAAAojnMRv8w8hLtYY0v8MJD9oBAAMCAAN5AAM2BA'
+A2 = 'AgACAgIAAxkBAAPBZvmfeHaO7iCs_04G03HFYeXAaQ4AAovnMRv8w8hLPTw-q1QgHLgBAAMCAAN4AAM2BA'
+B1 = 'AgACAgIAAxkBAAPAZvmfP_RwmOcevtB8KiDJC2GhP1IAAornMRv8w8hLgIYfAAGEG_loAQADAgADeQADNgQ'
+
+b1_stunde_collection = {'1':erste_stunde, '2':zweite_stunde, '3':dritte_stunde, '4':vierte_stunde, '5':funfte_stunde , '6':sex_stunde}
+a1_stunde_collection = {'1':A1_erste_stunde, '2':zweite_stunde, '3':dritte_stunde, '4':vierte_stunde, '5':funfte_stunde , '6':sex_stunde}
+a2_stunde_collection ={'1A':''}
+it_coll = {'IT_A1': a1_stunde_collection, 'IT_A2': a2_stunde_collection, 'IT_B1': b1_stunde_collection}
+
+##########################################################################################################
 
 
+b1_lern_collection = {'one':erste_stunde, 'two':zweite_stunde, 'three':dritte_stunde, 'four':vierte_stunde, 'five':funfte_stunde, 'six':sex_stunde}
+a1_lern_collection = {'one':A1_erste_stunde, 'two':zweite_stunde, 'three':dritte_stunde, 'four':vierte_stunde, 'five':funfte_stunde , 'six':sex_stunde}
 
 
-
-
-
-
-
-
+lern_coll = {'IT_A1': a1_lern_collection, 'IT_A2': a2_stunde_collection, 'IT_B1': b1_lern_collection}
 
 
 

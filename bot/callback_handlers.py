@@ -16,7 +16,7 @@ from external_functions import translates, create_note_collection_keyboard, mess
 from stunde import *
 from postgres_functions import add_in_spam_list, insert_lan, return_zametki, return_lan
 
-lernen_dict = {'one':erste_stunde, 'two':zweite_stunde, 'three':dritte_stunde, 'four':vierte_stunde, 'five':funfte_stunde, 'six':sex_stunde}
+# lernen_dict = {'one':erste_stunde, 'two':zweite_stunde, 'three':dritte_stunde, 'four':vierte_stunde, 'five':funfte_stunde, 'six':sex_stunde}
 
 
 cb_router = Router()
@@ -39,13 +39,32 @@ async def set_lan_process(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
 
 
+@cb_router.callback_query(IT_FILTER())
+async def intensive_trainer_auswahlen(callback: CallbackQuery, state:FSMContext):
+    user_id = callback.from_user.id
+    lan = await return_lan(user_id)
+    a1a2b1 = {'IT_A1':A1, 'IT_A2':A2, 'IT_B1':B1}
+    await state.update_data(spam=callback.data)  # Записываю ключ от нужной коллекции
+    capture = await translates(worschatz_text, lan)
+    current_foto_id = a1a2b1[callback.data]
+    current_state = await state.get_state()
+    if current_state == 'FSM_ST:after_start':
+        att = await callback.message.answer_photo(photo=current_foto_id, caption=capture, reply_markup=ws_kb)
+    else:
+        att = await callback.message.answer_photo(photo=current_foto_id, caption=capture, reply_markup=lernen_kb)
+    await asyncio.sleep(20)
+    await att.delete()
+
+
 @cb_router.callback_query(STUNDE_FILTER())
-async def stunde_worschatz_process(callback: CallbackQuery):
+async def stunde_worschatz_process(callback: CallbackQuery, state:FSMContext):
     print('stunde_worschatz_process works')
-    stunde_collection = {'1':erste_stunde, '2':zweite_stunde, '3':dritte_stunde, '4':vierte_stunde, '5':funfte_stunde , '6':sex_stunde}
+    us_dict = await state.get_data()
+    cb_key = us_dict['spam']   #  Получаю колбэк из предыдущего хэндлера
+    stunde_collection = it_coll[cb_key]  #  получаю коллекцию уроков
     user_id = callback.from_user.id
     lan = await return_lan(callback.from_user.id)
-    current_stunde = stunde_collection[callback.data]
+    current_stunde = stunde_collection[callback.data]  # Вот актуальный урок
     temp_data = users_db[user_id]['bot_ans']
     await message_trasher(user_id, temp_data)
     att = await callback.message.answer(await translates(watren_uber, lan))
@@ -59,7 +78,7 @@ async def stunde_worschatz_process(callback: CallbackQuery):
             print(f'Exception for {k}')
         await asyncio.sleep(0.15)
 
-    await callback.message.answer(form_str)
+    await callback.message.answer(form_str)  # Здесь выводится список слов
     temp_data = users_db[user_id]['bot_ans']
     await message_trasher(user_id, temp_data)
     await callback.answer()
@@ -93,7 +112,7 @@ async def ja_nein_process(callback: CallbackQuery, state: FSMContext):
         us_pur_dict = await state.get_data()
         us_pur = us_pur_dict['pur']
         if us_pur:  # Сейчас юзер говорит что перевод не правильный и ему устанавляивается состоние для редактиврвоания перевода
-            att = await callback.message.answer(ricgtig_trans)
+            att = await callback.message.answer(await translates(ricgtig_trans, lan))
             print('NO if works')
             await state.set_state(FSM_ST.personal_uber)
             users_db[callback.from_user.id]['bot_ans'] = att
@@ -117,6 +136,9 @@ async def ja_nein_process(callback: CallbackQuery, state: FSMContext):
 async def lernen_process(callback: CallbackQuery, state: FSMContext):
     print('lernen_process works')
     user_id = callback.from_user.id
+    us_dict = await state.get_data()
+    cb_key = us_dict['spam']
+    lernen_dict = lern_coll[cb_key]
     using_dict = lernen_dict[callback.data]
     lan = await return_lan(callback.from_user.id)
     temp_data = users_db[user_id]['bot_ans']
@@ -134,6 +156,30 @@ async def lernen_process(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
 
 
+@cb_router.callback_query(StateFilter(FSM_ST.schreiben), LERNEN_FILTER())
+async def schreiben_process(callback: CallbackQuery, state: FSMContext):
+    print('lernen_process works')
+    user_id = callback.from_user.id
+    us_dict = await state.get_data()
+    cb_key = us_dict['spam']
+    lernen_dict = lern_coll[cb_key]  # Получаю один из трёх наборов словарей
+    using_dict = lernen_dict[callback.data]  # По ключу получаю словарь
+    lan = await return_lan(callback.from_user.id)
+    temp_data = users_db[user_id]['bot_ans']
+    await message_trasher(user_id, temp_data)
+
+    #  Начинаю выдвать пары ключ-занчение
+    begin_tuple = choice(sorted(using_dict.items()))
+    deutsch, engl = begin_tuple
+    uber_eng = await translates(engl, lan)
+    await state.update_data(pur=deutsch, current_stunde=using_dict)
+    att = await callback.message.answer(f'Schreiben Sie bitte die Übersetzung des Worts ?\n\n<b>{uber_eng}</b>\n\n'
+                                        f'<i>English</i> = <b>{engl}</b>',
+                                  reply_markup=None)
+    users_db[user_id]['bot_ans'] = att
+    await callback.answer()
+
+
 @cb_router.callback_query(StateFilter(FSM_ST.lernen), WEIS_NEIN_FILTER())
 async def weis_nicht_process(callback: CallbackQuery, state: FSMContext):
     print('weis_nciht works')
@@ -141,7 +187,7 @@ async def weis_nicht_process(callback: CallbackQuery, state: FSMContext):
     lan = await return_lan(callback.from_user.id)
     using_dict = dict_user['current_stunde']
     previous_word = dict_user['pur']
-    print('139  previous wort = ', previous_word)
+    print('190  previous wort = ', previous_word)
     if previous_word[1] in using_dict.values():
         print('previous wort = ', previous_word)
         andere = previous_word[0]
@@ -150,12 +196,10 @@ async def weis_nicht_process(callback: CallbackQuery, state: FSMContext):
 
     working_tuple = choice(sorted(using_dict.items()))  # Выбираю случайную пару из словаря
 
-
     deutsch, engl = working_tuple
     uber_engl = await translates(engl, lan)
 
     random_de_en = choice((deutsch, uber_engl,))  #Выбираю либо немецкое слово - либо английский перевод
-
 
     if random_de_en == uber_engl:
         remodifyid_tuple = (deutsch, engl,)
@@ -221,6 +265,7 @@ async def show_note_list_wortschatz(callback: CallbackQuery, state: FSMContext):
     lan = await return_lan(user_id)
     serialised_note_dict = await return_zametki(user_id)
     note_dict = pickle.loads(serialised_note_dict)  # строковый объект превращаю в питоновский
+
     if note_dict:
         s = await translates(meine_note, lan)
         att = await callback.message.answer(s,
@@ -240,8 +285,6 @@ async def show_note_list_wortschatz(callback: CallbackQuery, state: FSMContext):
 async def add_new_note(callback: CallbackQuery, state: FSMContext):
     """Хэндлер выводит сообщение с просьбой написать название личной заметки"""
     print('add_new_note works')
-    # dict_user = await state.get_data()
-    # lan = dict_user['lan']
     lan = await return_lan(callback.from_user.id)
     s = await translates(add_note, lan)
     att = await callback.message.answer(s)
@@ -267,11 +310,12 @@ async def spam_approve(callback: CallbackQuery, state: FSMContext):
 
 
 @cb_router.callback_query(StateFilter(FSM_ST.after_start))
-async def show_note(callback: CallbackQuery, state: FSMContext):
+async def show_note(callback: CallbackQuery):
     print('show_note works')
     user_id = callback.from_user.id
     serialised_note_dict = await return_zametki(user_id)
     note_dict = pickle.loads(serialised_note_dict)
+    print('note_dict = ', note_dict)
     note_key = callback.data   # получаю ключ - названием заметки
     needed_note = note_dict[note_key]  # получаю ЭК Note
     foto_note = needed_note.foto   # Получаю фото

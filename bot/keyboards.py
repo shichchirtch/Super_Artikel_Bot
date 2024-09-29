@@ -107,6 +107,14 @@ sp_button = InlineKeyboardButton(text='🤓', callback_data='spam')
 
 spam_kb = InlineKeyboardMarkup(inline_keyboard=[[ns_button, sp_button]])
 
+####################################################################################################
+
+
+it_a1_button = InlineKeyboardButton(text='A 1', callback_data='IT_A1')
+it_a2_button = InlineKeyboardButton(text='A 2', callback_data='IT_A2')
+it_b1_button = InlineKeyboardButton(text='B 1', callback_data='IT_B1')
+
+it_buch_kb = InlineKeyboardMarkup(inline_keyboard=[[it_a1_button], [it_a2_button], [it_b1_button]])
 
 
 
