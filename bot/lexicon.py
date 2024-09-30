@@ -49,7 +49,7 @@ weiter_arbeiten = 'You have exited the word adding mode.\n\nContinue working'
 
 lernen_msg = 'Words from which lesson would you like to learn ?'
 
-aus_welche_buch = 'From which Intensivetrainer would you like words learn ?'
+aus_welche_buch = 'Von welchem Intensivtrainer möchten Sie Wörter lernen ?'
 
 exit_msg = 'You exited from users regime'
 

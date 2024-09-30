@@ -20,6 +20,7 @@ from string import ascii_letters
 from external_functions import translates, translates_in_english, message_trasher
 from note_class import User_Note
 from random import choice
+from stunde import ABC
 
 
 ch_router = Router()
@@ -448,8 +449,8 @@ async def process_lernen_command(message: Message, state: FSMContext):
     await state.set_state(FSM_ST.lernen)
     temp_data = users_db[user_id]['bot_ans']
     await message_trasher(user_id, temp_data)
-    att = await message.answer(text=await translates(aus_welche_buch, lan),
-                               reply_markup=it_buch_kb)
+    att = await message.answer_photo(photo=ABC, caption=aus_welche_buch,
+                                     reply_markup=it_buch_kb)
     users_db[user_id]['bot_ans'] = att
     await message.delete()
 
@@ -462,7 +463,7 @@ async def process_schreiben_command(message: Message, state: FSMContext):
     await state.set_state(FSM_ST.schreiben)
     temp_data = users_db[user_id]['bot_ans']
     await message_trasher(user_id, temp_data)
-    att = await message.answer(text=await translates(aus_welche_buch, lan),
+    att = await message.answer_photo(photo= ABC, caption=aus_welche_buch,
                                reply_markup=it_buch_kb)
     users_db[user_id]['bot_ans'] = att
     await message.delete()
