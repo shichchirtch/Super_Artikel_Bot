@@ -38,8 +38,7 @@ class LAN_FILTER(BaseFilter):
 
 class STUNDE_FILTER(BaseFilter):
     async def __call__(self, cb: CallbackQuery):
-        if cb.data in ('1','2','3','4','5','6','7','8','9','10','11', '12', '13', '14', '15', '16',
-                       '1a','2a','3a','4a','5a','6a','7a','8a','9a','10a','11a', '12a', '13a', '14a', '15a', '16a'):
+        if cb.data in ('1','2','3','4','5','6','7','8','9','10','11', '12', '13', '14', '15', '16'):
             return True
         return False
 
