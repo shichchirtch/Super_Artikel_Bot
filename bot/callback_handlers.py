@@ -56,7 +56,7 @@ async def intensive_trainer_auswahlen(callback: CallbackQuery, state:FSMContext)
     await att.delete()
 
 
-@cb_router.callback_query(STUNDE_FILTER())
+@cb_router.callback_query(StateFilter(FSM_ST.after_start), STUNDE_FILTER())
 async def stunde_worschatz_process(callback: CallbackQuery, state:FSMContext):
     print('stunde_worschatz_process works')
     us_dict = await state.get_data()
@@ -158,7 +158,7 @@ async def lernen_process(callback: CallbackQuery, state: FSMContext):
 
 @cb_router.callback_query(StateFilter(FSM_ST.schreiben), LERNEN_FILTER())
 async def schreiben_process(callback: CallbackQuery, state: FSMContext):
-    print('lernen_process works')
+    print('\n\nschreiben_process works\n\n')
     user_id = callback.from_user.id
     us_dict = await state.get_data()
     cb_key = us_dict['spam']
@@ -166,6 +166,7 @@ async def schreiben_process(callback: CallbackQuery, state: FSMContext):
     using_dict = lernen_dict[callback.data]  # По ключу получаю словарь
     lan = await return_lan(callback.from_user.id)
     temp_data = users_db[user_id]['bot_ans']
+    print("****")
     await message_trasher(user_id, temp_data)
 
     #  Начинаю выдвать пары ключ-занчение
