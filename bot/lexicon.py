@@ -1,6 +1,6 @@
 start= (
         'Hallo ! Das ist Deutsch Artikel Bot ! 👋\n\n'
-        'Geben Sie ein Wort ohne Artikel ein'
+        'Um herauszufinden, wie ich arbeite,\nklicken Sie auf  ➡️ /help\n\n💚'
         )
 
 help_text = ('⭐️  This bot can define the article\n\n'

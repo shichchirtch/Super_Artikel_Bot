@@ -15,6 +15,12 @@ emoji_pattern = re.compile("["
                            u"\U0001FA70-\U0001FAFF"  # Symbols and Pictographs Extended-A
                            "]+", flags=re.UNICODE)
 
+class STOP_EMODJI(BaseFilter):
+    async def __call__(self, message: Message):
+        if emoji_pattern.search(message.text):
+            return False
+        return True
+
 class PRE_START(BaseFilter):
     async def __call__(self, message: Message):
         if message.from_user.id in users_db:
@@ -163,15 +169,6 @@ class EXCLUDE_COMMAND_MIT_EXIT(BaseFilter):
                 return True
         else:
             return True
-
-
-class STOP_EMODJI(BaseFilter):
-    async def __call__(self, message: Message):
-        if emoji_pattern.search(message.text):
-            return False
-        return True
-
-
 
 class IS_ADMIN(BaseFilter):
     async def __call__(self, message: Message):

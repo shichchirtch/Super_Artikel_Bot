@@ -14,16 +14,21 @@ from filters import (PRE_START, IS_LETTER, IS_ADMIN, WORD_ACCEPT,
 from lexicon import *
 from postgres_functions import *
 from bot_instance import FSM_ST, bot_storage_key, dp
-from bot_base import users_db, user_dict, bot_server_base
+from bot_base import *
 from copy import deepcopy
 from string import ascii_letters
-from external_functions import translates, translates_in_english, message_trasher
+from external_functions import translates, translates_in_english, regular_message, message_trasher
 from note_class import User_Note
 from random import choice
-from stunde import ABC
+from stunde import *
 
 
 ch_router = Router()
+
+# @ch_router.message(F.photo)
+# async def video_id_geber_messages(message: Message):
+#     data = message.video.file_id
+#     print(data)
 
 
 # @ch_router.message(F.photo)
@@ -74,7 +79,7 @@ async def process_start_command(message: Message, state: FSMContext):
              })
         users_db[message.from_user.id] = deepcopy(user_dict)
         lan = await return_lan(user_id)
-        restart_msg = await translates(bot_was_restarted, lan)
+        restart_msg = await regular_message(bot_was_restarted, lan)
         await message.answer(restart_msg)
         await message.delete()
 
@@ -115,7 +120,7 @@ async def artikle_geber(message: Message, state: FSMContext):
         soup = bs(req.text, 'lxml')
         trans = soup.find(class_='rInfo')
         if not trans:
-            sin_stroka = await translates(i_do_not_know, lan)  # Вывожу что не знаю этого слова
+            sin_stroka = await regular_message(i_do_not_know, lan)  # Вывожу что не знаю этого слова
         else:
             trans_data = trans.find(class_='rBox rBoxWht').find_all(class_='wNrn')
             kirill_block = trans_data[1]
@@ -175,14 +180,13 @@ async def artikle_geber(message: Message, state: FSMContext):
                 second_step = first_step.find(class_='rAufZu')
                 # print('test = ', second_step)
                 eng_gleiche = second_step.find(class_='r1Zeile rU6px rO0px')
-                # print('\n\n\neng_gleiche= ', eng_gleiche.text.strip("\n"))
+
                 first_eng_analog = eng_gleiche.text.strip("\n")
                 if '\n' in first_eng_analog:
                     first_eng_analog = first_eng_analog.replace('\n', ' ')
 
                 first_step2 = SS_1[2]
                 second_step2 = first_step2.find(class_='rAufZu')
-                # print('test = ', second_step2)
 
                 third_step = second_step2.find(class_='wNrn')
                 # print('third step', third_step.text)
@@ -288,7 +292,6 @@ async def artikle_geber(message: Message, state: FSMContext):
                           f'{eng_str}\n\n'
                           f'<b>Synonyme :</b>  {f_data}')
 
-        # print(sin_stroka)
         await message.answer(text=sin_stroka)
 
     else:
@@ -302,7 +305,7 @@ async def artikle_geber(message: Message, state: FSMContext):
 @ch_router.message(Command('help'))
 async def process_help_command(message: Message, state: FSMContext):
     lan = await return_lan(message.from_user.id)
-    att = await message.answer(await translates(help_text, lan))
+    att = await message.answer(await regular_message(help_text, lan))
     await asyncio.sleep(20)
     await message.delete()
     await att.delete()
@@ -335,41 +338,45 @@ async def process_show_command(message: Message):
     await message.delete()
 
 
-@ch_router.message(Command('settings'))
+@ch_router.message(Command('settings'), StateFilter(FSM_ST.after_start))
 async def process_settings_command(message: Message, state: FSMContext):
     user_id = message.from_user.id
     lan = await return_lan(user_id)
-    att = await message.answer(await translates(settings_text, lan))
+    att = await message.answer(await regular_message(settings_text, lan))
     await asyncio.sleep(20)
     await att.delete()
     await message.delete()
 
 
-@ch_router.message(Command('grammatik'))
+@ch_router.message(Command('grammatik'), StateFilter(FSM_ST.after_start))
 async def process_grammatik_command(message: Message):
-    att = await message.answer(text=grammatik_text, reply_markup=gram_kb)
+    user_id = message.from_user.id
+    lan = await return_lan(user_id)
+    att = await message.answer(text=await regular_message(grammatik_text, lan), reply_markup=gram_kb)
     await asyncio.sleep(20)
     await att.delete()
     await message.delete()
 
 
 @ch_router.message(Command('wortschatz'), StateFilter(FSM_ST.after_start))
-async def process_worschatz_command(message: Message, state: FSMContext):
+async def process_worschatz_command(message: Message):
     """Хэндлер  показывает инлайн клаву с 3 учебниками"""
     user_id = message.from_user.id
     lan = await return_lan(user_id)
     temp_data = users_db[user_id]['bot_ans']
-    current_state = await state.get_state()
-    print('\n\ncurrent_state = ', current_state)
     await message_trasher(user_id, temp_data)
-    att = await message.answer(text=await translates(it_auswahlen, lan), reply_markup=it_buch_kb)
+    carture = await regular_message(it_auswahlen, lan)
+    att = await message.answer_photo(photo=ABC, caption=carture, reply_markup=it_buch_kb)
     users_db[user_id]['bot_ans'] = att
     await asyncio.sleep(8)
-    await att.delete()
+    try:
+        await att.delete()
+    except Exception:
+        pass
     await message.delete()
 
 
-@ch_router.message(Command('add_wort'))
+@ch_router.message(Command('add_wort'), StateFilter(FSM_ST.after_start))
 async def process_add_wort_command(message: Message, state: FSMContext):
     """Отправляет сообщение с предложением отправить ему слово на немецком языке"""
     user_id = message.from_user.id
@@ -377,7 +384,7 @@ async def process_add_wort_command(message: Message, state: FSMContext):
     await state.set_state(FSM_ST.add_wort)
     temp_data = users_db[user_id]['bot_ans']
     await message_trasher(user_id, temp_data)
-    att = await message.answer(f'<b>{await translates(deine_wort, lan)}</b>')
+    att = await message.answer(f'<b>{await regular_message(deine_wort, lan)}</b>')
     users_db[message.from_user.id]['bot_ans'] = att
     await asyncio.sleep(3)
     await message.delete()
@@ -390,8 +397,11 @@ async def process_add_wort(message: Message, state: FSMContext):
     user_id = message.from_user.id
     ubersatz_in_eng = await translates_in_english(message.text)  # Перевожу немецкое слов на английский
     print('ubersatz_in_eng = ', ubersatz_in_eng)
+
+
+
     heimat_lan = await translates(ubersatz_in_eng, lan)  # Перевожу английское слово на язык юзера
-    print('heimat_lan = ', heimat_lan)
+
     temp_data = users_db[user_id]['bot_ans']
     await message_trasher(user_id, temp_data)
 
@@ -426,8 +436,7 @@ async def process_add_personal_ubersetzen_command(message: Message, state: FSMCo
 
     bot_dict = await dp.storage.get_data(key=bot_storage_key)
     user_bot_stor = bot_dict[str(user_id)]  # Получаю доступ по tg_id
-    user_bot_stor[
-        isk_slovo] = message.text  # Судя по всему здесь получается конструкция вида {"немецкое слово":"перевод юзера"}
+    user_bot_stor[isk_slovo] = message.text  # Судя по всему здесь получается конструкция вида {"немецкое слово":"перевод юзера"}
     bot_dict[user_id] = user_bot_stor
     await dp.storage.update_data(key=bot_storage_key, data=bot_dict)
 
@@ -435,8 +444,8 @@ async def process_add_personal_ubersetzen_command(message: Message, state: FSMCo
     await state.set_state(FSM_ST.add_wort)
     temp_data = users_db[user_id]['bot_ans']
     await message_trasher(user_id, temp_data)
-    otvet = await translates(erfolgreich_fugen, lan)
-    uber_noch = await translates(noch, lan)
+    otvet = await regular_message(erfolgreich_fugen, lan)
+    uber_noch = await regular_message(noch, lan)
     att = await message.answer(f'{otvet}\n\n{uber_noch}', reply_markup=ja_nein_kb)
     users_db[user_id]['bot_ans'] = att
 
@@ -444,7 +453,6 @@ async def process_add_personal_ubersetzen_command(message: Message, state: FSMCo
 @ch_router.message(Command('lernen'), StateFilter(FSM_ST.after_start))
 async def process_lernen_command(message: Message, state: FSMContext):
     """Хэндлер отпраляет текст с клваой из трёх учебников"""
-    lan = await return_lan(message.from_user.id)
     user_id = message.from_user.id
     await state.set_state(FSM_ST.lernen)
     temp_data = users_db[user_id]['bot_ans']
@@ -458,7 +466,6 @@ async def process_lernen_command(message: Message, state: FSMContext):
 @ch_router.message(Command('schreiben'), StateFilter(FSM_ST.after_start))
 async def process_schreiben_command(message: Message, state: FSMContext):
     """Хэндлер отпраляет текст с клваой из трёх учебников"""
-    lan = await return_lan(message.from_user.id)
     user_id = message.from_user.id
     await state.set_state(FSM_ST.schreiben)
     temp_data = users_db[user_id]['bot_ans']
@@ -475,24 +482,45 @@ async def check_writing_process(message: Message, state: FSMContext):
     dict_user = await state.get_data()
     lan = await return_lan(message.from_user.id)
     using_dict = dict_user['current_stunde']
+    print('bot_rus_collection = ', bot_rus_collection)
     previous_word = dict_user['pur']  # Получаю  немецкое слово
+    print('previous_word = ', previous_word)
     if ',' in previous_word:
         previous_word_1 = previous_word.split(',')[0]
     elif ('(') in previous_word:
         previous_word_1 = previous_word.split('(')[0]
     else:
         previous_word_1 = previous_word
-    print('463  previous wort = ', previous_word)
-    if previous_word.lower() == message.text.lower() or previous_word_1.lower == message.text.lower():
-        print('previous wort = ', previous_word)
-        att = await message.answer(f'<b>Richtig !</b>    🥳\n\nDas ist <b>{previous_word}</b>')
+
+    if previous_word_1.lower() == message.text.lower() or previous_word_1.lower == message.text.lower():
+
+        await message.answer(f'<b>Richtig !</b>    🥳\n\nDas ist <b>{previous_word}</b>')
         await message.delete()
     else:
         await message.answer(f'Sie haben geantwortet <b>{message.text}</b>\n\n'
                              f'Richtige Antwort  ist <b>{previous_word}</b>')
     working_tuple = choice(sorted(using_dict.items()))  # Выбираю случайную пару из словаря
     deutsch, engl = working_tuple
-    uber_eng = await translates(engl, lan)
+    combined_key = lan + '_' + engl
+    if lan == 'ru':
+        if combined_key not in bot_rus_collection:
+            uber_eng = await translates(engl, lan)
+            bot_rus_collection[combined_key] = uber_eng  # Перевод на язык юзера
+        else:
+            uber_eng = bot_rus_collection[combined_key]
+    elif lan == 'uk':
+        if combined_key not in bot_ukr_collection:
+            uber_eng = await translates(engl, lan)
+            bot_ukr_collection[combined_key] = uber_eng
+        else:
+            uber_eng = bot_ukr_collection[combined_key]
+    else:
+        if combined_key not in bot_word_collection:
+            uber_eng = await translates(engl, lan)
+            bot_word_collection[combined_key] = uber_eng
+        else:
+            uber_eng = bot_word_collection[combined_key]
+
     await state.update_data(pur=deutsch)
     await message.answer(text=f'Schreiben Sie bitte die Übersetzung des Worts ?\n\n<b>{uber_eng}</b>'
                               f'\n\n<i>English</i> = <b>{engl}</b>',
@@ -507,15 +535,15 @@ async def process_exit_command(message: Message, state: FSMContext):
     await state.update_data(pur='', current_stunde='')  # reset user data
     temp_data = users_db[user_id]['bot_ans']
     await message_trasher(user_id, temp_data)
-    att = await message.answer(text=await translates(exit_msg, lan))
+    att = await message.answer(text=await regular_message(exit_msg, lan))
     users_db[user_id]['bot_ans'] = att
     await message.delete()
 
 
 @ch_router.message(Command('review'), StateFilter(FSM_ST.after_start))
-async def process_review_command(message: Message, state: FSMContext):
+async def process_review_command(message: Message):
     lan = await return_lan(message.from_user.id)
-    text = await translates(review_text, lan)
+    text = await regular_message(review_text, lan)
     fin_text = f'{text} \n\n\n @Smart_Imperium_bot'
     att = await message.answer(text=fin_text)
     await asyncio.sleep(20)
@@ -527,7 +555,7 @@ async def process_review_command(message: Message, state: FSMContext):
 async def process_notiz_command(message: Message, state: FSMContext):
     """Хэндлер отправлят сообщение с инлайн клавой - где можно посмотреть свои заметки и слова"""
     lan = await return_lan(message.from_user.id)
-    us_text = await translates(zeigen_start, lan)
+    us_text = await regular_message(zeigen_start, lan)
     att = await message.answer(us_text, reply_markup=zeigen_kb)
     temp_data = users_db[message.from_user.id]['bot_ans']
     await message_trasher(message.from_user.id, temp_data)
@@ -542,8 +570,8 @@ async def add_notiz_1(message: Message, state: FSMContext):
     print('add_notiz_1 works')
     lan = await return_lan(message.from_user.id)
     await state.update_data(pur=message.text)
-    otvet = await translates(your_name_is, lan)
-    otvet_2 = await translates(step_2, lan)
+    otvet = await regular_message(your_name_is, lan)
+    otvet_2 = await regular_message(step_2, lan)
     stroka = f"{otvet} {message.text}\n\n{otvet_2}"
     att = await message.answer(stroka)
     temp_data = users_db[message.from_user.id]['bot_ans']
@@ -583,7 +611,7 @@ async def add_notiz_2(message: Message, state: FSMContext):
         serialized_data = pickle.dumps(zam_dict)  # Сериализую объект
         await insert_serialised_note(user_id, serialized_data)  # Вставляю его в Postgress
 
-    stroka = await translates(successfully_add, lan)
+    stroka = await regular_message(successfully_add, lan)
     att = await message.answer(stroka)
     await state.set_state(FSM_ST.after_start)
     await asyncio.sleep(5)
@@ -599,7 +627,7 @@ async def something_goes_wrong(message: Message, state: FSMContext):
     temp_data = users_db[message.from_user.id]['bot_ans']
     await message_trasher(message.from_user.id, temp_data)
     await state.set_state(FSM_ST.after_start)
-    stroka = await translates(wrong_add_new_note, lan)
+    stroka = await regular_message(wrong_add_new_note, lan)
     att = await message.answer(stroka)
     await asyncio.sleep(4)
     await message.delete()
@@ -646,16 +674,58 @@ async def dump_db(message: Message, state: FSMContext):
     bot_dict = await dp.storage.get_data(key=bot_storage_key)  # Получаю словарь бота
     with open('save_db.pkl', 'wb') as file:
         pickle.dump(bot_dict, file)
-    await message.answer('База данных успешно записана !')
+    with open('bot_rus_wortschatz_db.pkl', 'wb') as file:
+        pickle.dump(bot_rus_wortschatz, file)
+    with open('bot_ukr_wortschatz_db.pkl', 'wb') as file:
+        pickle.dump(bot_ukr_wortschatz, file)
+    with open('bot_rus_wortschatz_db.pkl', 'wb') as file:
+        pickle.dump(bot_anders_wortschatz, file)
+    with open('bot_rus_collection_db.pkl', 'wb') as file:
+        pickle.dump(bot_rus_collection, file)
+    with open('bot_ukr_collection_db.pkl', 'wb') as file:
+        pickle.dump(bot_ukr_collection, file)
+    with open('bot_word_collection_db.pkl', 'wb') as file:
+        pickle.dump(bot_word_collection, file)
+    with open('bot_lexicon_db.pkl', 'wb') as file:
+        pickle.dump(bot_lexicon, file)
+    await message.answer('Базы данных успешно записана !')
     await state.set_state(FSM_ST.after_start)
-
 
 @ch_router.message(IS_ADMIN(), Command('load'))
 async def load_db(message: Message, state: FSMContext):
     with open('save_db.pkl', 'rb') as file:
         recover_base = pickle.load(file)
         await dp.storage.set_data(key=bot_storage_key, data=recover_base)  # Обновляю словарь бота
-    await message.answer('База данных успешно загружена !')
+
+    with open('bot_rus_wortschatz_db.pkl', 'rb') as file:
+        recover_bot_rus_wortschatz = pickle.load(file)
+        bot_rus_wortschatz.update(recover_bot_rus_wortschatz)
+
+    with open('bot_ukr_wortschatz_db.pkl', 'rb') as file:
+        recover_bot_ukr_wortschatz = pickle.load(file)
+        bot_ukr_wortschatz.update(recover_bot_ukr_wortschatz)
+
+    with open('bot_anders_wortschatz_db.pkl', 'rb') as file:
+        recover_bot_anders_wortschatz = pickle.load(file)
+        bot_anders_wortschatz.update(recover_bot_anders_wortschatz)
+
+    with open('bot_rus_collection_db.pkl', 'rb') as file:
+        recover_bot_rus_coll = pickle.load(file)
+        bot_rus_collection.update(recover_bot_rus_coll)
+
+    with open('bot_ukr_collection_db.pkl', 'rb') as file:
+        recover_bot_ukr_coll = pickle.load(file)
+        bot_ukr_collection.update(recover_bot_ukr_coll)
+
+    with open('bot_word_collection_db.pkl', 'rb') as file:
+        recover_bot_word_coll = pickle.load(file)
+        bot_rus_collection.update(recover_bot_word_coll)
+
+    with open('bot_lexicon_db.pkl', 'rb') as file:
+        recover_bot_lexicon = pickle.load(file)
+        bot_lexicon.update(recover_bot_lexicon)
+
+    await message.answer('Базы данных успешно загружены !')
     await state.set_state(FSM_ST.after_start)
 
 

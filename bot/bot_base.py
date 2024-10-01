@@ -8,3 +8,12 @@ user_dict = {
 users_db = {}
 
 bot_server_base = {}
+
+bot_rus_wortschatz = {}
+bot_ukr_wortschatz = {}
+bot_anders_wortschatz = {}
+bot_rus_collection = {}
+bot_ukr_collection = {}
+bot_word_collection = {}
+
+bot_lexicon = {}
