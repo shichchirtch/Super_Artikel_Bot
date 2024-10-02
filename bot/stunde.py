@@ -258,7 +258,7 @@ it_coll = {'IT_A1': a1_stunde_collection, 'IT_A2': a2_stunde_collection, 'IT_B1'
 
 b1_lern_collection = {'one':erste_stunde, 'two':zweite_stunde, 'three':dritte_stunde, 'four':vierte_stunde, 'five':funfte_stunde, 'six':sex_stunde}
 a1_lern_collection = {'one':A1_erste_stunde, 'two':A1_zweite_stunde, 'three':A1_dritte_stunde, 'four':A1_vierte_stunde, 'five':A1_funfte_stunde , 'six':A1_sex_stunde}
-a2_lern_collection = {'one':A2_erste_stunde, 'two':A2_zweite_stunde, 'three':A2_dritte_stunde }#'four':vierte_stunde, 'five':funfte_stunde , 'six':sex_stunde}
+a2_lern_collection = {'one':A2_erste_stunde, 'two':A2_zweite_stunde, 'three':A2_dritte_stunde, 'four':vierte_stunde, 'five':funfte_stunde , 'six':sex_stunde}
 
 lern_coll = {'IT_A1': a1_lern_collection, 'IT_A2': a2_lern_collection, 'IT_B1': b1_lern_collection}
 
