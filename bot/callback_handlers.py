@@ -21,7 +21,7 @@ cb_router = Router()
 
 @cb_router.callback_query(LAN_FILTER())
 async def set_lan_process(callback: CallbackQuery, state: FSMContext):
-    print('set_lan_process works')
+    print('24 set_lan_process works')
     user_id = callback.from_user.id
     lan = callback.data
     firts_mal = await return_lan(callback.from_user.id)
@@ -59,6 +59,7 @@ async def intensive_trainer_auswahlen(callback: CallbackQuery, state:FSMContext)
 async def stunde_worschatz_process(callback: CallbackQuery, state:FSMContext):
     """Хэндлер возвращет превод воршатца целую страницу со словарём урока"""
     print('stunde_worschatz_process works')
+    stunde_kit_dict = {'IT_A1':'Intensivtrainer A1', 'IT_A2':'Intensivtrainer A2', 'IT_B1':'Intensivtrainer B1' }
     us_dict = await state.get_data()
     cb_key = us_dict['spam']   #  Получаю колбэк из предыдущего хэндлера
     stunde_collection = it_coll[cb_key]  #  получаю коллекцию уроков
@@ -82,6 +83,10 @@ async def stunde_worschatz_process(callback: CallbackQuery, state:FSMContext):
             bot_ukr_wortschatz[combain_key]=translated_string
         else:
             translated_string = bot_ukr_wortschatz[combain_key]
+
+    elif lan == 'de':
+        translated_string = await form_WS_string(current_stunde, lan)
+
     else:
         if combain_key not in bot_anders_wortschatz:
             translated_string = await form_WS_string(current_stunde, lan)
@@ -89,7 +94,7 @@ async def stunde_worschatz_process(callback: CallbackQuery, state:FSMContext):
         else:
             translated_string = bot_ukr_wortschatz[combain_key]
 
-    await callback.message.answer(translated_string)  # Здесь выводится список слов
+    await callback.message.answer(f'✅  <b>{stunde_kit_dict[cb_key]} Stunde # {callback.data}</b>\n\n{translated_string}\n🟣')  # Здесь выводится список слов
     temp_data = users_db[user_id]['bot_ans']
     await message_trasher(user_id, temp_data)
     await callback.answer()
@@ -97,7 +102,8 @@ async def stunde_worschatz_process(callback: CallbackQuery, state:FSMContext):
 
 @cb_router.callback_query(JA_NEIN_FILTER())
 async def ja_nein_process(callback: CallbackQuery, state: FSMContext):
-    print('ja_nein_process works')
+    """Хэнделер отправляет клаву ✅ ❌"""
+    print('ja_nein_process works ')
     user_id = callback.from_user.id
     lan = await return_lan(user_id)
     temp_data = users_db[user_id]['bot_ans']
@@ -172,6 +178,8 @@ async def lernen_process(callback: CallbackQuery, state: FSMContext):
             bot_ukr_collection[combined_key] = uber_eng
         else:
             uber_eng = bot_ukr_collection[combined_key]
+    elif lan == 'de':
+        uber_eng = deutsch
     else:
         if combined_key not in bot_word_collection:
             uber_eng = await translates(engl, lan)
@@ -214,6 +222,8 @@ async def schreiben_process(callback: CallbackQuery, state: FSMContext):
             bot_ukr_collection[combined_key] = uber_eng
         else:
             uber_eng = bot_ukr_collection[combined_key]
+    elif lan == 'de':
+        pass
     else:
         if combined_key not in bot_word_collection:
             uber_eng = await translates(engl, lan)
@@ -221,10 +231,21 @@ async def schreiben_process(callback: CallbackQuery, state: FSMContext):
         else:
             uber_eng = bot_word_collection[combined_key]
     # uber_eng = await translates(engl, lan)
-    await state.update_data(pur=deutsch, current_stunde=using_dict)
-    att = await callback.message.answer(f'Schreiben Sie bitte die Übersetzung des Worts ?\n\n<b>{uber_eng}</b>\n\n'
-                                        f'<i>English</i> = <b>{engl}</b>',
-                                  reply_markup=None)
+    # await state.update_data(pur=deutsch, current_stunde=using_dict)
+    if lan != 'de' and lan != 'en':
+        att = await callback.message.answer(f'Schreiben Sie bitte die Übersetzung des Worts !\n\n<b>{uber_eng}</b>\n\n'
+                                            f'<i>English</i> = <b>{engl}</b>',
+                                      reply_markup=exit_clava)
+        await state.update_data(pur=deutsch, current_stunde=using_dict)
+    elif lan == 'en':
+        att = await callback.message.answer(f'Schreiben Sie bitte die Übersetzung des Worts !\n\n<b>{uber_eng}</b>\n\n',
+                                            reply_markup=exit_clava)
+        await state.update_data(pur=deutsch, current_stunde=using_dict)
+
+    else:
+        att = await callback.message.answer(f'Schreiben Sie bitte die Übersetzung vom Englisch des Worts !\n\n<b>{engl}</b>\n\n',
+                                            reply_markup=exit_clava)
+        await state.update_data(pur=(deutsch, engl,), current_stunde=using_dict)
     users_db[user_id]['bot_ans'] = att
     await callback.answer()
 
@@ -255,6 +276,8 @@ async def weis_nicht_process(callback: CallbackQuery, state: FSMContext):
             bot_ukr_collection[combined_key] = uber_eng
         else:
             uber_eng = bot_ukr_collection[combined_key]
+    elif lan == 'de':
+        uber_eng = engl
     else:
         if combined_key not in bot_word_collection:
             uber_eng = await translates(engl, lan)
@@ -269,16 +292,29 @@ async def weis_nicht_process(callback: CallbackQuery, state: FSMContext):
     await state.update_data(pur=gegen_data)   # Записываю на будущий ход следующую пару
 
     if callback.data == 'nicht':
-        try:
-            await callback.message.edit_text(
-                text=f"🔹          <b>Das ist</b> ➡️  "
-                     f"<b>{previous_word}</b>\n\n\n"
-                     f"Wissen Sie dieses Wort ?\n\n"
-                     f"<b>{random_de_en}</b>",
-                reply_markup=weis_kb
-            )
-        except TelegramBadRequest:
-            print('weis_nicht into Exeption')
+        if lan != 'de':
+            try:
+                await callback.message.edit_text(
+                    text=f"🔹          <b>Das ist</b> ➡️  "
+                         f"<b>{previous_word}</b>\n\n\n"
+                         f"Wissen Sie dieses Wort ?\n\n"
+                         f"<b>{random_de_en}</b>",
+                    reply_markup=weis_kb
+                )
+            except TelegramBadRequest:
+                print('weis_nicht into Exeption')
+        else:
+            try:
+                await callback.message.edit_text(
+                    text=f"🔹          <b>Dieses Wort in Deutsch oder in English</b> ➡️  "
+                         f"<b>{previous_word}</b>\n\n\n"
+                         f"Wissen Sie dieses Wort ?\n\n"
+                         f"<b>{random_de_en}</b>",
+                    reply_markup=weis_kb
+                )
+            except TelegramBadRequest:
+                print('weis_nicht into Exeption')
+
 
     else:
         try:

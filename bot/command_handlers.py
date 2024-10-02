@@ -104,9 +104,9 @@ async def reselect_lan(message: Message):
 
 
 @ch_router.message(StateFilter(FSM_ST.after_start), IS_LETTER())
-async def artikle_geber(message: Message, state: FSMContext):
+async def artikle_geber(message: Message):
     user_id = message.from_user.id
-    lan = await return_lan(user_id)
+    lan = await return_lan(user_id)  # достаю язык
     suchend_word = message.text
     print(suchend_word.capitalize())
     zapros = f'{site_url}{suchend_word}'
@@ -123,16 +123,20 @@ async def artikle_geber(message: Message, state: FSMContext):
             sin_stroka = await regular_message(i_do_not_know, lan)  # Вывожу что не знаю этого слова
         else:
             trans_data = trans.find(class_='rBox rBoxWht').find_all(class_='wNrn')
+            en_block = trans_data[0]
             kirill_block = trans_data[1]
             fars_blok = trans_data[2]
+
             kit_lang = kirill_block.find_all('dd')
             fars_kit_lan = fars_blok.find_all('dd')
-            us_dict = await state.get_data()
-            us_lan = us_dict['lan']
-            for perevod in (kit_lang + fars_kit_lan):
-                data = perevod.get('lang')
-                if data == us_lan:  # Определение языка
-                    my_perevod = perevod.text
+            en_structure = en_block.find_all('dd')
+            if lan != 'de':
+                for perevod in (kit_lang + fars_kit_lan + en_structure):
+                    data = perevod.get('lang')
+                    if data == lan:  #  us_lan:  # Определение языка
+                        my_perevod = perevod.text
+            else:
+                my_perevod = '🤷  Es ist unmöglich in der Grleiche Sprache zu übersetzen'
             ######################################################################################
             SS_2 = soup.find('h1')
             chast_rechi = SS_2.text.split()[1]
@@ -382,8 +386,10 @@ async def process_add_wort_command(message: Message, state: FSMContext):
     user_id = message.from_user.id
     lan = await return_lan(user_id)
     await state.set_state(FSM_ST.add_wort)
+
     temp_data = users_db[user_id]['bot_ans']
     await message_trasher(user_id, temp_data)
+
     att = await message.answer(f'<b>{await regular_message(deine_wort, lan)}</b>')
     users_db[message.from_user.id]['bot_ans'] = att
     await asyncio.sleep(3)
@@ -397,19 +403,32 @@ async def process_add_wort(message: Message, state: FSMContext):
     user_id = message.from_user.id
     ubersatz_in_eng = await translates_in_english(message.text)  # Перевожу немецкое слов на английский
     print('ubersatz_in_eng = ', ubersatz_in_eng)
-
-
-
-    heimat_lan = await translates(ubersatz_in_eng, lan)  # Перевожу английское слово на язык юзера
-
+    if lan != 'de':
+        heimat_lan = await translates(ubersatz_in_eng, lan)  # Перевожу английское слово на язык юзера
+    else:
+        heimat_lan = message.text
     temp_data = users_db[user_id]['bot_ans']
     await message_trasher(user_id, temp_data)
 
     temp_data = users_db[user_id]['user_msg']
     await message_trasher(user_id, temp_data)
+    if lan not in  ('de', 'en'):
+        if ubersatz_in_eng in gleiche_words or ubersatz_in_eng.lower() != heimat_lan.lower() and len(
+                message.text.lower()) != len(heimat_lan):
+            att = await message.answer(f'{message.text} =  {heimat_lan.lower()} ❓',
+                                       reply_markup=ja_nein_kb)
+            users_db[user_id]['bot_ans'] = att
 
-    if ubersatz_in_eng in gleiche_words or ubersatz_in_eng.lower() != heimat_lan.lower() and len(
-            message.text.lower()) != len(heimat_lan):
+            bot_dict = await dp.storage.get_data(key=bot_storage_key)  # Получаю словарь бота
+            user_bot_stor = bot_dict[str(user_id)]  # Получаю словарь юзера
+            user_bot_stor[message.text] = heimat_lan.lower()  # по ключу - немецкому слову присваиваю значение
+            bot_dict[user_id] = user_bot_stor  # Перезаписываю словарь юзера
+            await dp.storage.update_data(key=bot_storage_key, data=bot_dict)  # перезаписываю словарь бота
+            await state.update_data(pur=message.text)  # обновляю словарь юзера, записываю туда слово на немецком
+        else:
+            att = await message.answer(await translates('I do not know this word', lan))
+            users_db[user_id]['bot_ans'] = att
+    elif lan == 'en':
         att = await message.answer(f'{message.text} =  {heimat_lan.lower()} ❓',
                                    reply_markup=ja_nein_kb)
         users_db[user_id]['bot_ans'] = att
@@ -420,9 +439,17 @@ async def process_add_wort(message: Message, state: FSMContext):
         bot_dict[user_id] = user_bot_stor  # Перезаписываю словарь юзера
         await dp.storage.update_data(key=bot_storage_key, data=bot_dict)  # перезаписываю словарь бота
         await state.update_data(pur=message.text)  # обновляю словарь юзера, записываю туда слово на немецком
+
     else:
-        att = await message.answer(await translates('I do not know this word', lan))
+        att = await message.answer(f'{message.text} =  {message.text} ❓',
+                                   reply_markup=ja_nein_kb)
         users_db[user_id]['bot_ans'] = att
+        bot_dict = await dp.storage.get_data(key=bot_storage_key)  # Получаю словарь бота
+        user_bot_stor = bot_dict[str(user_id)]  # Получаю словарь юзера
+        user_bot_stor[heimat_lan] = heimat_lan  # по ключу - немецкому слову присваиваю значение
+        bot_dict[user_id] = user_bot_stor  # Перезаписываю словарь юзера
+        await dp.storage.update_data(key=bot_storage_key, data=bot_dict)  # перезаписываю словарь бота
+        await state.update_data(pur=message.text)  # обновляю словарь юзера, записываю туда слово на немецком
 
 
 @ch_router.message(StateFilter(FSM_ST.personal_uber), F.text)
@@ -442,8 +469,10 @@ async def process_add_personal_ubersetzen_command(message: Message, state: FSMCo
 
     await state.update_data(pur='')
     await state.set_state(FSM_ST.add_wort)
+
     temp_data = users_db[user_id]['bot_ans']
     await message_trasher(user_id, temp_data)
+
     otvet = await regular_message(erfolgreich_fugen, lan)
     uber_noch = await regular_message(noch, lan)
     att = await message.answer(f'{otvet}\n\n{uber_noch}', reply_markup=ja_nein_kb)
@@ -485,46 +514,75 @@ async def check_writing_process(message: Message, state: FSMContext):
     print('bot_rus_collection = ', bot_rus_collection)
     previous_word = dict_user['pur']  # Получаю  немецкое слово
     print('previous_word = ', previous_word)
-    if ',' in previous_word:
-        previous_word_1 = previous_word.split(',')[0]
-    elif ('(') in previous_word:
-        previous_word_1 = previous_word.split('(')[0]
-    else:
-        previous_word_1 = previous_word
-
-    if previous_word_1.lower() == message.text.lower() or previous_word_1.lower == message.text.lower():
-
-        await message.answer(f'<b>Richtig !</b>    🥳\n\nDas ist <b>{previous_word}</b>')
-        await message.delete()
-    else:
-        await message.answer(f'Sie haben geantwortet <b>{message.text}</b>\n\n'
-                             f'Richtige Antwort  ist <b>{previous_word}</b>')
-    working_tuple = choice(sorted(using_dict.items()))  # Выбираю случайную пару из словаря
-    deutsch, engl = working_tuple
-    combined_key = lan + '_' + engl
-    if lan == 'ru':
-        if combined_key not in bot_rus_collection:
-            uber_eng = await translates(engl, lan)
-            bot_rus_collection[combined_key] = uber_eng  # Перевод на язык юзера
+    if lan != 'de':
+        if ',' in previous_word:
+            previous_word_1 = previous_word.split(',')[0]
+        elif ('(') in previous_word:
+            previous_word_1 = previous_word.split('(')[0]
         else:
-            uber_eng = bot_rus_collection[combined_key]
-    elif lan == 'uk':
-        if combined_key not in bot_ukr_collection:
-            uber_eng = await translates(engl, lan)
-            bot_ukr_collection[combined_key] = uber_eng
-        else:
-            uber_eng = bot_ukr_collection[combined_key]
-    else:
-        if combined_key not in bot_word_collection:
-            uber_eng = await translates(engl, lan)
-            bot_word_collection[combined_key] = uber_eng
-        else:
-            uber_eng = bot_word_collection[combined_key]
+            previous_word_1 = previous_word
 
-    await state.update_data(pur=deutsch)
-    await message.answer(text=f'Schreiben Sie bitte die Übersetzung des Worts ?\n\n<b>{uber_eng}</b>'
-                              f'\n\n<i>English</i> = <b>{engl}</b>',
-                         reply_markup=None)
+        if previous_word_1.lower() == message.text.lower() or previous_word_1.lower == message.text.lower():
+
+            await message.answer(f'<b>Richtig !</b>    🥳\n\nDas ist <b>{previous_word}</b>')
+            await message.delete()
+        else:
+            await message.answer(f'Sie haben geantwortet <b>{message.text}</b>\n\n'
+                                 f'Richtige Antwort  ist <b>{previous_word}</b>')
+            await message.delete()
+        working_tuple = choice(sorted(using_dict.items()))  # Выбираю случайную пару из словаря
+        deutsch, engl = working_tuple
+        combined_key = lan + '_' + engl
+        if lan == 'ru':
+            if combined_key not in bot_rus_collection:
+                uber_eng = await translates(engl, lan)
+                bot_rus_collection[combined_key] = uber_eng  # Перевод на язык юзера
+            else:
+                uber_eng = bot_rus_collection[combined_key]
+        elif lan == 'uk':
+            if combined_key not in bot_ukr_collection:
+                uber_eng = await translates(engl, lan)
+                bot_ukr_collection[combined_key] = uber_eng
+            else:
+                uber_eng = bot_ukr_collection[combined_key]
+        else:
+            if combined_key not in bot_word_collection:
+                uber_eng = await translates(engl, lan)
+                bot_word_collection[combined_key] = uber_eng
+            else:
+                uber_eng = bot_word_collection[combined_key]
+
+        await state.update_data(pur=deutsch)
+        if lan != 'en':
+            await message.answer(text=f'Schreiben Sie bitte die Übersetzung des Worts !\n\n<b>{uber_eng}</b>'
+                                      f'\n\n<i>English</i> = <b>{engl}</b>',
+                                 reply_markup=exit_clava)
+        else:
+            await message.answer(text=f'Schreiben Sie bitte die Übersetzung des Worts !\n\n<b>{uber_eng}</b>',
+                                 reply_markup=exit_clava)
+        ######### Часть с где у юзера у самого немецкий язык ####################################
+    else:
+        if len(previous_word)==2:
+            previous_word = previous_word[0]
+        if ',' in previous_word:
+            previous_word_1 = previous_word.split(',')[0]
+        elif ('(') in previous_word:
+            previous_word_1 = previous_word.split('(')[0]
+        else:
+            previous_word_1 = previous_word
+        if previous_word_1 != message.text:
+            await message.answer(f'Sie haben geantwortet <b>{message.text}</b>\n\n'
+                                 f'Richtige Antwort  ist <b>{previous_word_1}</b>')
+            await message.delete()
+        else:
+            await message.answer(f'<b>Richtig !</b>    🥳\n\nDas ist <b>{previous_word}</b>')
+            await message.delete()
+        working_tuple = choice(sorted(using_dict.items()))  # Выбираю случайную пару из словаря
+        deutsch, engl = working_tuple
+        await state.update_data(pur=deutsch)
+        await message.answer(text=f'Schreiben Sie bitte die Übersetzung des Worts !\n\n<b>{engl}</b>', reply_markup=exit_clava)
+
+
 
 
 @ch_router.message(Command('exit'), ~StateFilter(FSM_ST.after_start))
@@ -535,7 +593,7 @@ async def process_exit_command(message: Message, state: FSMContext):
     await state.update_data(pur='', current_stunde='')  # reset user data
     temp_data = users_db[user_id]['bot_ans']
     await message_trasher(user_id, temp_data)
-    att = await message.answer(text=await regular_message(exit_msg, lan))
+    att = await message.answer(text=await regular_message(exit_msg, lan), reply_markup=ReplyKeyboardRemove())
     users_db[user_id]['bot_ans'] = att
     await message.delete()
 

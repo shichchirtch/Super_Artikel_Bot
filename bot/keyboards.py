@@ -1,6 +1,7 @@
 from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
+deutsch_button = InlineKeyboardButton(text='🇩🇪', callback_data='de')
 arab_button = InlineKeyboardButton(text='🇸🇦', callback_data='ar')
 farsi_button = InlineKeyboardButton(text='🇮🇷', callback_data='fa' )
 ukr_button = InlineKeyboardButton(text='🇺🇦', callback_data='uk' )
@@ -14,14 +15,21 @@ serb_button = InlineKeyboardButton(text='🇷🇸', callback_data='sr-Cyrl' )
 eng_button = InlineKeyboardButton(text='🇬🇧', callback_data='en' )
 
 lan_kb = InlineKeyboardMarkup(
-            inline_keyboard=[[arab_button], [farsi_button],[ukr_button],
-                             [isp_button],[rus_button],[turkei_button],
-                             [pol_button],[serb_button],[eng_button]])
+            inline_keyboard=[[deutsch_button , eng_button], [arab_button , farsi_button],
+                             [ukr_button , isp_button],[rus_button, turkei_button],
+                             [pol_button , serb_button], [gree_button, fra_button]])
 
 pre_start_button = KeyboardButton(text='/start')
 
 pre_start_clava = ReplyKeyboardMarkup(
     keyboard=[[pre_start_button]],
+    resize_keyboard=True
+)
+
+exit_button = KeyboardButton(text='/exit')
+
+exit_clava = ReplyKeyboardMarkup(
+    keyboard=[[exit_button]],
     resize_keyboard=True
 )
 
@@ -50,8 +58,8 @@ f15_button = InlineKeyboardButton(text='Stunde 15', callback_data='15')
 f16_button = InlineKeyboardButton(text='Stunde 16', callback_data='16')
 
 
-ws_kb = InlineKeyboardMarkup(inline_keyboard=[[erste_button], [zweite_button], [dritte_button],
-                                              [vierte_button], [funfte_button], [sex_button]])
+ws_kb = InlineKeyboardMarkup(inline_keyboard=[[erste_button, zweite_button],
+                                              [dritte_button , vierte_button], [funfte_button, sex_button]])
 
 
 ja_button = InlineKeyboardButton(text='✅', callback_data='ja')
@@ -83,7 +91,7 @@ selber_button = InlineKeyboardButton(text='Mein Wortschatz', callback_data='Wort
 lernen_kb = (
     InlineKeyboardMarkup(
         inline_keyboard=
-        [[one_button], [two_button], [three_button],[four_button],[five_button],[sex_button],[selber_button]]))
+        [[one_button, two_button], [three_button, four_button],[five_button, six_button],[selber_button]]))
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 

@@ -31,5 +31,5 @@ dp = Dispatcher(storage=redis_storage)
 bot = Bot(token=settings.BOT_TOKEN,
           default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 
-lan_list = ['fr', 'ru', 'fa', 'uk', 'pl', 'es', 'tr', 'el', 'ar', 'sr-Cyrl']
+lan_list = ['fr', 'ru', 'fa', 'uk', 'pl', 'es', 'tr', 'el', 'ar', 'sr-Cyrl', 'en']
 

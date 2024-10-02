@@ -24,7 +24,7 @@ settings_text= ('For grammatical rules click   ➡   /grammatik\n\n'
                 'To see your own notes and vocabulary, click   ➡  /zeigen\n\n\n'
                 'To practice correct spelling of words, click  ➡   /schreiben\n\n\n\n'
                 'To sent review, click  /review\n\n\n🔹')
-# (/grammatik, /wortschantz, /meine_woerter, /set_lan, /lernen, /zeigen)
+
 grammatik_text = 'Choose a topic that interests you'
 
 lan_trans  =  'For translation was chosen language '

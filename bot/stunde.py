@@ -202,11 +202,43 @@ A2_dritte_stunde={'die Abteilung, -en':'department', 'das Ausland':'foreign coun
 'dort':'there'
     }
 
-A2_vierte_stunde = {}
+A2_vierte_stunde = {'der Anzug, -e':'suit', 'der Augenblick, -e':'moment', 'die Erinnerung, - en':'memory', 'das Fundbüro, -s':'Lost and Found office', 'die Größe, -n':'size',
+'das Hemd, -en':'shirt', 'die Hose, -n':'pants', 'der Hut, ü-e':'hat', 'die Jacke, -n':'coat',
+'die Kette, -n':'chain', 'das Kleid, -er':'dress', 'die Kleidung (Sg.)':'clothing', 'die Krawatte, -n':'tie',
+'der Mantel, ä -':'coat', 'die Mütze, -n':'cap', 'der Pullover':'sweater', 'der Quatsch (Sg.)':'nonsense',
+'die Regel, -n':'rule', 'der Rock, ö-e':'skirt', 'der Schmuck (Sg.)':'jewelry', 'der Slip, -s':'note',
+'die Socke, -n':'sock', 'der Stiefel, -':'boot', 'der Stoff, -e':'substance', 'der Strumpf, ü-e':'stocking',
+'das Tuch, ü-er':'cloth', 'die Unterhose, -n':'underpants', 'die Unterwäsche (Sg.)':'underwear', 'die Vorsicht (Sg.)':'caution',
+'anziehen':'attrackt', 'auffallen':'attrackt attention', 'heiraten':'marry', 'passen':'fit',
+'schauen':'look', 'stehen':'stand', 'versuchen':'attempt', 'zurechtkommen':'cope',
+'blond':'blond', 'bunt':'colorful', 'elegant':'stylish', 'eng':'tight',
+'weit':'far', 'hübsch':'pretty', 'hässlich':'ugly', 'nötig':'necessary',
+'schick':'elegant', 'verrückt':'crazy', 'egal':'does not matter', 'normalerweise':'usually'}
 
-A2_funfte_stunde = {}
+A2_funfte_stunde = {'die Ampel, -n':'traffic light', 'die Bahn, -en':'railway', 'das Benzin (Sg.)':'gasoline', 'die Einwohner':'inhabitants',
+'die Gebühr, -en':'fee', 'das Jahrhundert, -e':'century', 'das Kraftfahrzeug, -e':'engine', 'der LKW, -s':'truck',
+'der Nachteil, -e':'disadvantage', 'der Notfall, ä-e':'emergency', 'der Parkplatz, ä-e':'parking lot', 'der PKW, -s':'car',
+'die Regierung, -en':'government', 'das Schloss, ö-er':'castle', 'die Sonne':'sun', 'der Stau, -s':'traffic jam',
+'der Unfall, ä-e':'accident', 'der Verkehr (Sg.)':'traffic', 'das Verkehrsmittel':'vehicle', 'der Vorteil, -e':'advantage',
+'die Welt':'World', 'bauen':'build', 'bestimmen':'define', 'hoffen':'hope',
+'leihen':'lend', 'sparen':'economize', 'verpassen':'miss', 'beliebt':'favourite',
+'bequem':'comfortable', 'besetzt':'buzy', 'fremd':'foreign', 'gefährlich':'dangerous',
+'häufig':'friquently', 'selten':'rarely', 'klug':'smart', 'lustig':'fanny',
+'traurig':'sad', 'öffentlich':'public', 'privat':'private', 'schwer':'heavy',
+'als':'as', 'außerhalb':'outside', 'doppelt':'double', 'halb':'half',
+                    'gratis': 'free', 'kaum': 'barely', 'nirgends': 'nowhere', 'sonst': 'otherwise',
+                    'wenn': 'if', 'wieso': 'how come'}
 
-A2_sex_stunde = {}
+A2_sex_stunde = {'die Ausstellung, -en':'exhibition', 'der Baum, ä-e':'tree', 'die Brücke, -n':'bridge', 'die Bühne, -n':'stage',
+'das Erlebnis, -e':'experience', 'die Ermäßigung, -en':'discount', 'die Fahrt, -en':'journey', 'das Geheimnis, -e':'secret',
+'das Gericht, -e':'court', 'die Kneipe, -n':'pub', 'die Mauer, -n':'wall', 'die Mehrwertsteuer, -n':'value added tax',
+'die Nachspeise, -n':'dessert', 'die Qualität, -en':'quality', 'der Ratschlag, -e':'advice', 'die Sahne, -n':'cream',
+'der Schalter':'desc', 'das Tor, -e':'gate', 'die Veranstaltung, -en':'event', 'die Vorspeise, -n':'refreshment',
+'beraten':'advise', 'besichtigen':'view', 'bestellen':'order', 'entdecken':'discover',
+'fließen':'flow', 'sich fühlen':'feel', 'sich lohnen':'be worthwhile', 'versprechen':'promise',
+'erforderlich':'required', 'frisch':'fresh', 'satt':'full', 'hungrig':'hungry',
+'scharf':'sharp', 'umsonst':'for free', 'durch':'through', 'gegenüber':'opposite',
+'hinten':'behind', 'über':'above', 'unter':'under'}
 
 #########################################################################################################################
 A1 = 'AgACAgIAAxkBAAO_ZvmfAXTYeO9B6r7DTk370e6kInAAAojnMRv8w8hLtYY0v8MJD9oBAAMCAAN5AAM2BA'

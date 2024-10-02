@@ -10,14 +10,11 @@ def create_note_collection_keyboard(*args) -> InlineKeyboardMarkup:
     # Создаем объект клавиатуры
     kb_builder = InlineKeyboardBuilder()
     # Наполняем клавиатуру кнопками-закладками в порядке возрастания
-
     for button in sorted(args):
         kb_builder.row(InlineKeyboardButton(
             text=button,
             callback_data=button))
     return kb_builder.as_markup()
-
-
 
 
 async def translates(slovo:str, lan:str)->str:
@@ -30,8 +27,9 @@ async def translates(slovo:str, lan:str)->str:
 
 async def regular_message(slovo:str, lan:str)->str:
     print('regular message works\n\n')
+    modifyed_slovo = lan + '_' + slovo[:10]
     if lan != 'en':
-        modifyed_slovo = lan + '_' + slovo[:10]
+        # modifyed_slovo = lan + '_' + slovo[:10]
         if modifyed_slovo not in bot_lexicon:  # Если никто ещё не щапрашиывал команду
             res = translators.translate_text(query_text=slovo, from_language='en', to_language=lan, translator='bing')
             bot_lexicon[modifyed_slovo]=res
@@ -39,18 +37,33 @@ async def regular_message(slovo:str, lan:str)->str:
             res = bot_lexicon[modifyed_slovo]
     else:
         res = slovo
+        bot_lexicon[modifyed_slovo] = res
     return res
 
 
 async def form_WS_string(current_stunde:dict, lan:str):
+    """Функция формирует лист воршатца урока"""
     form_str = ''
-    for k, v in current_stunde.items():
-        try:
-            perevod = await translates(v, lan)
-            form_str += f'<b>{k}</b>  {perevod}\n'
-        except Exception:
-            print(f'Exception for {k}')
-        await asyncio.sleep(0.15)
+    if lan != 'en' or lan != 'de':
+        for k, v in current_stunde.items():
+            try:
+                perevod = await translates(v, lan)
+                form_str += f'<b>{k}</b>  {perevod}\n'
+            except Exception:
+                print(f'Exception for {k}')
+            await asyncio.sleep(0.15)
+
+    elif lan == 'de':
+        for k, v in current_stunde.keys():
+            form_str += f'<b>{k}</b>\n'
+
+    else:
+        for k, v in current_stunde.items():
+            try:
+                form_str += f'<b>{k}</b>  {v}\n'
+            except Exception:
+                print(f'Exception for {k}')
+            await asyncio.sleep(0.15)
     return form_str
 
 

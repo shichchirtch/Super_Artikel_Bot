@@ -38,7 +38,7 @@ class IS_LETTER(BaseFilter):
 
 class LAN_FILTER(BaseFilter):
     async def __call__(self, cb: CallbackQuery):
-        if cb.data in ['fr', 'gb', 'ru', 'fa', 'uk', 'pl', 'es', 'tr', 'el', 'ar', 'sr-Cyrl']:
+        if cb.data in ['fr', 'gb', 'ru', 'fa', 'uk', 'pl', 'es', 'tr', 'el', 'ar', 'sr-Cyrl', 'en', 'de']:
             return True
         return False
 
