@@ -128,6 +128,8 @@ async def ja_nein_process(callback: CallbackQuery, state: FSMContext):
         us_pur_dict = await state.get_data()
         us_pur = us_pur_dict['pur']
         if us_pur:  # Сейчас юзер говорит что перевод не правильный и ему устанавляивается состоние для редактиврвоания перевода
+            temp_msg = users_db[callback.from_user.id]['bot_ans']
+            await message_trasher(user_id, temp_msg)
             att = await callback.message.answer(await regular_message(ricgtig_trans, lan))
             # print('NO if works')
             await state.set_state(FSM_ST.personal_uber)
