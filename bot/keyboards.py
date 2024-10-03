@@ -58,8 +58,8 @@ f15_button = InlineKeyboardButton(text='Stunde 15', callback_data='15')
 f16_button = InlineKeyboardButton(text='Stunde 16', callback_data='16')
 
 
-ws_kb = InlineKeyboardMarkup(inline_keyboard=[[erste_button, zweite_button],
-                                              [dritte_button , vierte_button], [funfte_button, sex_button]])
+ws_kb = InlineKeyboardMarkup(inline_keyboard=[[erste_button, vierte_button],
+                                              [zweite_button , funfte_button], [dritte_button, sex_button]])
 
 
 ja_button = InlineKeyboardButton(text='✅', callback_data='ja')
@@ -90,8 +90,8 @@ selber_button = InlineKeyboardButton(text='Mein Wortschatz', callback_data='Wort
 
 lernen_kb = (
     InlineKeyboardMarkup(
-        inline_keyboard=
-        [[one_button, two_button], [three_button, four_button],[five_button, six_button],[selber_button]]))
+        inline_keyboard=[[one_button, four_button],[two_button, five_button], [three_button, six_button],[selber_button]]))
+
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
