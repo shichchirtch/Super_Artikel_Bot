@@ -35,9 +35,10 @@ exit_clava = ReplyKeyboardMarkup(
 
 pril_button = InlineKeyboardButton(text='Adlektive', url='https://telegra.ph/Der-Deklination-von-Artikeln-und-Adjektiven-09-20')
 verb_button = InlineKeyboardButton(text='Verben', url='https://telegra.ph/Unregelmäßige-Verben-09-21')
+conjuktiv_II = InlineKeyboardButton(text='Konjunktiv II', url='https://telegra.ph/Konjuktiv-II-10-03')
+Futurum = InlineKeyboardButton(text='Futur I', url='https://telegra.ph/Futurum-I-10-03')
 
-
-gram_kb = InlineKeyboardMarkup(inline_keyboard=[[pril_button], [verb_button]])
+gram_kb = InlineKeyboardMarkup(inline_keyboard=[[pril_button], [verb_button], [conjuktiv_II], [Futurum]])
 ###########################################
 
 erste_button = InlineKeyboardButton(text='Stunde 1', callback_data='1')
