@@ -354,6 +354,7 @@ async def show_private_wortschatz(callback: CallbackQuery, state: FSMContext):
 
 @cb_router.callback_query(StateFilter(FSM_ST.after_start), SHOW_NOTE_FILTER())
 async def show_note_list_wortschatz(callback: CallbackQuery, state: FSMContext):
+    """Хэндлер выводит инлайн кнопки с заметками, если они есть"""
     print('show_note_list works')
     user_id = callback.from_user.id
 
@@ -361,9 +362,9 @@ async def show_note_list_wortschatz(callback: CallbackQuery, state: FSMContext):
 
     lan = await return_lan(user_id)
     serialised_note_dict = await return_zametki(user_id)
-    note_dict = pickle.loads(serialised_note_dict)  # строковый объект превращаю в питоновский
-
-    if note_dict:
+    # print('\n\n\nserialised_note_dict = ',serialised_note_dict)
+    if serialised_note_dict:
+        note_dict = pickle.loads(serialised_note_dict)  # строковый объект превращаю в питоновский
         s = await regular_message(meine_note, lan)
         att = await callback.message.answer(s,
                                             reply_markup=create_note_collection_keyboard(*note_dict.keys()))
