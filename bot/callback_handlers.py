@@ -156,8 +156,14 @@ async def lernen_process(callback: CallbackQuery, state: FSMContext):
     user_id = callback.from_user.id
     us_dict = await state.get_data()
     cb_key = us_dict['spam']  # Это callback от intensive_trainer_auswahlen IT_A1', 'IT_A2' или 'IT_B1'
-    lernen_dict = lern_coll[cb_key]  # Получаю словарь вида IT_A1:{}
-    using_dict = lernen_dict[callback.data]  # Получаю словарь deutsch:english
+    if callback.data == 'Wortschatz':
+        bot_dict = await dp.storage.get_data(key=bot_storage_key)  # Получаю словарь бота
+        using_dict = bot_dict[str(user_id)]  # Получаю словарь юзера
+    else:
+        lernen_dict = lern_coll[cb_key]  # Получаю один из трёх наборов словарей
+        using_dict = lernen_dict[callback.data]  # По ключу получаю словарь
+    # lernen_dict = lern_coll[cb_key]  # Получаю словарь вида IT_A1:{}
+    # using_dict = lernen_dict[callback.data]  # Получаю словарь deutsch:english
     lan = await return_lan(callback.from_user.id)
     temp_data = users_db[user_id]['bot_ans']
     await message_trasher(user_id, temp_data)
@@ -200,8 +206,12 @@ async def schreiben_process(callback: CallbackQuery, state: FSMContext):
     user_id = callback.from_user.id
     us_dict = await state.get_data()
     cb_key = us_dict['spam']
-    lernen_dict = lern_coll[cb_key]  # Получаю один из трёх наборов словарей
-    using_dict = lernen_dict[callback.data]  # По ключу получаю словарь
+    if callback.data == 'Wortschatz':
+        bot_dict = await dp.storage.get_data(key=bot_storage_key)  # Получаю словарь бота
+        using_dict = bot_dict[str(user_id)]  # Получаю словарь юзера
+    else:
+        lernen_dict = lern_coll[cb_key]  # Получаю один из трёх наборов словарей
+        using_dict = lernen_dict[callback.data]  # По ключу получаю словарь
     lan = await return_lan(callback.from_user.id)
     temp_data = users_db[user_id]['bot_ans']
     await message_trasher(user_id, temp_data)

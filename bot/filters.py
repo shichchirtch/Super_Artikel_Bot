@@ -70,7 +70,7 @@ class JA_NEIN_FILTER(BaseFilter):
 class LERNEN_FILTER(BaseFilter):
     async def __call__(self, cb: CallbackQuery):
         if cb.data in ('one', 'two' , 'three', 'four', 'five', 'six', 'sevan', 'eight', 'nine',
-                       'ten', 'elevan', 'twelve', 't13', 't14', 't15','t16','Wortschatz'):
+                       'ten', 'elevan', 'twelve', 't13', 't14', 't15','t16', 'Wortschatz'):
             return True
         return False
 
