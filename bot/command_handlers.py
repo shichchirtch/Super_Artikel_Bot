@@ -263,7 +263,8 @@ async def artikle_geber(message: Message):
                     first_eng_analog = eng_p3.split(',')[0]
                 else:
                     first_eng_analog = ''
-                await insert_neue_wort_in_adj(user_id, message.text)
+                if chast_rechi == 'прилагательного':
+                    await insert_neue_wort_in_adj(user_id, message.text)
                 needed_cont = SS_1[2]
 
                 test_2 = needed_cont.find(class_='rAufZu')
@@ -307,7 +308,7 @@ async def artikle_geber(message: Message):
 
 
 @ch_router.message(Command('help'))
-async def process_help_command(message: Message, state: FSMContext):
+async def process_help_command(message: Message):
     lan = await return_lan(message.from_user.id)
     att = await message.answer(await regular_message(help_text, lan))
     await asyncio.sleep(20)
