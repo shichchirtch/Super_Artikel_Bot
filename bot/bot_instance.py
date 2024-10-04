@@ -9,7 +9,7 @@ using_redis = Redis(host=settings.REDIS_HOST)
 redis_storage = RedisStorage(redis=using_redis)
 
 class FSM_ST(StatesGroup):
-    after_start = State()
+    after_start = State()  # FSM_ST:after_start
     add_wort = State()
     lernen = State()
     admin = State()

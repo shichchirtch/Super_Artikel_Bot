@@ -25,7 +25,7 @@ from stunde import *
 
 ch_router = Router()
 
-# @ch_router.message(F.photo)
+# @ch_router.message(F.video)
 # async def video_id_geber_messages(message: Message):
 #     data = message.video.file_id
 #     print(data)
@@ -70,6 +70,8 @@ async def process_start_command(message: Message, state: FSMContext):
         await asyncio.sleep(0.5)
         await add_in_list(user_id)  # Кто стартанул бота - добавляю в список админа
         bot_server_base[user_id] = {}  # Создаю словарь юзера
+        test_state = await state.get_state()
+        print('test state = ', test_state)
     else:
         await state.set_state(FSM_ST.after_start)
         await state.set_data(
@@ -80,6 +82,7 @@ async def process_start_command(message: Message, state: FSMContext):
         users_db[message.from_user.id] = deepcopy(user_dict)
         lan = await return_lan(user_id)
         restart_msg = await regular_message(bot_was_restarted, lan)
+
         await message.answer(restart_msg)
         await message.delete()
 
@@ -101,6 +104,16 @@ async def reselect_lan(message: Message):
     await message.delete()
     await asyncio.sleep(9)
     await att.delete()
+
+
+@ch_router.message(Command('presentation'), StateFilter(FSM_ST.after_start))
+async def show_presentation(message: Message):
+    print('show_presentation works')
+    user_id = message.from_user.id
+    temp_data = users_db[user_id]['bot_ans']
+    await message_trasher(user_id, temp_data)
+    att = await message.answer(text='https://www.youtube.com/watch?v=LUNjMktIszE')
+    users_db[user_id]['bot_ans'] = att
 
 
 @ch_router.message(StateFilter(FSM_ST.after_start), IS_LETTER())
@@ -586,17 +599,26 @@ async def check_writing_process(message: Message, state: FSMContext):
 
 
 
-@ch_router.message(Command('exit'), ~StateFilter(FSM_ST.after_start))
+@ch_router.message(Command('exit'))
 async def process_exit_command(message: Message, state: FSMContext):
     lan = await return_lan(message.from_user.id)
     user_id = message.from_user.id
-    await state.set_state(FSM_ST.after_start)
-    await state.update_data(pur='', current_stunde='')  # reset user data
-    temp_data = users_db[user_id]['bot_ans']
-    await message_trasher(user_id, temp_data)
-    att = await message.answer(text=await regular_message(exit_msg, lan), reply_markup=ReplyKeyboardRemove())
-    users_db[user_id]['bot_ans'] = att
-    await message.delete()
+    current_state = await state.get_state()
+    if current_state != 'FSM_ST:after_start':
+        await state.set_state(FSM_ST.after_start)
+        await state.update_data(pur='', current_stunde='')  # reset user data
+        temp_data = users_db[user_id]['bot_ans']
+        await message_trasher(user_id, temp_data)
+        att = await message.answer(text=await regular_message(exit_msg, lan), reply_markup=ReplyKeyboardRemove())
+        users_db[user_id]['bot_ans'] = att
+        await message.delete()
+    else:
+        temp_data = users_db[user_id]['bot_ans']
+        await message_trasher(user_id, temp_data)
+        att = await message.answer(text=await regular_message(exit_after_start, lan), reply_markup=ReplyKeyboardRemove())
+        users_db[user_id]['bot_ans'] = att
+        await message.delete()
+
 
 
 @ch_router.message(Command('review'), StateFilter(FSM_ST.after_start))
