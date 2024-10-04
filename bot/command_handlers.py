@@ -99,7 +99,7 @@ async def reselect_lan(message: Message):
                                reply_markup=lan_kb)
     await asyncio.sleep(2)
     await message.delete()
-    await asyncio.sleep(6)
+    await asyncio.sleep(9)
     await att.delete()
 
 
