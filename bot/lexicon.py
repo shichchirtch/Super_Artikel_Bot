@@ -2,7 +2,7 @@ start= (
         'Hallo ! Das ist Deutsch Artikel Bot ! 👋\n\n'
         'Um herauszufinden, wie ich arbeite,\nklicken Sie auf  ➡️ /help\n\n💚'
         )
-presentation = '/presentation'
+presentation = '  /presentation'
 help_text = ('⭐️  This bot can define the article\n\n'
                 '⭐️  Enter a word without an article\n\n'
                 '⭐️  To see all options, click  /settings\n\n'
