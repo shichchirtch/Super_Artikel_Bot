@@ -112,7 +112,14 @@ async def show_presentation(message: Message):
     user_id = message.from_user.id
     temp_data = users_db[user_id]['bot_ans']
     await message_trasher(user_id, temp_data)
-    att = await message.answer(text='https://www.youtube.com/watch?v=LUNjMktIszE')
+    lan = await return_lan(user_id)  # достаю язык
+    referal_dict = {'tr':'https://youtu.be/OzeAUBBIJAk', 'ru':'https://www.youtube.com/watch?v=LUNjMktIszE',
+                    'ar':'https://youtu.be/ecrMDlehMCs', 'de':'https://youtu.be/X9tOaR7rXcw',
+                    'en':'https://youtu.be/UGITy9dYrTI', 'fa':'https://youtu.be/w8f62WhScek'}
+    if lan in referal_dict:
+        att = await message.answer(text=referal_dict[lan])
+    else:
+        att = await message.answer(text=referal_dict['de'])
     users_db[user_id]['bot_ans'] = att
 
 
