@@ -330,7 +330,9 @@ async def artikle_geber(message: Message):
 @ch_router.message(Command('help'))
 async def process_help_command(message: Message):
     lan = await return_lan(message.from_user.id)
-    att = await message.answer(await regular_message(help_text, lan))
+    stroka = await regular_message(help_text, lan)
+    st_present = stroka + presentation
+    att = await message.answer(text=st_present)
     await asyncio.sleep(20)
     await message.delete()
     await att.delete()
