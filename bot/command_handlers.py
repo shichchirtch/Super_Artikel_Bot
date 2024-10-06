@@ -21,6 +21,7 @@ from external_functions import translates, translates_in_english, regular_messag
 from note_class import User_Note
 from random import choice
 from stunde import *
+from aiogram.exceptions import TelegramForbiddenError
 
 
 ch_router = Router()
@@ -330,10 +331,11 @@ async def artikle_geber(message: Message):
 @ch_router.message(Command('help'))
 async def process_help_command(message: Message):
     lan = await return_lan(message.from_user.id)
+    erste = await regular_message(erste_help_satz, lan)
     stroka = await regular_message(help_text, lan)
-    st_present = stroka + presentation
+    st_present =erste + artikel + stroka + presentation
     att = await message.answer(text=st_present)
-    await asyncio.sleep(20)
+    await asyncio.sleep(30)
     await message.delete()
     await att.delete()
 
@@ -748,11 +750,16 @@ async def send_message(message: Message, state: FSMContext):
 @ch_router.message(StateFilter(FSM_ST.admin))
 async def send_message(message: Message, state: FSMContext):
     us_list = await return_spam_users()
+    print('us_list = ', *us_list, sep='\n')
+    # text in English
     us_list.remove(6685637602)
     for chat_id in us_list:
         lan = await return_lan(chat_id)  # Запрашиваю язык из постгреса
         spam = await translates(message.text, lan)
-        await message.bot.send_message(chat_id=chat_id, text=spam)
+        try:
+            await message.bot.send_message(chat_id=chat_id, text=spam)
+        except TelegramForbiddenError:
+            pass
         await asyncio.sleep(0.2)
 
     await state.set_state(FSM_ST.after_start)
