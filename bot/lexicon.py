@@ -3,10 +3,12 @@ start= (
         'Um herauszufinden, wie ich arbeite,\nklicken Sie auf  ➡️ /help\n\n💚'
         )
 presentation = '  /presentation'
+
 erste_help_satz = '⭐️  This bot can define German  '
+
 artikel = '  Artikel'
-help_text = (
-                '\n\n⭐️  Enter a word without an article\n\n'
+
+help_text = ('\n\n⭐️  Enter a word without an article\n\n'
                 '⭐️  To see all options, click  /settings\n\n'
              '⭐️  You can also add your own words and learn vocabulary from lessons.\n\n'
              '⭐️  You can also familiarize yourself with German grammar\n\n'
