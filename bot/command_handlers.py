@@ -729,7 +729,7 @@ async def something_goes_wrong(message: Message, state: FSMContext):
 async def admin_enter(message: Message):
     print('admin_enter works')
     att = await message.answer(admin_eintritt)
-    await asyncio.sleep(5)
+    await asyncio.sleep(12)
     await att.delete()
 
 
@@ -795,9 +795,9 @@ async def load_db(message: Message, state: FSMContext):
         recover_bot_ukr_wortschatz = pickle.load(file)
         bot_ukr_wortschatz.update(recover_bot_ukr_wortschatz)
 
-    with open('bot_anders_wortschatz_db.pkl', 'rb') as file:
-        recover_bot_anders_wortschatz = pickle.load(file)
-        bot_anders_wortschatz.update(recover_bot_anders_wortschatz)
+    # with open('bot_anders_wortschatz_db.pkl', 'rb') as file:
+    #     recover_bot_anders_wortschatz = pickle.load(file)
+    #     bot_anders_wortschatz.update(recover_bot_anders_wortschatz)
 
     with open('bot_rus_collection_db.pkl', 'rb') as file:
         recover_bot_rus_coll = pickle.load(file)
