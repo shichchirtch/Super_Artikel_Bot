@@ -331,11 +331,11 @@ async def artikle_geber(message: Message):
 @ch_router.message(Command('help'))
 async def process_help_command(message: Message):
     lan = await return_lan(message.from_user.id)
-    # erste = await regular_message(erste_help_satz, lan)
-    # print('erste = ', erste)
+    erste = await regular_message(erste_help_satz, lan)
+    print('erste = ', erste)
     stroka = await regular_message(help_text, lan)
     print('stroka = ', stroka)
-    st_present = stroka + presentation
+    st_present = artikel + stroka + presentation
     att = await message.answer(text=st_present)
     await asyncio.sleep(30)
     await message.delete()
