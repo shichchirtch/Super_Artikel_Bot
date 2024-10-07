@@ -808,16 +808,22 @@ async def dump_db(message: Message, state: FSMContext):
         pickle.dump(bot_dict, file)
     with open('bot_rus_wortschatz_db.pkl', 'wb') as file:
         pickle.dump(bot_rus_wortschatz, file)
+
     with open('bot_ukr_wortschatz_db.pkl', 'wb') as file:
         pickle.dump(bot_ukr_wortschatz, file)
-    with open('bot_rus_wortschatz_db.pkl', 'wb') as file:
+
+    with open('bot_anders_wortschatz_db.pkl', 'wb') as file:
         pickle.dump(bot_anders_wortschatz, file)
+
     with open('bot_rus_collection_db.pkl', 'wb') as file:
         pickle.dump(bot_rus_collection, file)
+
     with open('bot_ukr_collection_db.pkl', 'wb') as file:
         pickle.dump(bot_ukr_collection, file)
+
     with open('bot_word_collection_db.pkl', 'wb') as file:
         pickle.dump(bot_word_collection, file)
+
     with open('bot_lexicon_db.pkl', 'wb') as file:
         pickle.dump(bot_lexicon, file)
     await message.answer('Базы данных успешно записана !')
