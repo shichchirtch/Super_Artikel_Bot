@@ -92,6 +92,8 @@ gleiche_words = ('super', 'plus', 'minus', 'video', 'audio')
 
 exit_after_start = 'exit button pressed'
 
+alles = 'you have learned all the words in this section'
+
 
 
 

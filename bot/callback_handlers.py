@@ -90,9 +90,9 @@ async def stunde_worschatz_process(callback: CallbackQuery, state:FSMContext):
     else:
         if combain_key not in bot_anders_wortschatz:
             translated_string = await form_WS_string(current_stunde, lan)
-            bot_ukr_wortschatz[combain_key]=translated_string
+            bot_anders_wortschatz[combain_key]=translated_string
         else:
-            translated_string = bot_ukr_wortschatz[combain_key]
+            translated_string = bot_anders_wortschatz[combain_key]
 
     await callback.message.answer(f'✅  <b>{stunde_kit_dict[cb_key]} Stunde # {callback.data}</b>\n\n{translated_string}\n🟣')  # Здесь выводится список слов
     temp_data = users_db[user_id]['bot_ans']
@@ -160,12 +160,14 @@ async def lernen_process(callback: CallbackQuery, state: FSMContext):
     cb_key = us_dict['spam']  # Это callback от intensive_trainer_auswahlen IT_A1', 'IT_A2' или 'IT_B1'
     if callback.data == 'Wortschatz':
         bot_dict = await dp.storage.get_data(key=bot_storage_key)  # Получаю словарь бота
-        using_dict = bot_dict[str(user_id)]  # Получаю словарь юзера
+        using_dict = bot_dict[str(user_id)].copy()  # Получаю словарь юзера и делаю его копию
     else:
         lernen_dict = lern_coll[cb_key]  # Получаю один из трёх наборов словарей
-        using_dict = lernen_dict[callback.data]  # По ключу получаю словарь
+        using_dict = lernen_dict[callback.data].copy()  # По ключу получаю словарь и делаю его копию
+
     # lernen_dict = lern_coll[cb_key]  # Получаю словарь вида IT_A1:{}
     # using_dict = lernen_dict[callback.data]  # Получаю словарь deutsch:english
+
     lan = await return_lan(callback.from_user.id)
     temp_data = users_db[user_id]['bot_ans']
     await message_trasher(user_id, temp_data)
@@ -195,8 +197,8 @@ async def lernen_process(callback: CallbackQuery, state: FSMContext):
         else:
             uber_eng = bot_word_collection[combined_key]
 
-    await state.update_data(pur=uber_eng, current_stunde=using_dict)  # Здесь в редис записывается
-    att = await callback.message.answer(f'Wissen Sie dieses Wort ?\n\n<b>{begin_tuple[0]}</b>',
+    await state.update_data(pur=begin_tuple[0], current_stunde=using_dict)  # Здесь в редис записывается копия словаря
+    att = await callback.message.answer(f'Wissen Sie dieses Wort ?\n\n<b>{uber_eng}</b>',
                                   reply_markup=weis_kb)
     users_db[user_id]['bot_ans'] = att
     await callback.answer()
@@ -248,16 +250,16 @@ async def schreiben_process(callback: CallbackQuery, state: FSMContext):
         att = await callback.message.answer(f'Schreiben Sie bitte die Übersetzung des Worts !\n\n<b>{uber_eng}</b>\n\n'
                                             f'<i>English</i> = <b>{engl}</b>',
                                       reply_markup=exit_clava)
-        await state.update_data(pur=deutsch, current_stunde=using_dict)
+        await state.update_data(pur=deutsch, current_stunde=using_dict.copy())
     elif lan == 'en':
         att = await callback.message.answer(f'Schreiben Sie bitte die Übersetzung des Worts !\n\n<b>{uber_eng}</b>\n\n',
                                             reply_markup=exit_clava)
-        await state.update_data(pur=deutsch, current_stunde=using_dict)
+        await state.update_data(pur=deutsch, current_stunde=using_dict.copy())
 
     else:
         att = await callback.message.answer(f'Schreiben Sie bitte die Übersetzung vom Englisch des Worts !\n\n<b>{engl}</b>\n\n',
                                             reply_markup=exit_clava)
-        await state.update_data(pur=(deutsch, engl,), current_stunde=using_dict)
+        await state.update_data(pur=(deutsch, engl,), current_stunde=using_dict.copy())
     users_db[user_id]['bot_ans'] = att
     await callback.answer()
 
@@ -268,75 +270,118 @@ async def weis_nicht_process(callback: CallbackQuery, state: FSMContext):
     print('weis_nciht works')
     dict_user = await state.get_data()
     lan = await return_lan(callback.from_user.id)
-    using_dict = dict_user['current_stunde']
-    previous_word = dict_user['pur']
+    using_dict = dict_user['current_stunde']  # Здесь получается копия словаря урока
+    previous_word = dict_user['pur']  # Может быть либо немецким либо на языке юзера
+    # print('\n\nprevious_word = ', previous_word)
+    if len(using_dict)>1:
+        ############################# Новое сообщение ###############################################################
+        if callback.data == 'weis':
+            if previous_word in using_dict.keys():
+                # print ('\n\nusing_dict', len(using_dict))
+                # print('\n\nprevious word = ', previous_word)
+                del using_dict[previous_word]  # удаляю пару
 
-    ############################# Новое сообщение ###############################################################
-    working_tuple = choice(sorted(using_dict.items()))  # Выбираю случайную пару из словаря
+            working_tuple = choice(sorted(using_dict.items()))  # Выбираю случайную пару из словаря
+            deutsch, engl = working_tuple
+            combined_key = lan + '_' + engl
 
-    deutsch, engl = working_tuple
-    combined_key = lan + '_' + engl
-    if lan == 'ru':
-        if combined_key not in bot_rus_collection:
-            uber_eng = await translates(engl, lan)
-            bot_rus_collection[combined_key] = uber_eng
-        else:
-            uber_eng = bot_rus_collection[combined_key]
-    elif lan == 'uk':
-        if combined_key not in bot_ukr_collection:
-            uber_eng = await translates(engl, lan)
-            bot_ukr_collection[combined_key] = uber_eng
-        else:
-            uber_eng = bot_ukr_collection[combined_key]
-    elif lan == 'de':
-        uber_eng = engl
-    else:
-        if combined_key not in bot_word_collection:
-            uber_eng = await translates(engl, lan)
-            bot_word_collection[combined_key] = uber_eng
-        else:
-            uber_eng = bot_word_collection[combined_key]
-    random_de_en = choice((deutsch, uber_eng,))  # Выбираю либо немецкое слово - либо английский перевод
-    if random_de_en == uber_eng:
-        gegen_data = deutsch
-    else:
-        gegen_data = uber_eng
-    await state.update_data(pur=gegen_data)   # Записываю на будущий ход следующую пару
+            if lan == 'ru':
+                if combined_key not in bot_rus_collection:
+                    uber_eng = await translates(engl, lan)
+                    bot_rus_collection[combined_key] = uber_eng
+                else:
+                    uber_eng = bot_rus_collection[combined_key]
+            elif lan == 'uk':
+                if combined_key not in bot_ukr_collection:
+                    uber_eng = await translates(engl, lan)
+                    bot_ukr_collection[combined_key] = uber_eng
+                else:
+                    uber_eng = bot_ukr_collection[combined_key]
+            elif lan == 'de':
+                uber_eng = engl
+            else:
+                if combined_key not in bot_word_collection:
+                    uber_eng = await translates(engl, lan)
+                    bot_word_collection[combined_key] = uber_eng
+                else:
+                    uber_eng = bot_word_collection[combined_key]
 
-    if callback.data == 'nicht':
-        if lan != 'de':
+            random_de_en = choice((deutsch, uber_eng,))  # Выбираю либо немецкое слово - либо английский перевод
+            if random_de_en == uber_eng:
+                gegen_data = deutsch
+            else:
+                gegen_data = uber_eng
+            await state.update_data(pur=gegen_data)  # Записываю на будущий ход следующую пару
+
             try:
                 await callback.message.edit_text(
-                    text=f"🔹          <b>Das ist</b> ➡️  "
-                         f"<b>{previous_word}</b>\n\n\n"
-                         f"Wissen Sie dieses Wort ?\n\n"
+                    text=f"Wissen Sie dieses Wort ?\n\n"
                          f"<b>{random_de_en}</b>",
                     reply_markup=weis_kb
                 )
             except TelegramBadRequest:
-                print('weis_nicht into Exeption')
+                print('weis into Exeption, wenn Ich WEISS')
+
+
         else:
-            try:
-                await callback.message.edit_text(
-                    text=f"🔹          <b>Dieses Wort in Deutsch oder in English</b> ➡️  "
-                         f"<b>{previous_word}</b>\n\n\n"
-                         f"Wissen Sie dieses Wort ?\n\n"
-                         f"<b>{random_de_en}</b>",
-                    reply_markup=weis_kb
-                )
-            except TelegramBadRequest:
-                print('weis_nicht into Exeption')
+            working_tuple = choice(sorted(using_dict.items()))  # Выбираю случайную пару из словаря
+            deutsch, engl = working_tuple
+            combined_key = lan + '_' + engl
+            if lan == 'ru':
+                if combined_key not in bot_rus_collection:
+                    uber_eng = await translates(engl, lan)
+                    bot_rus_collection[combined_key] = uber_eng
+                else:
+                    uber_eng = bot_rus_collection[combined_key]
+            elif lan == 'uk':
+                if combined_key not in bot_ukr_collection:
+                    uber_eng = await translates(engl, lan)
+                    bot_ukr_collection[combined_key] = uber_eng
+                else:
+                    uber_eng = bot_ukr_collection[combined_key]
+            elif lan == 'de':
+                uber_eng = engl
+            else:
+                if combined_key not in bot_word_collection:
+                    uber_eng = await translates(engl, lan)
+                    bot_word_collection[combined_key] = uber_eng
+                else:
+                    uber_eng = bot_word_collection[combined_key]
 
-
+            random_de_en = choice((deutsch, uber_eng,))  # Выбираю либо немецкое слово - либо английский перевод
+            if random_de_en == uber_eng:
+                gegen_data = deutsch
+            else:
+                gegen_data = uber_eng
+            await state.update_data(pur=gegen_data)  # Записываю на будущий ход следующую пару
+            if lan != 'de':
+                try:
+                    await callback.message.edit_text(
+                        text=f"🔹          <b>Das ist</b> ➡️  "
+                             f"<b>{previous_word}</b>\n\n\n"
+                             f"Wissen Sie dieses Wort ?\n\n"
+                             f"<b>{random_de_en}</b>",
+                        reply_markup=weis_kb
+                    )
+                except TelegramBadRequest:
+                    print('weis_nicht into Exeption')
+            else:
+                try:
+                    await callback.message.edit_text(
+                        text=f"🔹          <b>Dieses Wort in Deutsch oder in English</b> ➡️  "
+                             f"<b>{previous_word}</b>\n\n\n"
+                             f"Wissen Sie dieses Wort ?\n\n"
+                             f"<b>{random_de_en}</b>",
+                        reply_markup=weis_kb
+                    )
+                except TelegramBadRequest:
+                    print('weis_nicht into Exeption')
     else:
-        try:
-            await callback.message.edit_text(
-                text=f"Wissen Sie dieses Wort ?\n\n"
-                     f"<b>{random_de_en}</b>",
-                reply_markup=weis_kb
-            )
-        except TelegramBadRequest:
-            print('weis into Exeption, wenn Ich WEISS')
+        exit_command = ' /exit'
+        ans = await regular_message(alles, lan)
+        combo_str = ans + ' ' + exit_command
+        att = await callback.message.answer(text=combo_str)
+        users_db[callback.from_user.id]['user_msg'] = att
 
     await callback.answer()
 

@@ -78,6 +78,24 @@ sex_stunde ={
 'schwach':'weak', 'stark':'strong','speziell':'special','tief':'deep', 'ab und zu':'now and then',
 
 }
+sieben_stunde = {'der Abfall, ä-e': 'the waste', 'die Biene, -n': 'the bee', 'der Dreck (Sg.)': 'dirt', 'die Einnahme, -n': 'the taking',
+                    'die Forschung, -en': 'research', 'das Gras, ä-er': 'grass', 'das Insekt, -en': 'insekt', 'die Kuh, -ü-e': 'cow',
+                    'die Mücke, -n': 'mosquito', 'das Rind, -er': 'the cattle', 'die Steckdose, -n': 'socket', 'der Vortrag, ä-e': 'lecture',
+                    'die Wiese, -n': 'meadow', 'der Zweifel': 'the doubt', 'atmen': 'breathe', 'anschaffen': 'purchase',
+                    'aufheben': 'to lift', 'behaupten': 'claim', 'blühen': 'bloom', 'heizen': 'to heat',
+                    'verabschieden sich': 'say good bay', 'verbieten': 'forbid', 'verzichten  auf + Akk': 'refuse', 'wachsen': 'grow',
+                    'widersprechen': 'contradict', 'grundsätzlich': 'basically', 'schädlich': 'harmful', 'sinnlos': 'useless',
+                    'sinnvoll': 'meaningful', 'wahnsinnig': 'insane', 'wertvoll': 'valuable', 'bisher': 'until now', 'sonstig': 'other'}
+
+achten_stunde = {'der Auftritt, -e': 'appearance', 'die Begeisterung (Sg.)': 'enthusiasm', 'die Einheimische, -n': 'the locals', 'die Enttäuschung': 'disappointment',
+                    'das Feuerzeug': 'the lighter', 'das Jahrzehnt, -e': 'decade', 'der Kaugummi, -s': 'chewing gum', 'die Leistung, -en': 'service',
+                    'die Lieblingsbeschäftigung, -en': 'favorite activity', 'der Lieblingsverein, -e': 'favorite club', 'die Mayonnaise, -n': 'mayonnaise', 'die Seife, -n': 'soap',
+                    'das Streichholz, ö-er': 'the match', 'die Süßigkeit, -en': 'the sweet', 'die Zigarette, -n': 'cigarette', 'die Streichhölzer': 'matches',
+                    'aufreden': 'talk', 'vorstellen': 'introduce', 'ehemalig': 'former', 'enttäuschend': 'disappointing',
+                    'faszinierend': 'fascinating', 'sehenswert': 'worth seeing', 'beziehungsweise (bzw.)': 'respectively', 'dauernd': 'permanent',
+                    'davor': 'bevore', 'ganz gut': 'quite good', 'meinetwegen': 'for my sake', 'spannend': 'exciting',
+                    'überhaupt': 'at all', 'wirklich': 'really', 'ziemlich': 'quite', 'zugleich': 'simultaneously' }
+
 
 ################################################ A-1 #######################################################
 
@@ -160,6 +178,35 @@ A1_sex_stunde={'das Besteck, -e':'cutlery', 'die Blume, -n':'die Blume, -n',
 'nichts':'nothing', 'nur':'only'
 }
 
+A1_sieben_stunde = {'der Bruder, -ü-': 'brother', 'die Eltern (Pl.)': 'parents', 'das Fernsehen (Sg.)': 'TV', 'die Geschwister (Pl.)': 'siblings',
+                    'die Großeltern (Pl.)': 'grandparents', 'der Kindergarten': 'kindergarten', 'der Mann, -ä-er': 'the man', 'die Mutter': 'mother',
+                    'die Oma': 'grandma', 'der Opa': 'grandpa', 'der Onkel': 'uncle', 'die Schwester, -n': 'sister',
+                    'der Spaß': 'the fun', 'der Stress (Sg.)': 'the stress', 'die Tante': 'aunt', 'die Tochter, -ö-': 'daughter',
+                    'der Vater': 'father', 'der Wunsch, - ü -e': 'desire', 'abholen + Akk': 'pick up', 'aufräumen': 'clean up',
+                    'bleiben': 'remain', 'fehlen': 'be away', 'joggen': 'jog', 'können': 'can',
+                    'mitmachen': 'join in', 'müssen': 'must', 'reiten': 'ride', 'suchen': 'seek',
+                    'tanzen': 'to dance', 'reparieren': 'repair', 'blau': 'blue', 'braun': 'brawn',
+                    'einfach': 'simply', 'gelb': 'yellow', 'geschieden': 'divorced', 'glücklich': 'happy',
+                    'grün': 'green', 'langweilig': 'borring', 'ledig': 'single', 'nervös': 'nervous',
+                    'rot': 'red', 'schrecklich': 'terrible', 'streng': 'strict', 'verheiratet': 'married',
+                    'verliebt': 'in love', 'weiß': 'white', 'endlich': 'finally', 'früher': 'earlier',
+                    'zu spät': 'too late'}
+
+A1_achten_stunde = {'die Anzeige, -n': 'the ad', 'das Baby, -s':'baby', 'das Bad, -ä-er': 'bath', 'die Dusche': 'the shower',
+                    'die Garage, -n': 'garage', 'der Garten, -ä': 'garden', 'das Geld (Sg.)': 'money', 'die Größe, -n': 'size',
+                    'das Haus, ä-er': 'house', 'die Heizung, -en': 'heating', 'der Hof, -ö-e': 'the yard', 'das Internet (Sg.)': 'Internet',
+                    'der Keller': 'basement', 'der Mensch, -en': 'person', 'die Miete, -n': 'the rent', 'der Mieter': 'tenant',
+                    'die Million': 'million', 'die Möbel (Pl.)': 'furniture', 'der Monat, -e': 'month', 'der Nachbar, -n': 'neighbor',
+                    'der Platz, -ä-e': 'the place', 'das Schild, -er': '´sign', 'das Sofa, -s': 'sofa', 'die Toilette, -n': 'toilet',
+                    'der Urlaub, -e': 'holiday', 'der Vermieter': 'landlord', 'die Wohnung, -en': 'appartment', 'das Zimmer': 'room',
+                    'aussehen': 'to appearance', 'benutzen': 'use', 'bezahlen': 'pay', 'denken': 'think',
+                    'dürfen': 'may', 'glauben': 'believe', 'mieten': 'to rent', 'rauchen': 'smoke',
+                    'renovieren': 'renovate', 'wollen': 'want', 'billig': 'cheap', 'dunkel': 'dark',
+                    'erlaubt': 'allowed', 'groß': 'large', 'hell': 'bright', 'hoch': 'high',
+                    'jung': 'young', 'kalt': 'cold', 'klein': 'small', 'monatlich': 'monthly',
+                    'ruhig': 'quiet', 'wichtig': 'important', 'verboten': 'forbidden', 'also': 'so',
+                    'genau': 'exactly', 'wenig': 'few'}
+
 ############################################### A - 2 #################################################################
 
 A2_erste_stunde = {'das Apartment, - s':'apartment', 'der Bescheid':'notification', 'der Boden, ö-en ':'floor', 'der Gastgeber':'host',
@@ -240,6 +287,59 @@ A2_sex_stunde = {'die Ausstellung, -en':'exhibition', 'der Baum, ä-e':'tree', '
 'scharf':'sharp', 'umsonst':'for free', 'durch':'through', 'gegenüber':'opposite',
 'hinten':'behind', 'über':'above', 'unter':'under'}
 
+A2_sieben_stunde = {'der Angehörige, -n':'relative', 'der Aufenthalt, -e':'the stay', 'der Briefkasten,  ä-n':'mailbox', 'der Cousin, -s':'cousin',
+'die Ehe, -n':'marriage', 'die Gegenwart (Sg.)':'present', 'die Grenze, -n':'border', 'der Handwerker':'craftsman',
+'das Heimweh (Sg.)':'homesickness', 'die Lehre, -n':'the doctrine', 'der Mut (Sg.)':'courage', 'der Notarzt':'emergency doctor',
+'die Note, -n':'the note', 'das Attest':'reference', 'der Schnee (Sg.)':'snow', 'die Seite, -n':'page',
+'der Wald, ä-er':'forest', 'die Zukunft (Sg.)':'future', 'die Zulassung':'approval', 'bestimmen':'define',
+'erreichen':'reach', 'klappen':'succeed', 'lügen':'lie', 'teilen':'split',
+'verlieren':'lose', 'vermissen':'miss', 'weggehen':'leave', 'weinen':'cry',
+'winken':'wink', 'befristet':'limited', 'bitter':'bitter', 'frei':'free',
+'fröhlich':'cheerful', 'reich':'rich', 'arm':'poor', 'schwanger':'pregnant',
+'traurig':'sad', 'unbekannt':'unknown', 'als':'as', 'doch':'but',
+'damals':'at that time', 'inzwischen':'meantime', 'irgendwann':'sometime', 'mindestens':'at least',
+'niemand':'no one'}
+
+
+A2_achten_stunde = {
+'die Aushilfe':'the temporary worker', 'die Autobahn':'the highway', 'die Band, -s':'band', 'die Bewegung, -en':'movement',
+'die Geburt':'birth', 'der Gedanke, -n':'the thought', 'das Gewitter':'the thunderstorm', 'das Grad, -e':'degree',
+'die Hitze (Sg.)':'heat', 'die Kälte (Sg.)':'the cold', 'die Landung':'the landing', 'die Mühe, -n':'the efford',
+'die Natur (Sg.)':'nature', 'die Nebel':'the fog', 'der Ober':'waiter', 'die Planung':'the planning',
+'die Rede, -n':'speech', 'der Regen (Sg.)':'rain', 'das Schloss, ö-er':'castle', 'der Senior, -en':'senior',
+'die Überraschung':'surprise', 'der Wagen':'car', 'der Wetterbericht':'the weather forecast', 'der Wind':'wind',
+'die Wolke, -n':'cloud', 'auffallen':'attract attention', 'auspacken':'unpack', 'ausruhen':'relax',
+'besprechen':'discuss', 'blitzen':'flash', 'donnern':'thunder', 'losfahren':'drive off',
+'schneien':'to snow', 'vorschlagen':'suggest', 'bewölkt':'cloudy', 'sonnig':'sunny',
+'durstig':'thirsty', 'gemeinsam':'common', 'allein':'alone', 'heiß':'hot',
+'kalt':'cold', 'herrlich':'splendid', 'schrecklich':'terrible', 'nass':'wet',
+'trocken':'dry', 'neblich':'foggy', 'offiziel':'official', 'privat':'private',
+'salzig':'salty', 'voll':'full', 'leer':'empty', 'windig':'windy',
+'süß':'sweet', 'schriftlich':'in written form', 'mündlich':'orally', 'außerdem':'besides',
+'bevor':'before', 'dorthin':'there'}
+
+
+A2_neunte_stunde =   {'':'', '':'', '':'', '':'',
+'':'', '':'', '':'', '':'',
+'':'', '':'', '':'', '':'',
+'':'', '':'', '':'', '':'',
+'':'', '':'', '':'', '':'',
+'':'', '':'', '':'', '':'',
+'':'', '':'', '':'', '':'',
+'':'', '':'', '':'', '':'',
+'':'', '':'', '':'', '':'',
+'':'', '':'', '':'', '':'',
+'':'', '':'', '':'', '':'',
+'':'', '':'', '':'', '':'',
+'':'', '':'', '':'', '':'',
+'':'', '':'', '':'', '':'',
+
+
+}
+
+
+
+
 #########################################################################################################################
 A1 = 'AgACAgIAAxkBAAO_ZvmfAXTYeO9B6r7DTk370e6kInAAAojnMRv8w8hLtYY0v8MJD9oBAAMCAAN5AAM2BA'
 A2 = 'AgACAgIAAxkBAAPBZvmfeHaO7iCs_04G03HFYeXAaQ4AAovnMRv8w8hLPTw-q1QgHLgBAAMCAAN4AAM2BA'
@@ -247,18 +347,18 @@ B1 = 'AgACAgIAAxkBAAPAZvmfP_RwmOcevtB8KiDJC2GhP1IAAornMRv8w8hLgIYfAAGEG_loAQADAg
 
 ABC = 'AgACAgIAAxkBAAIB42b61rWQSVN9ntVRxheog6tjCZoTAAKc3TEb_MPYS04UdsJS-FOpAQADAgADeQADNgQ'
 
-b1_stunde_collection = {'1':erste_stunde, '2':zweite_stunde, '3':dritte_stunde, '4':vierte_stunde, '5':funfte_stunde , '6':sex_stunde}
-a1_stunde_collection = {'1':A1_erste_stunde, '2':A1_zweite_stunde, '3':A1_dritte_stunde, '4':A1_vierte_stunde, '5':A1_funfte_stunde , '6':A1_sex_stunde}
-a2_stunde_collection ={'1':A2_erste_stunde, '2':A2_zweite_stunde, '3':A2_dritte_stunde,}
+b1_stunde_collection = {'1':erste_stunde, '2':zweite_stunde, '3':dritte_stunde, '4':vierte_stunde, '5':funfte_stunde , '6':sex_stunde, '7':sieben_stunde, '8':achten_stunde}
+a1_stunde_collection = {'1':A1_erste_stunde, '2':A1_zweite_stunde, '3':A1_dritte_stunde, '4':A1_vierte_stunde, '5':A1_funfte_stunde , '6':A1_sex_stunde, '7': A1_sieben_stunde, '8':A1_achten_stunde}
+a2_stunde_collection ={'1':A2_erste_stunde, '2':A2_zweite_stunde, '3':A2_dritte_stunde, '4':A2_vierte_stunde, '5':A2_funfte_stunde, '6':A2_sex_stunde, '7':A2_sieben_stunde, '8':A2_achten_stunde}
 
 it_coll = {'IT_A1': a1_stunde_collection, 'IT_A2': a2_stunde_collection, 'IT_B1': b1_stunde_collection}
 
 ##########################################################################################################
 
 
-b1_lern_collection = {'one':erste_stunde, 'two':zweite_stunde, 'three':dritte_stunde, 'four':vierte_stunde, 'five':funfte_stunde, 'six':sex_stunde}
-a1_lern_collection = {'one':A1_erste_stunde, 'two':A1_zweite_stunde, 'three':A1_dritte_stunde, 'four':A1_vierte_stunde, 'five':A1_funfte_stunde , 'six':A1_sex_stunde}
-a2_lern_collection = {'one':A2_erste_stunde, 'two':A2_zweite_stunde, 'three':A2_dritte_stunde, 'four':vierte_stunde, 'five':funfte_stunde , 'six':sex_stunde}
+b1_lern_collection = {'one':erste_stunde, 'two':zweite_stunde, 'three':dritte_stunde, 'four':vierte_stunde, 'five':funfte_stunde, 'six':sex_stunde, 'sevan':sieben_stunde, 'eight':achten_stunde}
+a1_lern_collection = {'one':A1_erste_stunde, 'two':A1_zweite_stunde, 'three':A1_dritte_stunde, 'four':A1_vierte_stunde, 'five':A1_funfte_stunde , 'six':A1_sex_stunde, 'sevan':A1_sieben_stunde, 'eight':A1_achten_stunde}
+a2_lern_collection = {'one':A2_erste_stunde, 'two':A2_zweite_stunde, 'three':A2_dritte_stunde, 'four':A2_vierte_stunde, 'five':A2_funfte_stunde , 'six':A2_sex_stunde, 'sevan':A2_sieben_stunde, 'eight':A2_achten_stunde}
 
 lern_coll = {'IT_A1': a1_lern_collection, 'IT_A2': a2_lern_collection, 'IT_B1': b1_lern_collection}
 

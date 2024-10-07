@@ -17,7 +17,7 @@ from bot_instance import FSM_ST, bot_storage_key, dp
 from bot_base import *
 from copy import deepcopy
 from string import ascii_letters
-from external_functions import translates, translates_in_english, regular_message, message_trasher
+from external_functions import translates, translates_in_english, regular_message, message_trasher, us_message_trasher
 from note_class import User_Note
 from random import choice
 from stunde import *
@@ -122,6 +122,8 @@ async def show_presentation(message: Message):
     else:
         att = await message.answer(text=referal_dict['de'])
     users_db[user_id]['bot_ans'] = att
+    await asyncio.sleep(2)
+    await message.delete()
 
 
 @ch_router.message(StateFilter(FSM_ST.after_start), IS_LETTER())
@@ -336,7 +338,8 @@ async def process_help_command(message: Message):
     stroka = await regular_message(help_text, lan)
     print('stroka = ', stroka)
     st_present = f'{erste} {artikel}\n\n{stroka} {presentation}'
-    att = await message.answer(text=st_present)
+    att = await message.answer(text=st_present)  # Почему не проверяется наличие этого слова в лексиконе bot_lexicon = {} ? -
+    # ответ - потому что уже сформированы в erste и stroka
     await asyncio.sleep(30)
     await message.delete()
     await att.delete()
@@ -538,9 +541,9 @@ async def check_writing_process(message: Message, state: FSMContext):
     dict_user = await state.get_data()
     lan = await return_lan(message.from_user.id)
     using_dict = dict_user['current_stunde']
-    print('bot_rus_collection = ', bot_rus_collection)
+    # print('bot_rus_collection = ', bot_rus_collection)
     previous_word = dict_user['pur']  # Получаю  немецкое слово
-    print('previous_word = ', previous_word)
+    # print('previous_word = ', previous_word)
     if lan != 'de':
         if ',' in previous_word:
             previous_word_1 = previous_word.split(',')[0]
@@ -553,6 +556,8 @@ async def check_writing_process(message: Message, state: FSMContext):
 
             await message.answer(f'<b>Richtig !</b>    🥳\n\nDas ist <b>{previous_word}</b>')
             await message.delete()
+            # print('\n\n\nuser_dict = ', user_dict)
+            del using_dict[previous_word] # удаляю пару ключ-занчение из копии словаря
         else:
             await message.answer(f'Sie haben geantwortet <b>{message.text}</b>\n\n'
                                  f'Richtige Antwort  ist <b>{previous_word}</b>')
@@ -580,13 +585,22 @@ async def check_writing_process(message: Message, state: FSMContext):
                 uber_eng = bot_word_collection[combined_key]
 
         await state.update_data(pur=deutsch)
-        if lan != 'en':
-            await message.answer(text=f'Schreiben Sie bitte die Übersetzung des Worts !\n\n<b>{uber_eng}</b>'
-                                      f'\n\n<i>English</i> = <b>{engl}</b>',
-                                 reply_markup=exit_clava)
+        if len(using_dict)>1:
+            if lan != 'en':
+                await message.answer(text=f'Schreiben Sie bitte die Übersetzung des Worts !\n\n<b>{uber_eng}</b>'
+                                          f'\n\n<i>English</i> = <b>{engl}</b>',
+                                     reply_markup=exit_clava)
+            else:
+                await message.answer(text=f'Schreiben Sie bitte die Übersetzung des Worts !\n\n<b>{uber_eng}</b>',
+                                     reply_markup=exit_clava)
         else:
-            await message.answer(text=f'Schreiben Sie bitte die Übersetzung des Worts !\n\n<b>{uber_eng}</b>',
-                                 reply_markup=exit_clava)
+            exit_command = ' /exit'
+            ans = await regular_message(alles, lan)
+            combo_str = ans + ' ' + exit_command
+            att = await message.answer(text=combo_str)
+            users_db[message.from_user.id]['user_msg'] = att
+
+
         ######### Часть с где у юзера у самого немецкий язык ####################################
     else:
         if len(previous_word)==2:
@@ -604,11 +618,18 @@ async def check_writing_process(message: Message, state: FSMContext):
         else:
             await message.answer(f'<b>Richtig !</b>    🥳\n\nDas ist <b>{previous_word}</b>')
             await message.delete()
-        working_tuple = choice(sorted(using_dict.items()))  # Выбираю случайную пару из словаря
-        deutsch, engl = working_tuple
-        await state.update_data(pur=deutsch)
-        await message.answer(text=f'Schreiben Sie bitte die Übersetzung des Worts !\n\n<b>{engl}</b>', reply_markup=exit_clava)
-
+            del using_dict[previous_word]
+        if using_dict:
+            working_tuple = choice(sorted(using_dict.items()))  # Выбираю случайную пару из словаря
+            deutsch, engl = working_tuple
+            await state.update_data(pur=deutsch)
+            await message.answer(text=f'Schreiben Sie bitte die Übersetzung des Worts !\n\n<b>{engl}</b>', reply_markup=exit_clava)
+        else:
+            exit_command = ' /exit'
+            ans = await regular_message(alles, lan)
+            combo_str = ans + ' ' + exit_command
+            att = await message.answer(text=combo_str)
+            users_db[message.from_user.id]['user_msg'] = att
 
 
 
@@ -622,6 +643,8 @@ async def process_exit_command(message: Message, state: FSMContext):
         await state.update_data(pur='', current_stunde='')  # reset user data
         temp_data = users_db[user_id]['bot_ans']
         await message_trasher(user_id, temp_data)
+        temp_data = users_db[user_id]['user_msg']
+        await us_message_trasher(user_id, temp_data)
         att = await message.answer(text=await regular_message(exit_msg, lan), reply_markup=ReplyKeyboardRemove())
         users_db[user_id]['bot_ans'] = att
         await message.delete()
@@ -740,7 +763,17 @@ async def admin_enter(message: Message):
 @ch_router.message(Command('skolko'), IS_ADMIN())
 async def get_quantyty_users(message: Message):
     qu = await return_quantity_users()
-    await message.answer(f'Бота запустили {len(qu)} юзеров')
+    str_qu = str(qu)
+    last_number = str_qu[-1]
+    if last_number in ('2', '3', '4'):
+        await message.answer(f'Бота запустили <b>{len(qu)}</b> юзера')
+    elif last_number == '1':
+        await message.answer(f'Бота запустили <b>{len(qu)}</b> юзер')
+    else:
+        await message.answer(f'Бота запустили <b>{len(qu)}</b> юзеров')
+
+
+
 
 
 @ch_router.message(Command('send_msg'), IS_ADMIN())

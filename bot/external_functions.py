@@ -27,10 +27,10 @@ async def translates(slovo:str, lan:str)->str:
 
 async def regular_message(slovo:str, lan:str)->str:
     print('regular message works\n\n')
-    modifyed_slovo = lan + '_' + slovo[:10]
+    modifyed_slovo = lan + '_' + slovo[:10]  # Формируется ключ для регулярного сообщения бота ru_For grammatica
     if lan != 'en':
         # modifyed_slovo = lan + '_' + slovo[:10]
-        if modifyed_slovo not in bot_lexicon:  # Если никто ещё не щапрашиывал команду
+        if modifyed_slovo not in bot_lexicon:  # Если никто ещё не запрашиывал команду
             res = translators.translate_text(query_text=slovo, from_language='en', to_language=lan, translator='bing')
             bot_lexicon[modifyed_slovo]=res
         else:
@@ -84,5 +84,13 @@ async def message_trasher(user_id:int, msg:Message|None|CallbackQuery):
         with suppress(TelegramBadRequest):
             await msg.delete()
             users_db[user_id]['bot_ans'] = ''
+    else:
+        pass
+
+async def us_message_trasher(user_id:int, msg:Message|None|CallbackQuery):
+    if msg:
+        with suppress(TelegramBadRequest):
+            await msg.delete()
+            users_db[user_id]['user_ans'] = ''
     else:
         pass
