@@ -837,9 +837,9 @@ async def load_db(message: Message, state: FSMContext):
         recover_bot_ukr_wortschatz = pickle.load(file)
         bot_ukr_wortschatz.update(recover_bot_ukr_wortschatz)
 
-    # with open('bot_anders_wortschatz_db.pkl', 'rb') as file:
-    #     recover_bot_anders_wortschatz = pickle.load(file)
-    #     bot_anders_wortschatz.update(recover_bot_anders_wortschatz)
+    with open('bot_anders_wortschatz_db.pkl', 'rb') as file:
+        recover_bot_anders_wortschatz = pickle.load(file)
+        bot_anders_wortschatz.update(recover_bot_anders_wortschatz)
 
     with open('bot_rus_collection_db.pkl', 'rb') as file:
         recover_bot_rus_coll = pickle.load(file)
