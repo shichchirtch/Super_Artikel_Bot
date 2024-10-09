@@ -146,20 +146,21 @@ async def artikle_geber(message: Message):
             sin_stroka = await regular_message(i_do_not_know, lan)  # Вывожу что не знаю этого слова
         else:
             trans_data = trans.find(class_='rBox rBoxWht').find_all(class_='wNrn')
-            en_block = trans_data[0]
-            kirill_block = trans_data[1]
-            fars_blok = trans_data[2]
+            if trans_data:  # Добавлено условие, проверяющее получение страницы
+                en_block = trans_data[0]
+                kirill_block = trans_data[1]
+                fars_blok = trans_data[2]
 
-            kit_lang = kirill_block.find_all('dd')
-            fars_kit_lan = fars_blok.find_all('dd')
-            en_structure = en_block.find_all('dd')
-            if lan != 'de':
-                for perevod in (kit_lang + fars_kit_lan + en_structure):
-                    data = perevod.get('lang')
-                    if data == lan:  #  us_lan:  # Определение языка
-                        my_perevod = perevod.text
-            else:
-                my_perevod = '🤷  Es ist unmöglich in der Grleiche Sprache zu übersetzen'
+                kit_lang = kirill_block.find_all('dd')
+                fars_kit_lan = fars_blok.find_all('dd')
+                en_structure = en_block.find_all('dd')
+                if lan != 'de':
+                    for perevod in (kit_lang + fars_kit_lan + en_structure):
+                        data = perevod.get('lang')
+                        if data == lan:  #  us_lan:  # Определение языка
+                            my_perevod = perevod.text
+                else:
+                    my_perevod = '🤷  Es ist unmöglich in der Grleiche Sprache zu übersetzen'
             ######################################################################################
             SS_2 = soup.find('h1')
             chast_rechi = SS_2.text.split()[1]
@@ -763,7 +764,7 @@ async def admin_enter(message: Message):
 @ch_router.message(Command('skolko'), IS_ADMIN())
 async def get_quantyty_users(message: Message):
     qu = await return_quantity_users()
-    str_qu = str(qu)
+    str_qu = str(len(qu))
     last_number = str_qu[-1]
     if last_number in ('2', '3', '4'):
         await message.answer(f'Бота запустили <b>{len(qu)}</b> юзера')

@@ -19,7 +19,12 @@ def create_note_collection_keyboard(*args) -> InlineKeyboardMarkup:
 
 async def translates(slovo:str, lan:str)->str:
     if lan != 'en':
-        res = translators.translate_text(query_text=slovo, from_language='en', to_language=lan, translator='bing')
+        try:
+            res = translators.translate_text(query_text=slovo, from_language='en', to_language=lan, translator='bing')
+        except AttributeError:
+                print('\n\n произошла ошибка AttributeError')
+                res = 'Es ist ein Fehler aufgetreten, versuchen Sie bitte noch mal'
+
     else:
         res = slovo
     return res
@@ -31,8 +36,12 @@ async def regular_message(slovo:str, lan:str)->str:
     if lan != 'en':
         # modifyed_slovo = lan + '_' + slovo[:10]
         if modifyed_slovo not in bot_lexicon:  # Если никто ещё не запрашиывал команду
-            res = translators.translate_text(query_text=slovo, from_language='en', to_language=lan, translator='bing')
-            bot_lexicon[modifyed_slovo]=res
+            try:
+                res = translators.translate_text(query_text=slovo, from_language='en', to_language=lan, translator='bing')
+                bot_lexicon[modifyed_slovo]=res
+            except AttributeError:
+                print('\n\n произошла ошибка AttributeError')
+                res = 'Es ist ein Fehler aufgetreten, versuchen Sie bitte noch mal'
         else:
             res = bot_lexicon[modifyed_slovo]
     else:
