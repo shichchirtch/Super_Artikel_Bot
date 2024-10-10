@@ -612,7 +612,7 @@ async def check_writing_process(message: Message, state: FSMContext):
             previous_word_1 = previous_word.split('(')[0]
         else:
             previous_word_1 = previous_word
-        if previous_word_1 != message.text:
+        if previous_word_1.lower() != message.text.lower():
             await message.answer(f'Sie haben geantwortet <b>{message.text}</b>\n\n'
                                  f'Richtige Antwort  ist <b>{previous_word_1}</b>')
             await message.delete()
@@ -620,6 +620,7 @@ async def check_writing_process(message: Message, state: FSMContext):
             await message.answer(f'<b>Richtig !</b>    🥳\n\nDas ist <b>{previous_word}</b>')
             await message.delete()
             del using_dict[previous_word]
+
         if using_dict:
             working_tuple = choice(sorted(using_dict.items()))  # Выбираю случайную пару из словаря
             deutsch, engl = working_tuple

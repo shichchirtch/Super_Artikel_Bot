@@ -97,7 +97,6 @@ async def stunde_worschatz_process(callback: CallbackQuery, state:FSMContext):
     await callback.message.answer(f'✅  <b>{stunde_kit_dict[cb_key]} Stunde # {callback.data}</b>\n\n{translated_string}\n🟣')  # Здесь выводится список слов
     temp_data = users_db[user_id]['bot_ans']
     await message_trasher(user_id, temp_data)
-    await callback.answer()
 
 
 @cb_router.callback_query(JA_NEIN_FILTER())
@@ -147,7 +146,6 @@ async def ja_nein_process(callback: CallbackQuery, state: FSMContext):
                     users_db[user_id]['user_msg'] = ''
             att = await callback.message.answer(await regular_message(weiter_arbeiten, lan))
             users_db[callback.from_user.id]['bot_ans'] = att
-    await callback.answer()
 
 
 @cb_router.callback_query(StateFilter(FSM_ST.lernen), LERNEN_FILTER())
@@ -201,7 +199,6 @@ async def lernen_process(callback: CallbackQuery, state: FSMContext):
     att = await callback.message.answer(f'Wissen Sie dieses Wort ?\n\n<b>{uber_eng}</b>',
                                   reply_markup=weis_kb)
     users_db[user_id]['bot_ans'] = att
-    await callback.answer()
 
 
 @cb_router.callback_query(StateFilter(FSM_ST.schreiben), LERNEN_FILTER())
@@ -261,7 +258,6 @@ async def schreiben_process(callback: CallbackQuery, state: FSMContext):
                                             reply_markup=exit_clava)
         await state.update_data(pur=(deutsch, engl,), current_stunde=using_dict.copy())
     users_db[user_id]['bot_ans'] = att
-    await callback.answer()
 
 
 @cb_router.callback_query(StateFilter(FSM_ST.lernen), WEIS_NEIN_FILTER())
@@ -383,8 +379,6 @@ async def weis_nicht_process(callback: CallbackQuery, state: FSMContext):
         att = await callback.message.answer(text=combo_str)
         users_db[callback.from_user.id]['user_msg'] = att
 
-    await callback.answer()
-
 
 @cb_router.callback_query(StateFilter(FSM_ST.after_start), PRIVAT_WORTSCHATZ_FILTER())
 async def show_private_wortschatz(callback: CallbackQuery, state: FSMContext):
@@ -406,7 +400,6 @@ async def show_private_wortschatz(callback: CallbackQuery, state: FSMContext):
         att = await callback.message.answer(s)
         await asyncio.sleep(3)
         await att.delete()
-    await callback.answer()
 
 
 @cb_router.callback_query(StateFilter(FSM_ST.after_start), SHOW_NOTE_FILTER())
@@ -414,12 +407,8 @@ async def show_note_list_wortschatz(callback: CallbackQuery, state: FSMContext):
     """Хэндлер выводит инлайн кнопки с заметками, если они есть"""
     print('show_note_list works')
     user_id = callback.from_user.id
-
-    # using_dict = bot_server_base[user_id]  # Здесь сохранение заметок происходит в оперативной памяти
-
     lan = await return_lan(user_id)
     serialised_note_dict = await return_zametki(user_id)
-    # print('\n\n\nserialised_note_dict = ',serialised_note_dict)
     if serialised_note_dict:
         note_dict = pickle.loads(serialised_note_dict)  # строковый объект превращаю в питоновский
         s = await regular_message(meine_note, lan)
@@ -447,7 +436,6 @@ async def add_new_note(callback: CallbackQuery, state: FSMContext):
     await message_trasher(callback.from_user.id, temp_data)
     users_db[callback.from_user.id]['bot_ans'] = att
     await state.set_state(FSM_ST.add_note_1)
-    await callback.answer()
 
 
 @cb_router.callback_query(StateFilter(FSM_ST.after_start), SPAM_FILTER())
@@ -461,7 +449,6 @@ async def spam_approve(callback: CallbackQuery, state: FSMContext):
         await callback.message.answer(stroka)
     temp_data = users_db[callback.from_user.id]['bot_ans']
     await message_trasher(callback.from_user.id, temp_data)
-    await callback.answer()
 
 
 @cb_router.callback_query(StateFilter(FSM_ST.after_start))
@@ -484,5 +471,4 @@ async def show_note(callback: CallbackQuery):
             reply_markup=None)
     temp_data = users_db[callback.from_user.id]['bot_ans']
     await message_trasher(user_id, temp_data)
-    await callback.answer()
 
