@@ -27,7 +27,7 @@ class PRE_START(BaseFilter):
             return False
         return True
 
-letter_kit = 'abcdefghijklmnopqrstuvwxyzöäüß'
+letter_kit = 'abcdefghijklmnopqrstuvwxyzöäüß '
 
 class IS_LETTER(BaseFilter):
     async def __call__(self, message: Message):
