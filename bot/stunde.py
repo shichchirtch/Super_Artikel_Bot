@@ -120,6 +120,84 @@ zehn_stunde =   {'die Abbildung, -en':'illustration', 'die Ausrede, -n':'justifi
 'großzügig':'generous', 'kräftig':'strong', 'zahlreich':'multiple', 'anderthalb':'one and a half',
 'nebenbei':'alongside'}
 
+B1_11_stunde =   {'der Antrag, -ä-e':'request', 'die Beziehung, -en':'relationship', 'das Elterngeld (Sg.)':'parental allowance', 'die Elternzeit (Sg.)':'parental leave',
+'die Erfindung, -en':'invention', 'das Gefühl, -e':'feeling', 'der Gegensatz':'opposite', 'die Gemeinde':'community',
+'die Gleichberechtigung (Sg.)':'equality', 'der Hit, -s':'hit', 'die Karriere':'career', 'die Kinderbetreuung (Sg.)':'child care',
+'die Krise, -n':'crisis', 'der Lebensgefährte, -n':'partner', 'der Mangel':'shortage', 'die Metropole, -n':'metropolis',
+'die Minderheit, -en':'minority', 'der Mutterschutz (Sg.)':'maternity leave', 'das Risiko, -en':'risk', 'das Schaufenster':'the showcase',
+'der Titel':'title', 'die Trennung':'separation', 'die Unterstützung (Sg.)':'the support', 'die Verantwortung, -en':'responsibility',
+'das Vergnügen (Sg.)':'pleasure', 'abwaschen':'wasch off', 'aufgeben':'give up', 'aussteigen (aus dem Beruf)':'quit',
+'behandeln':'treat', 'bleiben':'remain', 'brauchen':'need', 'bringen':'bring',
+'durchfallen':'to fail', 'erziehen':'educate', 'finanzieren':'to fund', 'halten':'hold',
+'kleben':'stick', 'sich etwas leisten':'to afford something', 'sich etwas teilen':'share something', 'sich trennen':'divide',
+'verreisen':'travel', 'versäumen':'miss', 'wert sein':'be worth it', 'alleinerziehend':'single parent',
+'finanziell':'financial', 'gleichaltrig':'same age', 'locker':'loose', 'realistisch':'realistic',
+'vernünftig':'reasonable', 'eher':'rather', 'irgendwer':'whoever'}
+
+B1_12_stunde =   {'der Ablauf, ä-e':'process', 'das Arbeitszeugnis, -se':'job reference', 'die Berufswahl (Sg.)':'career choice', 'die Bescheinigung, -en':'the certificate',
+'die Bildung (Sg.)':'education', 'die Bürokratie (Sg.)':'the bureaucracy', 'die Definition, -en':'definotion', 'das Einzelteil, -e':'item',
+'die Fähigkeit, -en':'capacity', 'die Flüssigkeit, -en':'the liquid', 'das Friseurgeschäft':'the hairdressing salon', 'der Geschäftsbrief':'business letter',
+'das Handwerk (Sg.)':'craft', 'der Kellner':'waiter', 'die Kontaktlinse, -n':'contact lens', 'die Krankenpflege (Sg.)':'nursing',
+'der Liebeskummer (Sg.)':'lovesickness', 'das Merkblatt':'leaflet', 'das Mittel':'remedy', 'der Oberbegriff, -e':'generic term',
+'die Primarschule':'primary school', 'die Schönheit (Sg.)':'beauty', 'die Sekundarschule':'secondary school', 'die Sprachkenntnisse (Pl.)':'language skills',
+'der Stern, -e':'star', 'das Telefonat, -e':'phone call', 'die Verwaltung, -en':'administration', 'die Übersetzung, -en':'translation',
+'die Weiterbildung, -en':'continuing education', 'der Zeitraum, -ä-e':'period', 'anpassen':'adjust', 'auftreten':'appear',
+'auschecken':'check out', 'einchecken':'check in', 'bewerten':'evaluate', 'dokumentieren':'record',
+'durchführen':'carry out', 'einfallen':'come up', 'einreichen':'submit', 'entgegennehmen':'receive',
+'frustrieren':'upset', 'montieren':'mount', 'sich orientieren':'orientate', 'stellen (einen Antrag)':'make (a request)',
+'zusammenbleiben':'stay together', 'sich zusammensetzen':'make up', 'beruflich':'professional', 'kosmetisch':'cosmetic',
+'tabellarisch':'tabular', 'zukünftig':'future', 'einander':'each other', 'nachdem':'after',
+'Was für ein ...':'What a ...', 'zuvor':'before'}
+
+B1_13_stunde = {'die Belohnung, -en':'reward', 'der Betreuer':'supervisor', 'die Bevölkerung, -en':'population', 'der Bürger':'citizens',
+'das Ehrenamt, -ä-er':'voluntary work', 'das Engagement (Sg.)':'commitment', 'das Ersatzteil, -e':'spare part', 'die Feuerwehr':'fire department',
+'die Gesellschaft, -en':'society', 'das Heim, -e':'hostel', 'die Klingel, -n':'bell', 'die Kraft, -ä-e':'force',
+'der Lenker':'the handlebars', 'die Luftpumpe, -n':'pump', 'die Milliarde, -n':'billion', 'die Mitarbeit (Sg.)':'collaboration',
+'der Reifen':'tire', 'das Rücklicht, -er':'taillight', 'das Semester':'semester', 'die Studie, -n':'study',
+'der Übersetzer':'translator', 'die Vertretung, -en':'representation', 'absagen':'cancel', 'aufpumpen':'pump up',
+'auswechseln':'replace', 'sich bedanken für':'thank', 'sich einsetzen für':'insert', 'sich entwickeln':'develop',
+'erfordern':'require', 'halten für':'consider', 'kämpfen':'fight', 'sich verhalten':'behave',
+'sich verlassen':'rely', 'verleihen':'lend', 'sich verpflichten für':'obligate', 'zusammenkommen':'get together',
+'behindert':'disable', 'ehrenamtlich':'voluntarily', 'gesellschaftlich':'social', 'jugendlich':'youthful',
+'konkret':'specific', 'wünschenswert':'desirable', 'allerdings':'however', 'circa':'approximately',
+'ebenso':'as well', 'möglichst':'possible', 'trotz':'despite', 'voneinander':'from each other',
+'wegen':'because of'}
+
+B1_14_stunde = {'der Anbieter':'provider', 'die Aufmerksamkeit (Sg.)':'attention', 'die Aussicht':'view', 'der Bürgermeister':'the mayor',
+'das Einverständnis':'the consent', 'die Fortsetzung':'the sequel', 'die Gemeinde':'community', 'das Instrument, -e':'instrument',
+'die Integration (Sg.)':'integration', 'der Kandidat':'the candidate', 'das Klavier':'piano', 'der Komponist, -en':'composer',
+'die Rückmeldung, -en':'feedback', 'die Sprachförderung (Sg.)':'language support', 'die Wiese, -n':'meadow', 'das Zuhause':'home',
+'abrechnen':'settle', 'anzünden':'kindle', 'beobachten':'observe', 'bestehen eine Möglichkeit':'exist',
+'drehen einem Film':'to film', 'sich entschließen':'decide', 'festlegen':'establish', 'sammeln':'collect',
+'treiben':'engage', 'verbinden':'connect', 'erschöpft':'exhausted', 'extrem':'extreme',
+'logisch':'logic', 'motiviert':'motivated', 'ruhig':'quiet', 'witzig':'witty',
+'bereits':'already', 'deswegen':'therefore', 'statt':'instead of', 'teilweise':'partially',
+'unterdessen':'meanwhile', 'vorläufig':'temporarily', 'zunächst':'first of all'}
+
+B1_15_stunde =   {'der Bahnsteig, -e':'platform', 'das Denkmal, -ä-er':'monument', 'der Dialekt, -e':'dialect', 'der Export':'export',
+'der Fachmann, die Fachleute':'expert', 'das Kunstwerk, -e':'artwork', 'das Lebensmittel':'foodstuff', 'die Literatur (Sg.)':'literature',
+'der Migrationshintergrund':'migration background', 'die Mosche':'mosque', 'der Nachwucks (Sg.)':'offspring', 'die Oper':'opera',
+'der Pfannkuchen':'pancake', 'der Saal':'hall', 'die Staatsbürgerschaft':'citizenship', 'der Stadtführer':'city guide',
+'der Tierpark, -s':'zoo', 'die Tram':'tram', 'die Vorführung, -en':'performance', 'das Wahrzeichen':'landmark',
+'die Weltstadt':'cosmopolitan city', 'abhängen von Dat':'depend on', 'berücksichtigen':'take into account', 'sich beschränken':'restrict',
+'sich drehen':'turn', 'sich freinehmen':'take time off', 'handeln mit + Dat':'trade', 'zu tun haben mit':'dealing with',
+'umgehen mit + Dat':'dealing with', 'verurteilen':'condemn', 'alltäglich':'every day', 'exotisch':'exotic',
+'historisch':'historical', 'touristisch':'touristic', 'diesmal':'this time', 'drüben':'over',
+'entlang':'along', 'irgendwo':'somewhere', 'jedoch':'however', 'raus':'out',
+'sodass':'so that', 'tagsüber':'during the day', 'tatsächlich':'actually'}
+
+B1_16_stunde =   {'das Anliegen':'concern', 'die Ansprache, -n':'speech', 'das Antragsformular, -e':'application form', 'der Ausländer':'foreigner',
+'die Ausnahme, -n':'exception', 'die Auswanderung (Sg.)':'emigration', 'die Demokratie, -n':'democracy', 'die Einbürgerungsurkunde, -n':'naturalisation certificate',
+'die Einwanderung':'immigration', 'der EU-Bürger':'EU citizens', 'die Freifeit':'freedom', 'der Frieden (Sg.)':'peace',
+'die Geburtsurkunde, -n':'birth certificate', 'das Gesetz, -e':'law', 'das Gesicht, -er':'face', 'die Kopie, -n':'copy',
+'der Migrant, -en':'migrant', 'die Nation, -en':'nation', 'die Nordsee':'the North Sea', 'die Probezeit, -en':'probationary period',
+'die Rückmeldung':'feedback', 'der Staat, -en':'state', 'der Stift, -e':'pen', 'das Wahlrecht (Sg.)':'right to vote',
+'das Zeichen':'sign', 'abstimmen':'vote', 'ausbilden':'educate', 'befristigen':'limit',
+'besitzen':'own', 'einbürgern':'naturalize', 'gelingen':'succeed', 'herausfinden':'find out',
+'überlegen':'consider', 'befristet':'limited', 'unbefristet':'indefinite', 'deutschsprachig':'German-speaking',
+'eindeutig':'clear', 'fest':'firm', 'humorvoll':'humorous', 'legal':'legal',
+'völlig':'completely', 'eigentlich':'for that matter', 'normalerweise':'normally', 'jetzt oder nie':'now or never'}
+
 ################################################ A-1 #######################################################
 
 
@@ -254,6 +332,88 @@ A1_zehn_stunde =   {'die Agentur':'agency', 'das Arbeitsamt':'employment office'
 'studieren':'study', 'verdienen':'earn', 'verkaufen':'sell', 'verstehen':'understand',
 'leise':'quiet', 'männlich':'male', 'weiblich':'female', 'wöchentlich':'weekly',
 'bald':'soon', 'einmal':'once'}
+
+A1_11_stunde =   {'der Anfang, -ä-e':'beginning', 'der Anrufbeantworter':'answering machine', 'der April':'April', 'der August':'August',
+'der Ausflug, -ü-e':'excursion', 'die Blume, -n':'flower', 'das Datum, -en':'date', 'der Dezember':'December',
+'der Durst (Sg.)':'thirst', 'der Erfolg, -e':'success', 'der Februar':'February', 'der Frühling':'spring',
+'das Geschenk, -e':'gift', 'der Glückwunsch, ü-e':'congratulations', 'der Herbst':'autumn', 'die Hochzeit, -en':'wedding',
+'die Jahreszeit, -en':'season', 'der Januar':'January', 'der Juli':'July', 'der Juni':'June',
+'der Kalender':'calendar', 'das Leben':'life', 'das Licht, -er':'light', 'das Lied, -er':'song',
+'der Mai':'May', 'der Markt':'market', 'der März':'March', 'der Monat, -e':'month',
+'der November':'November', 'der Oktober':'October', 'die Polizei, -en':'police', 'die Reise, -n':'journey',
+'der Reiseführer':'travel guide', 'der Schauspieler':'actor', 'der September':'September', 'der Sommer':'Summer',
+'der Test, -s':'test', 'Weihnachten':'Christmas', 'der Winter':'winter', 'anbieten':'offer',
+'danken':'thank', 'dekorieren':'decorate', 'gefallen':'to like', 'gratulieren':'congratulate',
+'kriegen':'get', 'schenken':'make a gift', 'wandern':'to hike', 'besetzt':'taken',
+'pünktlich':'punctual', 'einige':'some', 'erst':'first', 'gerade':'straight',
+'hinten':'rear'}
+
+A1_12_stunde =   {'die Abfahrt':'farewell', 'die Ankunft':'arrival', 'der Ausgang':'the exit', 'die Bäckerei':'bakery',
+'die Eingang':'entrance', 'die Fahrkarte, -n':'ticket', 'die Führung':'guidance', 'das Geschäft, -e':'shop',
+'das Gleis, -e':'railway track', 'die Kreuzung, -en':'crossing', 'der Marktplatz':'market square', 'das Meer, -e':'sea',
+'die Minute, -n':'minute', 'das Museum, die Museen':'museum', 'der Norden (Sg.)':'North', 'der Osten (Sg.)':'East',
+'der Plan, ä-e':'plan', 'die Postkarte, -n':'postcard', 'das Rathaus, ä-er':'city administration', 'die Richtung, -en':'direction',
+'die Rückfahrt':'return trip', 'das Schiff, -e':'ship', 'der See, -n':'the lake', 'die Sehenswürdigkeit, -en':'sights',
+'die Straßenbahn, -en':'tram', 'der Süden (Sg.)':'south', 'das Theater':'theater', 'die Wegbeschreibung, -en':'route description',
+'der Westen (Sg.)':'West', 'der Zug, -ü-e':'train', 'abfahren':'depart', 'ankommen':'arrive',
+'aussteigen':'go out', 'besichtigen':'to view', 'einsteigen':'get in', 'liegen':'lay',
+'sitzen':'to sit', 'zurückfahren':'drive back', 'bekannt':'known', 'berühmt':'famous',
+'riesig':'huge', 'weit':'far', 'daneben':'past', 'draußen':'outside',
+'geradeaus':'straight ahead', 'links':'left', 'rechts':'right', 'unterwegs':'on the way',
+'woher':'from where', 'wohin':'where', 'zurück':'back', 'entlang':'along',
+'zu Fuß':'on foot'}
+
+A1_13_stunde =   {'die Apotheke, -n':'pharmacy', 'der Arm, -e':'arm', 'der Arzt, ä-e':'doctor', 'das Auge, -n':'eye',
+'der Bauch':'belly', 'das Bein, -e':'leg', 'das Bett, -en':'bed', 'die Erkältung, -en':'common cold',
+'das Fieber (Sg.)':'fever', 'der Finger':'finger', 'die Gesundheit (Sg.)':'health', 'der Grad (Sg.)':'degree',
+'das Haar, -e':'hair', 'der Hals, - ä-e':'neck', 'die Hand, -ä-e':'hand', 'der Husten (Sg.)':'cough',
+'das Knie':'knee', 'der Kopf, -ö-e':'head', 'der Körper':'body', 'die Krankheit, -en':'disease',
+'die Krankmeldung, -en':'sick note', 'das Medikament, -e':'medicine', 'der Mitarbeiter':'coworker', 'der Moment':'moment',
+'die Nase':'nose', 'die Tropfen (Pl.)':'drops', 'das Ohr, -en':'ear', 'der Patient, -en':'patient',
+'das Rezept, -e':'recipe', 'der Schmerz, -em':'pain', 'der Schnupfen':'runny nose', 'die Tablette, -n':'tablet',
+'das Taschentuch':'handkerchief', 'bedeuten':'mean', 'einnehmen':'take', 'krankschreiben':'take sick leave',
+'lachen':'laugh', 'öffnen':'open', 'trainieren':'train', 'wiederkommen':'come back',
+'gesund':'healthy', 'krank':'sick', 'warm':'warm', 'einmal':'once',
+'gegen':'opposite'}
+
+A1_14_stunde =   {'Achtung (Sg.)':'attention', 'der Aufzug, ü-e':'lift', 'der Beginn (Sg.)':'beginning', 'der Bereich, -e':'area',
+'die Birne, -n':'lightbulb', 'das Doppelzimmer':'double room', 'das Einzelzimmer':'single room', 'der Elektriker':'electrician',
+'der Flughafen':'airport', 'das Gepäck (Sg.)':'luggage', 'das Glück (Sg.)':'happiness', 'die Halbpension (Sg.)':'half board',
+'die Hotelkaufleute':'hotel staff', 'der Informatiker':'the computer scientist', 'der Koffer':'suitcase', 'der Kunde':'client',
+'der Lebemslauf':'CV', 'das Öl (Sg.)':'oil', 'der Prospekt, -e':'brochure', 'die Rechnung, -en':'bill',
+'das Reisebüro':'travel agency', 'das Salz (Sg.)':'salt', 'die S-Bahn, -en':'suburban railway', 'der Schrank, ä-e':'wardrobe',
+'das Studium (Sg.)':'study', 'die Treppe, -n':'stairs', 'das Zeugnis, -se':'the certificate', 'ausmachen':'turn off',
+'beenden':'finish', 'bieten':'offer', 'drucken':'to print', 'einchecken':'register',
+'empfehlen':'recommend', 'lösen':'solve', 'putzen':'clean', 'reservieren':'reserve',
+'übernachten':'stay overnight', 'umziehen':'move house', 'angenehm':'pleasant', 'anstrengend':'stressful',
+'fair':'fair', 'flexibel':'flexible', 'höflich':'polite', 'ideal':'ideal',
+'eilig':'hurry', 'seit':'since'}
+
+A1_15_stunde =   {'das Abitur (Sg.)':'certificate of maturity', 'die Angst, ä-e':'fear', 'der Chor, -ö-e':'choir', 'das Dorf, - ö-er':'village',
+'die Fremdsprache, -n':'foreign language', 'die Freundschaft, -en':'friendship', 'der Führerschein':"the driver's license", 'die Grammatik':'grammar',
+'die Großmutter, ö-':'grandmother', 'die Inlineskates (Pl.)':'inline skates', 'der Keks, -e':'cookie', 'das Klavier, -e':'piano',
+'das Musikinstrument, -e':'musical instrument', 'die Präsentation, -en':'presentation', 'der Schal, -s':'scarf', 'die Sendung, -en':'broadcast',
+'der Strand, ä-e':'beach', 'das Theaterstück, -e':'the play', 'die Universität, -en':'university', 'die WhatsApp-Nachricht, -en':'message',
+'aufhören':'cease', 'ausprobieren':'try', 'bearbeiten':'edit', 'erklären':'explain',
+'nähen':'sew', 'programmieren':'do programme', 'rechnen':'calculate', 'reden':'talk',
+'singen':'sing', 'stricken':'knit', 'tragen':'wear', 'negativ':'negative',
+'positiv':'positive', 'selbstständig':'solo', 'leicht':'light', 'der Vorteil':'advantage',
+'der Nachteil':'disadvantage', 'auswendig':'by rote', 'danach':'thereafter', 'doch':'however',
+'einmal':'once', 'unter':'under', 'zurzeit':'currently'}
+
+A1_16_stunde =   {'der Brief, -e':'letter', 'der Club, -s':'club', 'das Ding, -e':'thing', 'der Empfänger':'recipient',
+'der Fernseher':'tv box', 'die Gemeinsamkeit, -en':'alliance', 'der Gewinn, -e':'profit', 'das Glück (Sg.)':'happiness',
+'der Haushalt, -e':'household', 'das Herz, -en':'heart', 'das Karussell, -s':'the merry-go-round', 'das Lebkuchenherz, -en':'gingerbread',
+'das Los, -e':'lottery', 'der Nachbar, -n':'neighbor', 'die Niete, -n':'nonsense', 'die Nummer, -n':'number',
+'die Schrift, -en':'font', 'das Ticket, -s':'ticket', 'die Umfrage, -n':'survey', 'das Volksfest, -e':'folk festival',
+'beobachten':'observe', 'danken':'thank', 'gefallen':'like', 'gehören':'belong',
+'gewinnen':'win', 'helfen':'help', 'kaufen':'buy', 'schreien':'scream',
+'blöd':'silly', 'entspannt':'relaxed', 'fantastisch':'fantastic', 'ganz o.k.':'everything is fine',
+'glücklich':'happy', 'hässlich':'ugly', 'nett':'nice', 'nicht schlecht':'not bad',
+'schrecklich':'terrible', 'süß':'sweet', 'voll':'full', 'wunderbar':'wonderful',
+'alles':'all', 'etwas':'something', 'hoffentlich':'hopefully', 'klasse':'great',
+'nichts':'nothing', 'oben':'above', 'schade':'pity', 'unten':'below'}
+
 
 ############################################### A - 2 #################################################################
 
@@ -392,20 +552,82 @@ A2_zehnte_stunde =   {'der Ärger':'anger', 'der Bewohner':'resident', 'die Bezi
 'etwas':'something', 'selbstverständlich':'self-evident', 'umgekehrt':'reversed'
 }
 
-A2_11_stunde =   {'':'', '':'', '':'', '':'',
-'':'', '':'', '':'', '':'',
-'':'', '':'', '':'', '':'',
-'':'', '':'', '':'', '':'',
-'':'', '':'', '':'', '':'',
-'':'', '':'', '':'', '':'',
-'':'', '':'', '':'', '':'',
-'':'', '':'', '':'', '':'',
-'':'', '':'', '':'', '':'',
-'':'', '':'', '':'', '':'',
-'':'', '':'', '':'', '':'',
-'':'', '':'', '':'', '':'',
-'':'', '':'', '':'', '':'',
-'':'', '':'', '':'', '':''}
+A2_11_stunde =   {'der Akku, -s':'battery', 'der Anschluss, ä-e':'connection', 'die App, -s':'app', 'der Bildschirm':'screen',
+'der Drucker':'printer', 'das Gerät, -e':'device', 'der Kopfhörer':'headphones', 'die Nachricht, -en':'news',
+'das Netzwerk, -e':'network', 'der Papierkorb':'trash can', 'der Rabatt, -e':'discount', 'die Reparatur, -en':'the repair',
+'der Vertrag':'contract', 'die Werbung (Sg.)':'advertising', 'die Zeitschricht, -en':'magazine', 'die Zeitung, -en':'newspaper',
+'anklicken':'click', 'bedeuten':'mean', 'chatten':'to chat', 'checken':'check',
+'downloaden':'download', 'einschalten':'switch on', 'ersetzen':'replace', 'googeln':'to search',
+'kontrollieren':'to control', 'kündigen':'cancel', 'löschen':'delete', 'nutzen':'use',
+'prüfen':'check', 'reparieren':'to repair', 'speichern':'to store', 'aktuell':'current',
+'dumm':'stupid', 'elektronisch':'electronic', 'sozial':'social', 'bis':'until',
+'sowieso':'anyway'}
+
+A2_12_stunde =   {'die Anerkennung (Sg.)':'recognition', 'der Angestellte, -n':'employee', 'der Artikel':'article', 'der Ausbildungsberuf, -e':'apprenticeship',
+'der Auszubildende, -n':'trainee', 'der Azubi, -s':'trainee', 'die Beratung, -en':'consultation', 'die Berufsausbildung':'vocational training',
+'der Berufsberater':'career counselor', 'die Berufserfahrung, -en':'the professional experience, -s', 'die Berufsschule, -n':'vocational school', 'der Betrieb, -e':'company',
+'die Chance, -n':'chance', 'der Fleck':'stain', 'das Gehalt, ä-er':'salary', 'der Kommentar, -e':'commentary',
+'der Maler':'painter', 'die Muttersprache':'native language', 'der Polizist':'policeman', 'die Realität, -en':'reality',
+'die Rolle, -n':'role', 'der Sekretär':'secretary', 'die Stelle, -n':'working position', 'die Tapete, -n':'wallpaper',
+'das Unternehmen':'firma', 'der Unterschied, -e':'difference', 'das Verhältnis, -se':'relationship', 'abschließen':'close',
+'anerkennen':'recognise', 'aufmachen':'open', 'erzählen von + Dat':'tell', 'sich kümmern um + Akk':'take care',
+'leiten':'to guide', 'recherchieren':'research', 'spielen':'to play', 'zuständig sein':'be in charge',
+'abwechslungsreich':'diversified', 'entspannt':'relaxed', 'handwerklich':'manual', 'kreativ':'creative',
+'sinnvoll':'meaningful', 'sinnlos':'sensless', 'zuständig':'responsible', 'dafür':'in favor',
+'drinnen':'inside', 'draußen':'outside'}
+
+
+A2_13_stunde =   {'das Angebot, -e':'offer', 'der Designer':'designer', 'das Ding, -e':'thing', 'der Einkauf, -ä-er':'purchase',
+'die Kirche, -n':'church', 'das Kompliment, -e':'compliment', 'der Luftballon, -s':'balloon', 'die Melodie, -n':'melody',
+'die Nichte, -n':'niece', 'das Objekt, -e':'object', 'der Ohrring, -e':'earring', 'das Pech (Sg.)':'bad luck',
+'das Recycling (Sg.)':'recycling', 'der Ring, -e':'ring', 'der Sänger':'singer', 'das Silber (Sg.)':'silver',
+'das Stadtfest, -e':'city festival', 'die Stimmung, -en':'mood', 'die Stimme, -n':'voice', 'das Talent, -e':'talent',
+'die Teetasse, -n':'teacup', 'die Teekanne, -n':'the teapot, -s', 'die Vase, -n':'vase', 'der Warenkorb, ö-e':'shopping cart',
+'aussuchen':'select', 'basteln':'tinker', 'bezahlen':'pay', 'buchen':'book',
+'gehen (um + Akk)':'go around', 'halten':'hold', 'herstellen':'produce', 'passen':'match',
+'vermuten':'assume', 'begeistert':'delightful', 'fleißig':'zealous', 'faul':'lazy',
+'originell':'original', 'populär':'popular', 'schmutzig':'dirty', 'sauber':'clean',
+'wach':'awake', 'müde':'tired', 'dahin':'there', 'maximal':'maximum',
+'überhaupt':'at all', 'wohl':'probably'}
+
+A2_14_stunde =   {'die Abfahrt, -en':'departure', 'die Altstadt, ä-e':'old town centre', 'der Berg, -e':'mountain', 'die Bremse, -n':'brake',
+'der Coiffeur':'hairdresser', 'der Erwachsene, -n':'adult', 'die Ferien (Pl.)':'holidays', 'die Insel, -n':'island',
+'die Landschaft, -en':'landscape', 'die Luft (Sg.)':'air', 'die Panne, -n':'mishap', 'der Pass, ä-e':'passport',
+'die Pension, -en':'pension', 'der Radfahrer':'cyclist', 'der Reifen':'tire', 'die Rundfahrt, -en':'tour',
+'der Schlauch, ä-e':'hose', 'das Trinkgeld':'tip', 'die Übernachten, -en':'overnight stays', 'das Ufer':'shore',
+'das Velo':'bike', 'das Werkzeug, -e':'tool', 'der Wirt, -e':'host', 'der Zoll':'customs',
+'der Zuschauer':'viewer', 'einstecken':'plug in', 'sich erkundigen nach + Dat':'enquire about', 'erleben':'experience',
+'folgen':'follow', 'lassen':'let', 'losgehen':'go off', 'prüfen':'check',
+'schneiden':'cut', 'wechseln':'change', 'bequem':'convenient', 'knapp':'meager',
+'nass':'wet', 'trocken':'dry', 'wunderschön':'wonderful', 'inklusive':'inclusive',
+'manche':'some'}
+
+
+A2_15_stunde =   {'die Ahnung, -en':'hunch', 'das Amt,  ä-er':'office', 'die Angabe, -n':'information', 'der Ansatz, -ä-e':'approach',
+'der Antrag, ä-e':'request', 'der Arbeitgeber':'employer', 'die Arbeitserlaubnis (Sg.)':'work permit', 'die Arbeitsgenehmigung, -en':'work permit',
+'die Ausländerbehörde':'immigration office', 'die Bankkarte, -n':'bank card', 'der Beamte, -n':'official', 'die Bestätigung, -en':'confirmation',
+'die Fahrschule, -n':'driving school', 'die Frist, -en':'deadline', 'der Führerschein':"driver's license", 'die Konsequenz, -en':'consequence',
+'das Konsulat':'consulate', 'die Krankenkasse, -n':'health insurance company', 'die Krankenversicherung':'health insurance', 'die Meldebestätigung, -en':'registration confirmation',
+'der Mietvertrag, -ä-e':'rental agreement', 'das Original, -e':'the original', 'der Personalausweis, -e':'identity card', 'der Reisepass, - ä-e':'passport',
+'der Stempel':'stamp', 'der  Termin, -e':'appointment', 'die Verlängerung, -en':'extension', 'das Visum, Visa':'visa',
+'sich anmelden in + Dat':'register', 'beantragen':'apply for', 'erhalten':'receive', 'feststellen':'to state',
+'verschieben':'shift', 'ausländisch':'foreign', 'betrunken':'drunk', 'direkt':'direkt',
+'indirekt':'obliquely', 'gültig':'valid', 'ungültig':'invalid', 'abgelauft':'ex[ired',
+'offiziell':'officially', 'inoffiziell':'informal', 'theoretisch':'theoretical', 'praktisch':'practical',
+'darüber':'about it', 'innerhalb':'inside', 'außerhalb':'outside'}
+
+A2_16_stunde =   {'die Absicht':'intention', 'die Braut':'bride', 'der Bräutigam':'groom', 'das Brautpaar':'the bridal couple',
+'der Braten':'the roast', 'das Brunch':'brunch', 'der Büffet':'buffet', 'die Einschulung':'school enrolment',
+'das Feuerwerk, -e':'fireworks', 'die Glückwunschkarte':'greeting card', 'die Hochzeit':'wedding', 'die Hochzeitsfeier':'wedding party',
+'der Karneval':'carnival', 'das Neujahr (Sg.)':'the new year', 'Ostern':'Easter', 'die Portion, -nen':'portion',
+'der Schritt, -e':'step', 'Silvester':'New Years Eve', 'das Straßenfest':'street festival', 'der Topf, ö-e':'pot',
+'die Tradition, -en':'tradition', 'die Vermutung, -en':'assumption', 'der Vorschlag, -ä-e':'suggestion', 'annehmen':'accept',
+'ablehnen':'refuse', 'insistieren':'insist', 'Bescheid geben':'let me know', 'gratulieren':'congratulate',
+'sich erinnern an':'remember', 'feiern':'celebrate', 'merken':'notice', 'schmücken':'decorate',
+'verstecken':'hide', 'wünschen':'wish', 'zurückbringen':'return', 'eigenartig':'peculiar',
+'einzigartig':'unoque', 'freiwillig':'voluntarily', 'heimlich':'secretly', 'originell':'original',
+'veröffentlichen':'publish', 'schöpferisch':'creative', 'damit':'so', 'sogar':'even',
+'zuletzt':'last'}
 
 
 
@@ -416,18 +638,18 @@ B1 = 'AgACAgIAAxkBAAPAZvmfP_RwmOcevtB8KiDJC2GhP1IAAornMRv8w8hLgIYfAAGEG_loAQADAg
 
 ABC = 'AgACAgIAAxkBAAIB42b61rWQSVN9ntVRxheog6tjCZoTAAKc3TEb_MPYS04UdsJS-FOpAQADAgADeQADNgQ'
 
-b1_stunde_collection = {'1':erste_stunde, '2':zweite_stunde, '3':dritte_stunde, '4':vierte_stunde, '5':funfte_stunde , '6':sex_stunde, '7':sieben_stunde, '8':achten_stunde, '9':nine_stunde, '10': zehn_stunde}
-a1_stunde_collection = {'1':A1_erste_stunde, '2':A1_zweite_stunde, '3':A1_dritte_stunde, '4':A1_vierte_stunde, '5':A1_funfte_stunde , '6':A1_sex_stunde, '7': A1_sieben_stunde, '8':A1_achten_stunde, '9':A1_nine_stunde, '10': A1_zehn_stunde}
-a2_stunde_collection ={'1':A2_erste_stunde, '2':A2_zweite_stunde, '3':A2_dritte_stunde, '4':A2_vierte_stunde, '5':A2_funfte_stunde, '6':A2_sex_stunde, '7':A2_sieben_stunde, '8':A2_achten_stunde, '9':A2_neunte_stunde, '10': A2_zehnte_stunde}
+b1_stunde_collection = {'1':erste_stunde, '2':zweite_stunde, '3':dritte_stunde, '4':vierte_stunde, '5':funfte_stunde , '6':sex_stunde, '7':sieben_stunde, '8':achten_stunde, '9':nine_stunde, '10': zehn_stunde, '11':B1_11_stunde, '12':B1_12_stunde, '13':B1_13_stunde, '14':B1_14_stunde, '15':B1_15_stunde, '16':B1_16_stunde}
+a1_stunde_collection = {'1':A1_erste_stunde, '2':A1_zweite_stunde, '3':A1_dritte_stunde, '4':A1_vierte_stunde, '5':A1_funfte_stunde , '6':A1_sex_stunde, '7': A1_sieben_stunde, '8':A1_achten_stunde, '9':A1_nine_stunde, '10': A1_zehn_stunde, '11':A1_11_stunde, '12':A1_12_stunde, '13':A1_13_stunde, '14':A1_14_stunde, '15':A1_15_stunde, '16':A1_16_stunde}
+a2_stunde_collection ={'1':A2_erste_stunde, '2':A2_zweite_stunde, '3':A2_dritte_stunde, '4':A2_vierte_stunde, '5':A2_funfte_stunde, '6':A2_sex_stunde, '7':A2_sieben_stunde, '8':A2_achten_stunde, '9':A2_neunte_stunde, '10': A2_zehnte_stunde, '11':A2_11_stunde, '12':A2_12_stunde, '13':A2_13_stunde, '14':A2_14_stunde, '15':A2_15_stunde, '16':A2_16_stunde}
 
 it_coll = {'IT_A1': a1_stunde_collection, 'IT_A2': a2_stunde_collection, 'IT_B1': b1_stunde_collection}
 
 ##########################################################################################################
 
 
-b1_lern_collection = {'one':erste_stunde, 'two':zweite_stunde, 'three':dritte_stunde, 'four':vierte_stunde, 'five':funfte_stunde, 'six':sex_stunde, 'sevan':sieben_stunde, 'eight':achten_stunde, 'nine': nine_stunde, 'ten':zehn_stunde}
-a1_lern_collection = {'one':A1_erste_stunde, 'two':A1_zweite_stunde, 'three':A1_dritte_stunde, 'four':A1_vierte_stunde, 'five':A1_funfte_stunde , 'six':A1_sex_stunde, 'sevan':A1_sieben_stunde, 'eight':A1_achten_stunde, 'nine': A1_nine_stunde, 'ten':A1_zehn_stunde}
-a2_lern_collection = {'one':A2_erste_stunde, 'two':A2_zweite_stunde, 'three':A2_dritte_stunde, 'four':A2_vierte_stunde, 'five':A2_funfte_stunde , 'six':A2_sex_stunde, 'sevan':A2_sieben_stunde, 'eight':A2_achten_stunde, 'nine': A2_neunte_stunde, 'ten':A2_zehnte_stunde}
+b1_lern_collection = {'one':erste_stunde, 'two':zweite_stunde, 'three':dritte_stunde, 'four':vierte_stunde, 'five':funfte_stunde, 'six':sex_stunde, 'sevan':sieben_stunde, 'eight':achten_stunde, 'nine': nine_stunde, 'ten':zehn_stunde, 'elevan':B1_11_stunde, 'twelve':B1_12_stunde, 't13':B1_13_stunde, 't14':B1_14_stunde, 't15':B1_15_stunde, 't16':B1_16_stunde}
+a1_lern_collection = {'one':A1_erste_stunde, 'two':A1_zweite_stunde, 'three':A1_dritte_stunde, 'four':A1_vierte_stunde, 'five':A1_funfte_stunde , 'six':A1_sex_stunde, 'sevan':A1_sieben_stunde, 'eight':A1_achten_stunde, 'nine': A1_nine_stunde, 'ten':A1_zehn_stunde, 'elevan':A1_11_stunde, 'twelve':A1_12_stunde, 't13':A1_13_stunde, 't14':A1_14_stunde, 't15':A1_15_stunde, 't16':A1_16_stunde}
+a2_lern_collection = {'one':A2_erste_stunde, 'two':A2_zweite_stunde, 'three':A2_dritte_stunde, 'four':A2_vierte_stunde, 'five':A2_funfte_stunde , 'six':A2_sex_stunde, 'sevan':A2_sieben_stunde, 'eight':A2_achten_stunde, 'nine': A2_neunte_stunde, 'ten':A2_zehnte_stunde, 'elevan':A2_11_stunde, 'twelve':A2_12_stunde, 't13':A2_13_stunde, 't14':A2_14_stunde, 't15':A2_15_stunde, 't16':A2_16_stunde}
 
 lern_coll = {'IT_A1': a1_lern_collection, 'IT_A2': a2_lern_collection, 'IT_B1': b1_lern_collection}
 

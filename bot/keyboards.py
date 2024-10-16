@@ -37,8 +37,9 @@ pril_button = InlineKeyboardButton(text='Adlektive', url='https://telegra.ph/Der
 verb_button = InlineKeyboardButton(text='Verben', url='https://telegra.ph/Unregelmäßige-Verben-09-21')
 conjuktiv_II = InlineKeyboardButton(text='Konjunktiv II', url='https://telegra.ph/Konjuktiv-II-10-03')
 Futurum = InlineKeyboardButton(text='Futur I', url='https://telegra.ph/Futurum-I-10-03')
+passiv = InlineKeyboardButton(text='Passiv', url='https://telegra.ph/Passiv-10-16')
 
-gram_kb = InlineKeyboardMarkup(inline_keyboard=[[pril_button], [verb_button], [conjuktiv_II], [Futurum]])
+gram_kb = InlineKeyboardMarkup(inline_keyboard=[[pril_button], [verb_button], [conjuktiv_II], [Futurum],[passiv]])
 ###########################################
 
 erste_button = InlineKeyboardButton(text='Stunde 1', callback_data='1')
@@ -59,8 +60,10 @@ f15_button = InlineKeyboardButton(text='Stunde 15', callback_data='15')
 f16_button = InlineKeyboardButton(text='Stunde 16', callback_data='16')
 
 
-ws_kb = InlineKeyboardMarkup(inline_keyboard=[[erste_button, funfte_button], [zweite_button , sex_button],
-                                              [dritte_button, siben_button],[vierte_button, eight_button]])
+ws_kb = InlineKeyboardMarkup(inline_keyboard=[[erste_button, neun_button], [zweite_button , zehn_button],
+                                              [dritte_button, elf_button],[vierte_button, zwelfe_button],
+                                              [funfte_button, f13_button], [sex_button, f14_button],
+                                              [siben_button, f15_button], [eight_button, f16_button]])
 
 
 ja_button = InlineKeyboardButton(text='✅', callback_data='ja')
@@ -91,8 +94,9 @@ selber_button = InlineKeyboardButton(text='Mein Wortschatz', callback_data='Wort
 
 lernen_kb = (
     InlineKeyboardMarkup(
-        inline_keyboard=[[one_button, five_button],[two_button, six_button], [three_button, sevan_button],
-                         [vierte_button, acht_button], [selber_button]]))
+        inline_keyboard=[[one_button, nine_button],[two_button, ten_button], [three_button, elevan_button],
+                         [vierte_button, twelve_button], [five_button, t13_button], [six_button, t14_button],
+                         [sevan_button, t15_button], [acht_button, t16_button], [selber_button]]))
 
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$

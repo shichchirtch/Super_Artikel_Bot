@@ -131,9 +131,10 @@ async def artikle_geber(message: Message):
     user_id = message.from_user.id
     lan = await return_lan(user_id)  # достаю язык
     suchend_word = message.text
+    # print("1111 suchend_word = ", suchend_word)
     if suchend_word.lower().startswith('die ') or suchend_word.lower().startswith('der ') or suchend_word.lower().startswith('das '):
         suchend_word = suchend_word[4:]
-    # print(suchend_word.capitalize())
+        # print("suchend_word = ", suchend_word)
     zapros = f'{site_url}{suchend_word}'
     print(zapros)
     req = requests.get(url=zapros, headers=site_headers)
