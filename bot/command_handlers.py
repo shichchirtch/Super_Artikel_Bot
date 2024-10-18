@@ -338,9 +338,12 @@ async def artikle_geber(message: Message):
 async def process_help_command(message: Message):
     lan = await return_lan(message.from_user.id)
     erste = await regular_message('This bot can define ', lan)
-    print('erste = ', erste)
+    # print('erste = ', erste)
+    if not lan:
+        await insert_lan(message.from_user.id, 'ru')
+        lan = 'ru'
     stroka = await regular_message(help_text, lan)
-    print('stroka = ', stroka)
+    # print('stroka = ', stroka)
     st_present = f'{erste} {artikel}\n\n{stroka} {presentation}'
     att = await message.answer(text=st_present)  # Почему не проверяется наличие этого слова в лексиконе bot_lexicon = {} ? -
     # ответ - потому что уже сформированы в erste и stroka
@@ -380,6 +383,9 @@ async def process_show_command(message: Message):
 async def process_settings_command(message: Message, state: FSMContext):
     user_id = message.from_user.id
     lan = await return_lan(user_id)
+    if not lan:
+        await insert_lan(message.from_user.id, 'ru')
+        lan = 'ru'
     att = await message.answer(await regular_message(settings_text, lan))
     await asyncio.sleep(20)
     await att.delete()
@@ -390,6 +396,9 @@ async def process_settings_command(message: Message, state: FSMContext):
 async def process_grammatik_command(message: Message):
     user_id = message.from_user.id
     lan = await return_lan(user_id)
+    if not lan:
+        await insert_lan(message.from_user.id, 'ru')
+        lan = 'ru'
     att = await message.answer(text=await regular_message(grammatik_text, lan), reply_markup=gram_kb)
     await asyncio.sleep(20)
     await att.delete()
@@ -401,6 +410,9 @@ async def process_worschatz_command(message: Message):
     """Хэндлер  показывает инлайн клаву с 3 учебниками"""
     user_id = message.from_user.id
     lan = await return_lan(user_id)
+    if not lan:
+        await insert_lan(message.from_user.id, 'ru')
+        lan = 'ru'
     temp_data = users_db[user_id]['bot_ans']
     await message_trasher(user_id, temp_data)
     carture = await regular_message(it_auswahlen, lan)
@@ -419,6 +431,9 @@ async def process_add_wort_command(message: Message, state: FSMContext):
     """Отправляет сообщение с предложением отправить ему слово на немецком языке"""
     user_id = message.from_user.id
     lan = await return_lan(user_id)
+    if not lan:
+        await insert_lan(message.from_user.id, 'ru')
+        lan = 'ru'
     await state.set_state(FSM_ST.add_wort)
 
     temp_data = users_db[user_id]['bot_ans']
@@ -641,6 +656,9 @@ async def check_writing_process(message: Message, state: FSMContext):
 @ch_router.message(Command('exit'))
 async def process_exit_command(message: Message, state: FSMContext):
     lan = await return_lan(message.from_user.id)
+    if not lan:
+        await insert_lan(message.from_user.id, 'ru')
+        lan = 'ru'
     user_id = message.from_user.id
     current_state = await state.get_state()
     if current_state != 'FSM_ST:after_start':
