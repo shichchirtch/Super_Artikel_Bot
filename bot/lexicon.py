@@ -22,7 +22,7 @@ admin_eintritt =('сколько юзеров запустило бота   /sko
                  'Загрузить БЭДюху    /load\n\n'
                  '🤗')
 
-settings_text= ('For grammatical rules click   ➡   /grammatik\n\n'
+settings_text= ('For  grammatical rules click   ➡   /grammatik\n\n'
                 'For vocabulary for the lesson click   ➡   /wortschatz\n\n'
                 'To add a new word in my own vocabulary click   ➡   /add_wort\n\n'
                 'To select a language, click  ➡   /set_lan\n\n'
