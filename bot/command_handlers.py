@@ -772,7 +772,7 @@ async def something_goes_wrong(message: Message, state: FSMContext):
     await message.delete()
     await att.delete()
 
-@ch_router.message(Command('maerchren'), StateFilter(FSM_ST.after_start))
+@ch_router.message(Command('maerchen'), StateFilter(FSM_ST.after_start))
 async def maerchen_command(message: Message, state: FSMContext):
     """Хэндлер отправлят сообщение с инлайн клавой - skazki"""
     lan = await return_lan(message.from_user.id)

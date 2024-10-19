@@ -29,7 +29,7 @@ settings_text= ('For grammatical rules click   ➡   /grammatik\n\n'
                 'To start words study, click   ➡   /lernen\n\n'
                 'To see your own notes and vocabulary, click   ➡  /zeigen\n\n\n'
                 'To practice correct spelling of words, click  ➡   /schreiben\n\n'
-                'To read German fairy tale, click   ➡   /maerchen \n\n\n\n'
+                'To read German fairy tale, click    /maerchen \n\n\n\n'
                 'To sent review, click  /review\n\n\n🔹')
 
 grammatik_text = 'Choose a topic that interests you'
