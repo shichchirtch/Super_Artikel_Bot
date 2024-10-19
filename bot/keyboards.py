@@ -131,8 +131,11 @@ it_b1_button = InlineKeyboardButton(text='B 1', callback_data='IT_B1')
 it_buch_kb = InlineKeyboardMarkup(inline_keyboard=[[it_a1_button], [it_a2_button], [it_b1_button]])
 
 
+#####################################MAERCHEN KB#####################################################
 
-
+Aschenputtel_button = InlineKeyboardButton(text='Aschenputtel', url='https://telegra.ph/Aschenputtel-10-19')
+Bremer_button = InlineKeyboardButton(text='Die Bremer Stadtmusikanten', url='https://telegra.ph/Die-Bremer-Stadtmusikanten-10-19')
+maerchen_kb =  InlineKeyboardMarkup(inline_keyboard=[[Aschenputtel_button], [Bremer_button]])
 
 
 
