@@ -135,11 +135,15 @@ it_buch_kb = InlineKeyboardMarkup(inline_keyboard=[[it_a1_button], [it_a2_button
 
 Aschenputtel_button = InlineKeyboardButton(text='Aschenputtel', url='https://telegra.ph/Aschenputtel-10-19')
 Bremer_button = InlineKeyboardButton(text='Die Bremer Stadtmusikanten', url='https://telegra.ph/Die-Bremer-Stadtmusikanten-10-19')
-maerchen_kb =  InlineKeyboardMarkup(inline_keyboard=[[Aschenputtel_button], [Bremer_button]])
+Rotkappchen_button = InlineKeyboardButton(text='Rotkäppchen', url='https://telegra.ph/Rotkäppchen-10-19')
+Spielman_button = InlineKeyboardButton(text='Der wunderliche Spielmann', url='https://telegra.ph/Der-wunderliche-Spielmann-10-19')
+Bruder_button = InlineKeyboardButton(text='Die zwölf Brüder', url='https://telegra.ph/Die-zwölf-Brüder-10-19')
+
+maerchen_kb =  InlineKeyboardMarkup(inline_keyboard=[[Aschenputtel_button], [Bremer_button], [Rotkappchen_button],[Spielman_button], [Bruder_button]])
 
 
 
-
+# https://telegra.ph/Die-zwölf-Brüder-10-19
 
 
 
