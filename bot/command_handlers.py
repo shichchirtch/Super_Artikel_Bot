@@ -337,11 +337,10 @@ async def artikle_geber(message: Message):
 @ch_router.message(Command('help'))
 async def process_help_command(message: Message):
     lan = await return_lan(message.from_user.id)
-    erste = await regular_message('This bot can define ', lan)
-    # print('erste = ', erste)
     if not lan:
         await insert_lan(message.from_user.id, 'ru')
         lan = 'ru'
+    erste = await regular_message('This bot can define ', lan)
     stroka = await regular_message(help_text, lan)
     # print('stroka = ', stroka)
     st_present = f'{erste} {artikel}\n\n{stroka} {presentation}'
@@ -772,6 +771,18 @@ async def something_goes_wrong(message: Message, state: FSMContext):
     await asyncio.sleep(4)
     await message.delete()
     await att.delete()
+
+@ch_router.message(Command('maerchren'), StateFilter(FSM_ST.after_start))
+async def maerchen_command(message: Message, state: FSMContext):
+    """Хэндлер отправлят сообщение с инлайн клавой - skazki"""
+    lan = await return_lan(message.from_user.id)
+    us_text = await regular_message(maerchen_text, lan)
+    att = await message.answer(us_text, reply_markup=maerchen_kb)
+    temp_data = users_db[message.from_user.id]['bot_ans']
+    await message_trasher(message.from_user.id, temp_data)
+    users_db[message.from_user.id]['bot_ans'] = att
+    await asyncio.sleep(3)
+    await message.delete()
 
 
 ###########################################ADMIN PART#######################################
