@@ -120,6 +120,11 @@ async def ja_nein_process(callback: CallbackQuery, state: FSMContext):
             await state.update_data(pur='')
         else:  # Срабатывает, когда добавляется ещё одно слово
             # print("JA ELSE works")
+            msg_with_2_button_clava = users_db[user_id]['user_msg']
+            if msg_with_2_button_clava:
+                with suppress(TelegramBadRequest):
+                    await msg_with_2_button_clava.delete()
+                    users_db[user_id]['user_msg'] = ''
             att = await callback.message.answer(f'<b>{await regular_message(deine_wort, lan)}</b>')
             users_db[callback.from_user.id]['bot_ans'] = att
 
