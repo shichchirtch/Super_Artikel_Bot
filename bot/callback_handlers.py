@@ -125,8 +125,9 @@ async def ja_nein_process(callback: CallbackQuery, state: FSMContext):
                 with suppress(TelegramBadRequest):
                     await msg_with_2_button_clava.delete()
                     users_db[user_id]['user_msg'] = ''
+                    # users_db[user_id]['bot_ans'] = ''
             att = await callback.message.answer(f'<b>{await regular_message(deine_wort, lan)}</b>')
-            users_db[callback.from_user.id]['bot_ans'] = att
+            users_db[user_id]['user_msg'] = att
 
     else:
         us_pur_dict = await state.get_data()
