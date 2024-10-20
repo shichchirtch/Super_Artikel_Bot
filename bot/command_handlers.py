@@ -524,7 +524,7 @@ async def process_add_personal_ubersetzen_command(message: Message, state: FSMCo
     otvet = await regular_message(erfolgreich_fugen, lan)
     uber_noch = await regular_message(noch, lan)
     att = await message.answer(f'{otvet}\n\n{uber_noch}', reply_markup=ja_nein_kb)
-    users_db[user_id]['bot_ans'] = att
+    users_db[user_id]['user_msg'] = att
 
 
 @ch_router.message(Command('lernen'), StateFilter(FSM_ST.after_start))
