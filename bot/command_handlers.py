@@ -806,35 +806,6 @@ async def get_quantyty_users(message: Message):
     else:
         await message.answer(f'Бота запустили <b>{len(qu)}</b> юзеров')
 
-
-
-
-
-@ch_router.message(Command('send_msg'), IS_ADMIN())
-async def send_message(message: Message, state: FSMContext):
-    await state.set_state(FSM_ST.admin)
-    await message.answer('Schreib ihre Nachrichten')
-
-
-@ch_router.message(StateFilter(FSM_ST.admin))
-async def send_message(message: Message, state: FSMContext):
-    us_list = await return_spam_users()
-    print('us_list = ', *us_list, sep='\n')
-    # text in English
-    us_list.remove(6685637602)
-    for chat_id in us_list:
-        lan = await return_lan(chat_id)  # Запрашиваю язык из постгреса
-        spam = await translates(message.text, lan)
-        try:
-            await message.bot.send_message(chat_id=chat_id, text=spam)
-        except TelegramForbiddenError:
-            pass
-        await asyncio.sleep(0.2)
-
-    await state.set_state(FSM_ST.after_start)
-    await message.answer('Mailing abgeschlossen')
-
-
 @ch_router.message(IS_ADMIN(), Command('dump'))
 async def dump_db(message: Message, state: FSMContext):
     bot_dict = await dp.storage.get_data(key=bot_storage_key)  # Получаю словарь бота
@@ -899,6 +870,31 @@ async def load_db(message: Message, state: FSMContext):
 
     await message.answer('Базы данных успешно загружены !')
     await state.set_state(FSM_ST.after_start)
+
+@ch_router.message(Command('send_msg'), IS_ADMIN())
+async def send_message(message: Message, state: FSMContext):
+    await state.set_state(FSM_ST.admin)
+    await message.answer('Schreib ihre Nachrichten')
+
+
+@ch_router.message(StateFilter(FSM_ST.admin))
+async def send_message(message: Message, state: FSMContext):
+    us_list = await return_spam_users()
+    print('us_list = ', *us_list, sep='\n')
+    # text in English
+    us_list.remove(6685637602)
+    for chat_id in us_list:
+        lan = await return_lan(chat_id)  # Запрашиваю язык из постгреса
+        spam = await translates(message.text, lan)
+        try:
+            await message.bot.send_message(chat_id=chat_id, text=spam)
+        except TelegramForbiddenError:
+            pass
+        await asyncio.sleep(0.2)
+
+    await state.set_state(FSM_ST.after_start)
+    await message.answer('Mailing abgeschlossen')
+
 
 
 @ch_router.message()
