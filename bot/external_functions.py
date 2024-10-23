@@ -5,6 +5,7 @@ from contextlib import suppress
 from aiogram.exceptions import TelegramBadRequest
 from bot_base import *
 import asyncio
+from requests.exceptions import HTTPError
 
 def create_note_collection_keyboard(*args) -> InlineKeyboardMarkup:
     # Создаем объект клавиатуры
@@ -24,7 +25,12 @@ async def translates(slovo:str, lan:str)->str:
         except AttributeError:
                 print('\n\n произошла ошибка AttributeError')
                 res = 'Es ist ein Fehler aufgetreten, versuchen Sie bitte noch mal'
-
+        except HTTPError:
+            print('Произошла ошибка HTTPError:\n\n')
+            res = slovo
+        except Exception as err:
+            print(f'Other error occurred: {err}')
+            res = slovo
     else:
         res = slovo
     return res
