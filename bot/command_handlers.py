@@ -17,7 +17,7 @@ from bot_instance import FSM_ST, bot_storage_key, dp
 from bot_base import *
 from copy import deepcopy
 from string import ascii_letters
-from external_functions import translates, translates_in_english, regular_message, message_trasher, us_message_trasher
+from external_functions import translates, translates_in_english, regular_message, message_trasher, us_message_trasher, message_sender
 from note_class import User_Note
 from random import choice
 from stunde import *
@@ -880,18 +880,17 @@ async def send_message(message: Message, state: FSMContext):
 @ch_router.message(StateFilter(FSM_ST.admin))
 async def send_message(message: Message, state: FSMContext):
     us_list = await return_spam_users()
-    print('us_list = ', *us_list, sep='\n')
-    # text in English
+    temp_dict = {}
     us_list.remove(6685637602)
     for chat_id in us_list:
         lan = await return_lan(chat_id)  # Запрашиваю язык из постгреса
-        spam = await translates(message.text, lan)
+        spam = await message_sender(message.text, lan, temp_dict)
         try:
             await message.bot.send_message(chat_id=chat_id, text=spam)
         except TelegramForbiddenError:
             pass
         await asyncio.sleep(0.2)
-
+    temp_dict.clear()
     await state.set_state(FSM_ST.after_start)
     await message.answer('Mailing abgeschlossen')
 

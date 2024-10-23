@@ -35,6 +35,27 @@ async def translates(slovo:str, lan:str)->str:
         res = slovo
     return res
 
+async def message_sender(slovo:str, lan:str, temp_dict:dict)->str:
+    if lan != 'en':
+        try:
+            if lan not in temp_dict:
+                res = translators.translate_text(query_text=slovo, from_language='en', to_language=lan, translator='bing')
+                temp_dict[lan]=res
+            else:
+                res = temp_dict[lan]
+        except AttributeError:
+                print('\n\n произошла ошибка AttributeError')
+                res = 'Es ist ein Fehler aufgetreten, versuchen Sie bitte noch mal'
+        except HTTPError:
+            print('Произошла ошибка HTTPError:\n\n')
+            res = slovo
+        except Exception as err:
+            print(f'Other error occurred: {err}')
+            res = slovo
+    else:
+        res = slovo
+    return res
+
 
 async def regular_message(slovo:str, lan:str)->str:
     print('regular message works\n\n')
