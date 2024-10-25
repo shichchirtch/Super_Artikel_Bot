@@ -38,8 +38,10 @@ verb_button = InlineKeyboardButton(text='Verben', url='https://telegra.ph/Unrege
 conjuktiv_II = InlineKeyboardButton(text='Konjunktiv II', url='https://telegra.ph/Konjuktiv-II-10-03')
 Futurum = InlineKeyboardButton(text='Futur I', url='https://telegra.ph/Futurum-I-10-03')
 passiv = InlineKeyboardButton(text='Passiv', url='https://telegra.ph/Passiv-10-16')
+pronomen = InlineKeyboardButton(text='Deklination des Pronomens', url='https://telegra.ph/Deklination-von-Pronomen-10-25')
 
-gram_kb = InlineKeyboardMarkup(inline_keyboard=[[pril_button], [verb_button], [conjuktiv_II], [Futurum],[passiv]])
+
+gram_kb = InlineKeyboardMarkup(inline_keyboard=[[pril_button], [verb_button], [conjuktiv_II], [Futurum],[passiv], [pronomen]])
 ###########################################
 
 erste_button = InlineKeyboardButton(text='Stunde 1', callback_data='1')
