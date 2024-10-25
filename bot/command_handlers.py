@@ -474,8 +474,12 @@ async def process_add_wort(message: Message, state: FSMContext):
             await dp.storage.update_data(key=bot_storage_key, data=bot_dict)  # перезаписываю словарь бота
             await state.update_data(pur=message.text)  # обновляю словарь юзера, записываю туда слово на немецком
         else:
-            att = await message.answer(await translates('I do not know this word', lan))
+            teil_1 = await translates('I do not know this word', lan)
+            teil_2 = await translates('Click button my translation if you know true translation or exit', lan)
+            att = await message.answer(text=f'{teil_1}\n{teil_2}', reply_markup=personal_trans_kb)   #await translates('I do not know this word', lan))
             users_db[user_id]['bot_ans'] = att
+            # await state.update_data(pur=message.text)  # обновляю словарь юзера, записываю туда слово на немецком
+
     elif lan == 'en':
         att = await message.answer(f'{message.text} =  {heimat_lan.lower()} ❓',
                                    reply_markup=ja_nein_kb)

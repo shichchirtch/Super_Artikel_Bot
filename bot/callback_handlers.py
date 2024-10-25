@@ -12,7 +12,7 @@ from aiogram.fsm.context import FSMContext
 from bot_instance import FSM_ST, dp, bot_storage_key
 from keyboards import *
 from random import choice
-from external_functions import regular_message, form_WS_string, message_trasher, translates, create_note_collection_keyboard
+from external_functions import regular_message, form_WS_string, message_trasher, translates, create_note_collection_keyboard, us_message_trasher
 from stunde import *
 from postgres_functions import add_in_spam_list, insert_lan, return_zametki, return_lan
 
@@ -482,4 +482,30 @@ async def show_note(callback: CallbackQuery):
             reply_markup=None)
     temp_data = users_db[callback.from_user.id]['bot_ans']
     await message_trasher(user_id, temp_data)
+
+
+@cb_router.callback_query(StateFilter(FSM_ST.add_wort))
+async def personal_translation(callback: CallbackQuery, state:FSMContext):
+    print('personal_translation works')
+    user_id = callback.from_user.id
+    lan = await return_lan(user_id)
+    if callback.data == 'press_exit':
+        await state.set_state(FSM_ST.after_start)
+        await state.update_data(pur='')  # reset user data
+        temp_data = users_db[user_id]['bot_ans']
+        await message_trasher(user_id, temp_data)
+        temp_data = users_db[user_id]['user_msg']
+        await us_message_trasher(user_id, temp_data)
+        att = await callback.message.answer(text=await regular_message(exit_msg, lan))
+        users_db[user_id]['bot_ans'] = att
+    else:
+        temp_msg = users_db[callback.from_user.id]['bot_ans']
+        await message_trasher(user_id, temp_msg)
+        att = await callback.message.answer(await regular_message(ricgtig_trans, lan))
+        # print('NO if works')
+        await state.set_state(FSM_ST.personal_uber)
+        users_db[callback.from_user.id]['bot_ans'] = att
+
+
+
 

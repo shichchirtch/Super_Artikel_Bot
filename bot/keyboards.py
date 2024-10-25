@@ -141,6 +141,24 @@ Bruder_button = InlineKeyboardButton(text='Die zwölf Brüder', url='https://tel
 
 maerchen_kb =  InlineKeyboardMarkup(inline_keyboard=[[Aschenputtel_button], [Bremer_button], [Rotkappchen_button],[Spielman_button], [Bruder_button]])
 
+#####################################################################################
+
+exit_button = InlineKeyboardButton(text='❌', callback_data='press_exit')
+pesonal_trans_button = InlineKeyboardButton(text='😊', callback_data='personal_trans')
+
+
+personal_trans_kb = InlineKeyboardMarkup(inline_keyboard=[[exit_button, pesonal_trans_button]])
+
+
+
+
+
+
+
+
+
+
+
 
 
 # https://telegra.ph/Die-zwölf-Brüder-10-19

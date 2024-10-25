@@ -175,3 +175,9 @@ class IS_ADMIN(BaseFilter):
         if message.from_user.id == 6685637602:
             return True
         return False
+
+class PERSONAL_TRANSLATION_FILTER(BaseFilter):
+    async def __call__(self, cb: CallbackQuery):
+        if cb.data in ('press_exit', 'personal_trans'):
+            return True
+        return False
