@@ -133,7 +133,7 @@ async def us_message_trasher(user_id:int, msg:Message|None|CallbackQuery):
 
 async def regular_message_for_grund_menu(slovo:str, lan:str)->str:
     print('regular_message_for_grund_menu works\n\n')
-    modifyed_slovo = lan + '_' + slovo[:10]  # Формируется ключ для регулярного сообщения бота ru_For grammatica
+    modifyed_slovo = lan + '_' + slovo[:9]  # Формируется ключ для регулярного сообщения бота ru_For grammatica
     if lan != 'en':
         # modifyed_slovo = lan + '_' + slovo[:10]
         if modifyed_slovo not in bot_lexicon:  # Если никто ещё не запрашиывал команду
