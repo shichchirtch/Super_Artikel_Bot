@@ -11,7 +11,7 @@ async def set_main_menu(bot):
         BotCommand(command='/help',
                    description='Bot commands'),
 
-        BotCommand(command='/settings',
+        BotCommand(command='/grund_menu',
                    description='Was kann Bot machen'),
 
         BotCommand(command='/exit',
