@@ -378,8 +378,8 @@ async def process_show_command(message: Message):
     await message.delete()
 
 
-@ch_router.message(Command('settings'), StateFilter(FSM_ST.after_start))
-async def process_settings_command(message: Message, state: FSMContext):
+@ch_router.message(Command('grund_menu'), StateFilter(FSM_ST.after_start))
+async def process_settings_command(message: Message):
     user_id = message.from_user.id
     lan = await return_lan(user_id)
     if not lan:

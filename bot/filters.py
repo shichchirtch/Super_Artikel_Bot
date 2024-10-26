@@ -109,7 +109,7 @@ class EXCLUDE_COMMAND(BaseFilter):
     async def __call__(self, message: Message):
         if message.text:
             if message.text in ('/grammatik', '/wortschatz', '/add_wort',
-                                '/set_lan', '/lernen', '/zeigen', '/help', '/settings'):
+                                '/set_lan', '/lernen', '/zeigen', '/help', '/grund_menu'):
                 return False
             elif message.text.startswith('/grammatik') or message.text.endswith('/grammatik'):
                 return False
@@ -128,7 +128,7 @@ class EXCLUDE_COMMAND(BaseFilter):
                 return False
             elif message.text.startswith('/zeigen') or message.text.endswith('/zeigen'):
                 return False
-            elif message.text.startswith('/settings') or message.text.endswith('/settings'):
+            elif message.text.startswith('/grund_menu') or message.text.endswith('/grund_menu'):
                 return False
             else:
                 return True
@@ -141,7 +141,7 @@ class EXCLUDE_COMMAND_MIT_EXIT(BaseFilter):
     async def __call__(self, message: Message):
         if message.text:
             if message.text in ('/grammatik', '/wortschatz', '/add_wort',
-                                '/set_lan', '/lernen', '/zeigen', '/help', '/settings', '/exit'):
+                                '/set_lan', '/lernen', '/zeigen', '/help', '/grund_menu', '/exit'):
                 return False
             elif message.text.startswith('/grammatik') or message.text.endswith('/grammatik'):
                 return False
@@ -163,7 +163,7 @@ class EXCLUDE_COMMAND_MIT_EXIT(BaseFilter):
                 return False
             elif message.text.startswith('/zeigen') or message.text.endswith('/zeigen'):
                 return False
-            elif message.text.startswith('/settings') or message.text.endswith('/settings'):
+            elif message.text.startswith('/grund_menu') or message.text.endswith('/grund_menu'):
                 return False
             else:
                 return True
