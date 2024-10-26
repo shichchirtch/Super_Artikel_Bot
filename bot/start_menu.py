@@ -1,9 +1,7 @@
 from aiogram.types import BotCommand
 
-# Функция для настройки кнопки Menu бота
-async def set_main_menu(bot):
-    # Создаем список с командами и их описанием для кнопки menu
-    # bot
+async def set_main_menu_2(bot):
+
     main_menu_commands = [
         BotCommand(command='/liefern',
                    description='Zeigen meine Worte, die ich fruher gefragt habe'),
