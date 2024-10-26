@@ -2,7 +2,7 @@ from aiogram.types import BotCommand
 
 async def set_main_menu_2(bot):
 
-    main_menu_commands = [
+    main_menu_commands_2 = [
         BotCommand(command='/liefern',
                    description='Zeigen meine Worte, die ich fruher gefragt habe'),
 
@@ -16,5 +16,5 @@ async def set_main_menu_2(bot):
                    description='Zurueck nach oben')
     ]
 
-    await bot.set_my_commands(main_menu_commands)
+    await bot.set_my_commands(main_menu_commands_2)
 
