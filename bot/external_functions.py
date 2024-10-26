@@ -130,3 +130,22 @@ async def us_message_trasher(user_id:int, msg:Message|None|CallbackQuery):
             users_db[user_id]['user_ans'] = ''
     else:
         pass
+
+async def regular_message_for_grund_menu(slovo:str, lan:str)->str:
+    print('regular_message_for_grund_menu works\n\n')
+    modifyed_slovo = lan + '_' + slovo[:10]  # Формируется ключ для регулярного сообщения бота ru_For grammatica
+    if lan != 'en':
+        # modifyed_slovo = lan + '_' + slovo[:10]
+        if modifyed_slovo not in bot_lexicon:  # Если никто ещё не запрашиывал команду
+            try:
+                res = translators.translate_text(query_text=slovo, from_language='en', to_language=lan, translator='bing')
+                bot_lexicon[modifyed_slovo]=res
+            except AttributeError:
+                print('\n\n произошла ошибка AttributeError')
+                res = 'Es ist ein Fehler aufgetreten, versuchen Sie bitte noch mal'
+        else:
+            res = bot_lexicon[modifyed_slovo]
+    else:
+        res = slovo
+        bot_lexicon[modifyed_slovo] = res
+    return res

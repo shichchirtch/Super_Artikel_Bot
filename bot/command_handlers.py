@@ -17,7 +17,7 @@ from bot_instance import FSM_ST, bot_storage_key, dp
 from bot_base import *
 from copy import deepcopy
 from string import ascii_letters
-from external_functions import translates, translates_in_english, regular_message, message_trasher, us_message_trasher, message_sender
+from external_functions import translates, translates_in_english, regular_message, message_trasher, us_message_trasher, message_sender, regular_message_for_grund_menu
 from note_class import User_Note
 from random import choice
 from stunde import *
@@ -341,7 +341,7 @@ async def process_help_command(message: Message):
         await insert_lan(message.from_user.id, 'ru')
         lan = 'ru'
     erste = await regular_message('This bot can define ', lan)
-    stroka = await regular_message(help_text, lan)
+    stroka = await regular_message_for_grund_menu(help_text, lan)
     # print('stroka = ', stroka)
     st_present = f'{erste} {artikel}\n\n{stroka} {presentation}'
     att = await message.answer(text=st_present)  # Почему не проверяется наличие этого слова в лексиконе bot_lexicon = {} ? -
@@ -385,7 +385,7 @@ async def process_settings_command(message: Message):
     if not lan:
         await insert_lan(message.from_user.id, 'ru')
         lan = 'ru'
-    att = await message.answer(await regular_message(settings_text, lan))
+    att = await message.answer(await regular_message_for_grund_menu(settings_text, lan))
     await asyncio.sleep(20)
     await att.delete()
     await message.delete()
