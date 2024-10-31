@@ -569,8 +569,8 @@ async def check_writing_process(message: Message, state: FSMContext):
     if lan != 'de':
         if ',' in previous_word:
             previous_word_1 = previous_word.split(',')[0]
-        elif ('(') in previous_word:
-            previous_word_1 = previous_word.split('(')[0]
+        elif previous_word.endswith(' (Sg.)') or previous_word.endswith(' (Pl.)'):
+            previous_word_1 = previous_word[:-6]
         else:
             previous_word_1 = previous_word
 
