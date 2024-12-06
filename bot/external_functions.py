@@ -11,10 +11,14 @@ def create_note_collection_keyboard(*args) -> InlineKeyboardMarkup:
     # Создаем объект клавиатуры
     kb_builder = InlineKeyboardBuilder()
     # Наполняем клавиатуру кнопками-закладками в порядке возрастания
-    for button in sorted(args):
-        kb_builder.row(InlineKeyboardButton(
-            text=button,
-            callback_data=button))
+    for button in args: #sorted(args):
+        try:
+            kb_builder.row(InlineKeyboardButton(
+                text=button,
+                callback_data=button))
+        except Exception as ex:
+            print(f'create_note_collection_keyboard happend line 20 in external function  {ex}')
+            pass
     return kb_builder.as_markup()
 
 
