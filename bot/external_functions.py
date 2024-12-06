@@ -17,10 +17,12 @@ def create_note_collection_keyboard(*args) -> InlineKeyboardMarkup:
         try:
             if len(button) > 25:
                 # print(f"Warning: callback_data слишком длинный ({len(button)} символов): {button}")
-                button = button[:25] + "..."
+                cut_button = button[:25] + "..."
+            else:
+                cut_button=button
             kb_builder.row(InlineKeyboardButton(
                 text=button,
-                callback_data=button))
+                callback_data=cut_button))
         except Exception as ex:
             print(f'create_note_collection_keyboard happend line 21 in external function  {ex}')
             continue
