@@ -12,7 +12,7 @@ def create_note_collection_keyboard(*args) -> InlineKeyboardMarkup:
     # Создаем объект клавиатуры
     kb_builder = InlineKeyboardBuilder()
     # Наполняем клавиатуру кнопками-закладками в порядке возрастания
-    print("args = ", *args)
+    # print("args = ", *args)
     for button in [*args]: #sorted(args):
         try:
             if len(button) > 25:
