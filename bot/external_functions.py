@@ -6,6 +6,7 @@ from aiogram.exceptions import TelegramBadRequest
 from bot_base import *
 import asyncio
 from requests.exceptions import HTTPError
+from aiogram.exceptions import TelegramBadRequest
 
 def create_note_collection_keyboard(*args) -> InlineKeyboardMarkup:
     # Создаем объект клавиатуры
@@ -14,12 +15,15 @@ def create_note_collection_keyboard(*args) -> InlineKeyboardMarkup:
     print("args = ", *args)
     for button in [*args]: #sorted(args):
         try:
+            if len(button) > 25:
+                # print(f"Warning: callback_data слишком длинный ({len(button)} символов): {button}")
+                button = button[:25] + "..."
             kb_builder.row(InlineKeyboardButton(
                 text=button,
                 callback_data=button))
         except Exception as ex:
-            print(f'create_note_collection_keyboard happend line 20 in external function  {ex}')
-            pass
+            print(f'create_note_collection_keyboard happend line 21 in external function  {ex}')
+            continue
     return kb_builder.as_markup()
 
 
