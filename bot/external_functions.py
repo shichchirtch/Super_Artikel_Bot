@@ -2,21 +2,17 @@ import translators
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message, CallbackQuery
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from contextlib import suppress
-from aiogram.exceptions import TelegramBadRequest
 from bot_base import *
 import asyncio
 from requests.exceptions import HTTPError
 from aiogram.exceptions import TelegramBadRequest
 
 def create_note_collection_keyboard(*args) -> InlineKeyboardMarkup:
-    # Создаем объект клавиатуры
     kb_builder = InlineKeyboardBuilder()
-    # Наполняем клавиатуру кнопками-закладками в порядке возрастания
-    # print("args = ", *args)
-    for button in [*args]: #sorted(args):
+    for button in [*args]:
         try:
             if len(button) > 25:
-                # print(f"Warning: callback_data слишком длинный ({len(button)} символов): {button}")
+                print(f"Warning: callback_data слишком длинный ({len(button)} символов): {button}")
                 cut_button = button[:25] + "..."
             else:
                 cut_button=button
@@ -24,7 +20,7 @@ def create_note_collection_keyboard(*args) -> InlineKeyboardMarkup:
                 text=button,
                 callback_data=cut_button))
         except Exception as ex:
-            print(f'create_note_collection_keyboard happend line 21 in external function  {ex}')
+            print(f'create_note_collection_keyboard happend line 24 in external function  {ex}')
             continue
     return kb_builder.as_markup()
 
@@ -32,7 +28,7 @@ def create_note_collection_keyboard(*args) -> InlineKeyboardMarkup:
 async def translates(slovo:str, lan:str)->str:
     if lan != 'en':
         try:
-            res = translators.translate_text(query_text=slovo, from_language='en', to_language=lan, translator='alibaba')
+            res = translators.translate_text(query_text=slovo, from_language='en', to_language=lan, translator='google')
         except AttributeError:
                 print('\n\n произошла ошибка AttributeError')
                 res = 'Es ist ein Fehler aufgetreten, versuchen Sie bitte noch mal'
@@ -50,7 +46,7 @@ async def message_sender(slovo:str, lan:str, temp_dict:dict)->str:
     if lan != 'en':
         try:
             if lan not in temp_dict:
-                res = translators.translate_text(query_text=slovo, from_language='en', to_language=lan, translator='alibaba')
+                res = translators.translate_text(query_text=slovo, from_language='en', to_language=lan, translator='google')
                 temp_dict[lan]=res
             else:
                 res = temp_dict[lan]
@@ -75,7 +71,7 @@ async def regular_message(slovo:str, lan:str)->str:
         # modifyed_slovo = lan + '_' + slovo[:10]
         if modifyed_slovo not in bot_lexicon:  # Если никто ещё не запрашиывал команду
             try:
-                res = translators.translate_text(query_text=slovo, from_language='en', to_language=lan, translator='alibaba')
+                res = translators.translate_text(query_text=slovo, from_language='en', to_language=lan, translator='google')
                 bot_lexicon[modifyed_slovo]=res
             except AttributeError:
                 print('\n\n произошла ошибка AttributeError')
@@ -118,7 +114,7 @@ async def form_WS_string(current_stunde:dict, lan:str):
 
 async def translates_in_english(slovo:str)->str:
     try:
-        res = translators.translate_text(query_text=slovo, from_language='de', to_language='en', translator='alibaba')
+        res = translators.translate_text(query_text=slovo, from_language='de', to_language='en', translator='google')
     except Exception:
         res = "I do not know this Word((("
     return res
@@ -149,7 +145,7 @@ async def regular_message_for_grund_menu(slovo:str, lan:str)->str:
         # modifyed_slovo = lan + '_' + slovo[:10]
         if modifyed_slovo not in bot_lexicon:  # Если никто ещё не запрашиывал команду
             try:
-                res = translators.translate_text(query_text=slovo, from_language='en', to_language=lan, translator='alibaba')
+                res = translators.translate_text(query_text=slovo, from_language='en', to_language=lan, translator='google')
                 bot_lexicon[modifyed_slovo]=res
             except AttributeError:
                 print('\n\n произошла ошибка AttributeError')
