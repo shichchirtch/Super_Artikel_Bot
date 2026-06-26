@@ -715,7 +715,7 @@ async def add_notiz_1(message: Message, state: FSMContext):
     kluch = message.text
     if len(kluch)>15:
         kluch = kluch[:15]
-    await state.update_data(pur=message.text)
+    await state.update_data(pur=kluch)
     otvet = await regular_message(your_name_is, lan)
     otvet_2 = await regular_message(step_2, lan)
     stroka = f"{otvet} {message.text}\n\n{otvet_2}"
