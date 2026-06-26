@@ -712,6 +712,9 @@ async def add_notiz_1(message: Message, state: FSMContext):
     """Хэндлер принимает название заметки и выводит просьбу добавить саму заметку"""
     print('add_notiz_1 works')
     lan = await return_lan(message.from_user.id)
+    kluch = message.text
+    if len(kluch)>15:
+        kluch = kluch[:15]
     await state.update_data(pur=message.text)
     otvet = await regular_message(your_name_is, lan)
     otvet_2 = await regular_message(step_2, lan)
@@ -719,12 +722,9 @@ async def add_notiz_1(message: Message, state: FSMContext):
     att = await message.answer(stroka)
     temp_data = users_db[message.from_user.id]['bot_ans']
     await message_trasher(message.from_user.id, temp_data)
-    print('ATT = ', att)
-
-    if len(att)>10:
-        att = att[:10]
 
     users_db[message.from_user.id]['bot_ans'] = att
+
     await state.set_state(FSM_ST.add_note_2)
     await message.delete()
 

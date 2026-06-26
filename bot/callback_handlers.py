@@ -24,13 +24,13 @@ async def set_lan_process(callback: CallbackQuery, state: FSMContext):
     print('24 set_lan_process works')
     user_id = callback.from_user.id
     lan = callback.data
-    firts_mal = await return_lan(callback.from_user.id)
+    first_mal = await return_lan(callback.from_user.id)
     await state.update_data(lan=lan)  #  Добавляю язык в Redis
     await insert_lan(user_id, lan)  #  Добавляю язык в Postgres
     temp_data = users_db[user_id]['bot_ans']
     await message_trasher(user_id, temp_data)
     await callback.message.answer(f'{await regular_message(slovo=lan_trans, lan=lan)}  <b>{lan}</b>')
-    if not firts_mal:
+    if not first_mal:
         att = await callback.message.answer(text=f'{await regular_message(slovo=spam_offer, lan=lan)}',
                                       reply_markup=spam_kb)
         users_db[user_id]['bot_ans'] = att
@@ -423,6 +423,7 @@ async def show_note_list_wortschatz(callback: CallbackQuery, state: FSMContext):
     if serialised_note_dict:
         note_dict = pickle.loads(serialised_note_dict)  # строковый объект превращаю в питоновский
         s = await regular_message(meine_note, lan)
+        # print('\n\ns = ', s, '\n\n')
         att = await callback.message.answer(s,
                                             reply_markup=create_note_collection_keyboard(*note_dict.keys()))
     else:
@@ -470,6 +471,7 @@ async def show_note(callback: CallbackQuery):
     note_dict = pickle.loads(serialised_note_dict)
     # print('note_dict = ', note_dict)
     note_key = callback.data   # получаю ключ - названием заметки
+    print("NOTE KEY = ", note_key)
     needed_note = note_dict[note_key]  # получаю ЭК Note
     foto_note = needed_note.foto   # Получаю фото
     description = needed_note.description   #  Получаю описание
