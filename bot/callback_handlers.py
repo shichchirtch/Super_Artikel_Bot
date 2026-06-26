@@ -422,8 +422,9 @@ async def show_note_list_wortschatz(callback: CallbackQuery, state: FSMContext):
     serialised_note_dict = await return_zametki(user_id)
     if serialised_note_dict:
         note_dict = pickle.loads(serialised_note_dict)  # строковый объект превращаю в питоновский
+        print("\n\nNOTE DICT = ", note_dict)
         s = await regular_message(meine_note, lan)
-        # print('\n\ns = ', s, '\n\n')
+        print('\n\ns = ', s, '\n\n')
         att = await callback.message.answer(s,
                                             reply_markup=create_note_collection_keyboard(*note_dict.keys()))
     else:
@@ -469,7 +470,7 @@ async def show_note(callback: CallbackQuery):
     user_id = callback.from_user.id
     serialised_note_dict = await return_zametki(user_id)
     note_dict = pickle.loads(serialised_note_dict)
-    # print('note_dict = ', note_dict)
+    print('note_dict = ', note_dict)
     note_key = callback.data   # получаю ключ - названием заметки
     print("NOTE KEY = ", note_key)
     needed_note = note_dict[note_key]  # получаю ЭК Note
