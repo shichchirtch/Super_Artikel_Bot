@@ -719,6 +719,11 @@ async def add_notiz_1(message: Message, state: FSMContext):
     att = await message.answer(stroka)
     temp_data = users_db[message.from_user.id]['bot_ans']
     await message_trasher(message.from_user.id, temp_data)
+    print('ATT = ', att)
+
+    if len(att)>10:
+        att = att[:10]
+
     users_db[message.from_user.id]['bot_ans'] = att
     await state.set_state(FSM_ST.add_note_2)
     await message.delete()
@@ -815,6 +820,7 @@ async def dump_db(message: Message, state: FSMContext):
     bot_dict = await dp.storage.get_data(key=bot_storage_key)  # Получаю словарь бота
     with open('save_db.pkl', 'wb') as file:
         pickle.dump(bot_dict, file)
+
     with open('bot_rus_wortschatz_db.pkl', 'wb') as file:
         pickle.dump(bot_rus_wortschatz, file)
 
