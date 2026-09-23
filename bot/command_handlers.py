@@ -891,7 +891,8 @@ async def send_message(message: Message, state: FSMContext):
 async def send_message(message: Message, state: FSMContext):
     us_list = await return_spam_users()
     temp_dict = {}
-    us_list.remove(6685637602)
+    # us_list.remove(6685637602)
+    print('\n\nus_list = ', us_list)
     for chat_id in us_list:
         lan = await return_lan(chat_id)  # Запрашиваю язык из постгреса
         spam = await message_sender(message.text, lan, temp_dict)
